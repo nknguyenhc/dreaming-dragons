@@ -4,7 +4,7 @@ extends Area2D
 # Declare member variables here. Examples:
 const INITIAL_SPEED = 40
 const FRICTION = 1
-const VELOCITY_LIMIT = -80
+const VELOCITY_LIMIT = -50
 var velocity
 var direction
 

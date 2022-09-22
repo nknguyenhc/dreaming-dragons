@@ -26,6 +26,8 @@ const BOOMERANG_WAIT_TIME = 0.5
 # health
 const MAX_HEALTH = 100
 var health = MAX_HEALTH
+var invincible = false
+const INVINCIBILITY_WAIT_TIME = 1
 
 
 # Called when the node enters the scene tree for the first time.
@@ -63,11 +65,19 @@ func player_boomerang():
 			boomerang.direction = direction
 			get_parent().add_child(boomerang)
 			boomerang_returned = false
+			boomerang_enabled = false
 	else:
 		if boomerang_returned:
 			boomerang.queue_free()
-			boomerang_enabled = false
 			get_node("BoomerangTimer").start(BOOMERANG_WAIT_TIME)
+
+
+func take_damage(damage):
+	if not invincible:
+		# play animation, to be added when the animation set is added
+		health -= damage
+		invincible = true
+		get_node("InvincibilityTimer").start(INVINCIBILITY_WAIT_TIME)
 
 
 func _physics_process(delta):
@@ -92,12 +102,13 @@ func _physics_process(delta):
 
 func _on_Hurtbox_area_exited(area):
 	if area.name == 'Boomerang':
-		health -= boomerang.DAMAGE
+		take_damage(area.DAMAGE)
 		player_boomerang()
 
 
 func _on_Hurtbox_area_entered(area):
-	boomerang_returned = true
+	if area.name == 'Boomerang':
+		boomerang_returned = true
 
 
 func _on_PunchTimer_timeout():
@@ -110,3 +121,8 @@ func _on_KickTimer_timeout():
 
 func _on_BoomerangTimer_timeout():
 	boomerang_enabled = true
+
+
+func _on_InvincibilityTimer_timeout():
+	invincible = false
+	# play a different animation, to be added when animation is ready
