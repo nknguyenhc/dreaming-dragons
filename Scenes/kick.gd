@@ -20,4 +20,4 @@ func _on_Kick_body_entered(body):
 
 func _animation_done(animated_sprite): # modify later when the animation is ready
 	queue_free()
-	get_parent().freeze = false # allow the player to move when the skill movement is done
+	get_parent().player_freeze = false # allow the player to move when the skill movement is done
