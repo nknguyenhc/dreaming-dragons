@@ -2,10 +2,13 @@ extends Area2D
 
 
 # Declare member variables here. Examples:
-const INITIAL_SPEED = 200
-const FRICTION = 10
+const INITIAL_SPEED = 40
+const FRICTION = 1
+const VELOCITY_LIMIT = -80
 var velocity
 var direction
+
+const DAMAGE = 4
 
 
 # Called when the node enters the scene tree for the first time.
@@ -23,5 +26,7 @@ func disappear():
 
 
 func _physics_process(delta):
-	velocity.x -= FRICTION
 	position += velocity
+	velocity.x -= FRICTION
+	if velocity.x < VELOCITY_LIMIT:
+		disappear()
