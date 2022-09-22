@@ -2,13 +2,14 @@ extends KinematicBody2D
 
 
 # movement
+const GRAVITY = 50
 var velocity = Vector2.ZERO
 const JUMP_STRENGTH = 100
 const HORIZONTAL_SPEED = 20
-var direction = Vector2.RIGHT
+const VERTICAL_SPEED = 20
 
 # skills
-var freeze = false # do not allow the player to move while activating some skills
+var player_freeze = false # do not allow the player to move while activating some skills
 const Punch = preload("res://Scenes/punch.tscn")
 var punch
 var punch_enabled = true
@@ -19,6 +20,7 @@ var kick_enabled = true
 const KICK_WAIT_TIME = 1
 const Boomerang = preload("res://Scenes/boomerang.tscn")
 var boomerang
+var freeze = false # freeze the entire scene when activating boomerang
 var boomerang_enabled = true
 var boomerang_returned = false
 const BOOMERANG_WAIT_TIME = 0.5
@@ -42,7 +44,7 @@ func _ready():
 
 func player_punch():
 	if punch_enabled:
-		freeze = true
+		player_freeze = true
 		punch = Punch.instance()
 		add_child(punch)
 		punch_enabled = false
@@ -51,7 +53,7 @@ func player_punch():
 
 func player_kick():
 	if kick_enabled:
-		freeze = true
+		player_freeze = true
 		kick = Kick.instance()
 		add_child(kick)
 		kick_enabled = false
@@ -62,7 +64,6 @@ func player_boomerang():
 	if not get_parent().has_node("Boomerang"):
 		if boomerang_enabled:
 			boomerang = Boomerang.instance()
-			boomerang.direction = direction
 			get_parent().add_child(boomerang)
 			boomerang_returned = false
 			boomerang_enabled = false
@@ -82,14 +83,19 @@ func take_damage(damage):
 
 func _physics_process(delta):
 	# movement
-	if not freeze:
-		velocity.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-		if velocity.x != 0: # change direction only when the player moves, not when static
-			direction = Vector2(velocity.x, 0)
-		velocity.x *= HORIZONTAL_SPEED
-		if Input.is_action_just_pressed("ui_jump") and is_on_floor():
-			velocity.y = -JUMP_STRENGTH
-		velocity = move_and_slide(velocity, Vector2.UP)
+	if not player_freeze:
+		if not is_on_wall(): # move left and right if the player is not on wall
+			velocity.x = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")) * HORIZONTAL_SPEED
+			if Input.is_action_just_pressed("ui_jump") and is_on_floor(): # when the player presses jump
+				velocity.y -= JUMP_STRENGTH - GRAVITY
+			else:
+				velocity.y += GRAVITY
+		else:
+			velocity.x = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")) * HORIZONTAL_SPEED
+			velocity.y = (Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")) * VERTICAL_SPEED
+	else:
+		velocity.y += GRAVITY
+	velocity = move_and_slide(velocity, Vector2.UP)
 	
 	# activate skills
 	if Input.is_action_just_pressed("ui_skill1"):
