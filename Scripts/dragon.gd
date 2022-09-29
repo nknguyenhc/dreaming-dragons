@@ -26,7 +26,7 @@ func _physics_process(delta):
 		velocity = Vector2(-200,0)
 		if get_node("firing_frequency").time_left > 0:
 			get_node("firing_frequency").stop()
-	
+
 	# if player is close to the dragon, dragon attacks player by fire
 	elif (position.x - get_parent().get_node("player").position.x) < 800 and status != "attacking":
 		get_node("firing_frequency").start()
