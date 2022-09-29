@@ -40,10 +40,16 @@ flip_h = true
 one_shot = true
 autostart = true
 
+[node name="hurt_stay_time" type="Timer" parent="."]
+wait_time = 2.449
+one_shot = true
+autostart = true
+
 [node name="fire_box" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="fire_box"]
 shape = SubResource( 4 )
 
 [connection signal="timeout" from="burn_time" to="." method="_on_burn_time_timeout"]
+[connection signal="timeout" from="hurt_stay_time" to="." method="_on_hurt_stay_time_timeout"]
 [connection signal="body_entered" from="fire_box" to="." method="_on_fire_box_body_entered"]
