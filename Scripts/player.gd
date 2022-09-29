@@ -2,11 +2,11 @@ extends KinematicBody2D
 
 
 # movement
-const GRAVITY = 50
+const GRAVITY = 10
 var velocity = Vector2.ZERO
 const JUMP_STRENGTH = 100
-const HORIZONTAL_SPEED = 20
-const VERTICAL_SPEED = 20
+const HORIZONTAL_SPEED = 5
+const VERTICAL_SPEED = 5
 
 # skills
 var player_freeze = false # do not allow the player to move while activating some skills
@@ -18,11 +18,13 @@ const Kick = preload("res://Scenes/kick.tscn")
 var kick
 var kick_enabled = true
 const KICK_WAIT_TIME = 1
-const Boomerang = preload("res://Scenes/boomerang.tscn")
+const Boomerang = preload("res://Scenes/pointer.tscn")
+var pointer
 var boomerang
 var freeze = false # freeze the entire scene when activating boomerang
 var boomerang_enabled = true
 var boomerang_returned = false
+var boomerang_key = "ui_skill3"
 const BOOMERANG_WAIT_TIME = 0.5
 
 # health
@@ -61,16 +63,15 @@ func player_kick():
 
 
 func player_boomerang():
-	if not get_parent().has_node("Boomerang"):
-		if boomerang_enabled:
-			boomerang = Boomerang.instance()
-			get_parent().add_child(boomerang)
-			boomerang_returned = false
-			boomerang_enabled = false
-	else:
-		if boomerang_returned:
-			boomerang.queue_free()
-			get_node("BoomerangTimer").start(BOOMERANG_WAIT_TIME)
+	if boomerang_enabled:
+		pointer = Boomerang.instance()
+		get_parent().add_child(pointer)
+		freeze = true
+		boomerang_returned = false
+		boomerang_enabled = false
+	elif boomerang_returned:
+		boomerang.queue_free()
+		get_node("BoomerangTimer").start(BOOMERANG_WAIT_TIME)
 
 
 func take_damage(damage):
@@ -83,33 +84,35 @@ func take_damage(damage):
 
 func _physics_process(delta):
 	# movement
-	if not player_freeze:
-		if not is_on_wall(): # move left and right if the player is not on wall
-			velocity.x = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")) * HORIZONTAL_SPEED
-			if Input.is_action_just_pressed("ui_jump") and is_on_floor(): # when the player presses jump
-				velocity.y -= JUMP_STRENGTH - GRAVITY
+	if not freeze:
+		if not player_freeze:
+			if not is_on_wall(): # move left and right if the player is not on wall
+				velocity.x = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")) * HORIZONTAL_SPEED
+				if Input.is_action_just_pressed("ui_jump") and is_on_floor(): # when the player presses jump
+					velocity.y -= JUMP_STRENGTH - GRAVITY
+				else:
+					velocity.y += GRAVITY
 			else:
-				velocity.y += GRAVITY
+				velocity.x = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")) * HORIZONTAL_SPEED
+				velocity.y = (Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")) * VERTICAL_SPEED
 		else:
-			velocity.x = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")) * HORIZONTAL_SPEED
-			velocity.y = (Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")) * VERTICAL_SPEED
-	else:
-		velocity.y += GRAVITY
-	velocity = move_and_slide(velocity, Vector2.UP)
-	
-	# activate skills
-	if Input.is_action_just_pressed("ui_skill1"):
-		player_punch()
-	if Input.is_action_just_pressed("ui_skill2"):
-		player_kick()
-	if Input.is_action_just_pressed("ui_skill3"):
-		player_boomerang()
+			velocity.y += GRAVITY
+		velocity = move_and_slide(velocity, Vector2.UP)
+		
+		# activate skills
+		if Input.is_action_just_pressed("ui_skill1"):
+			player_punch()
+		if Input.is_action_just_pressed("ui_skill2"):
+			player_kick()
+		if Input.is_action_just_pressed("ui_skill3"):
+			player_boomerang()
 
 
 func _on_Hurtbox_area_exited(area):
 	if area.name == 'Boomerang':
-		take_damage(area.DAMAGE)
-		player_boomerang()
+		if boomerang.velocity != Vector2.ZERO:
+			take_damage(area.DAMAGE)
+			boomerang.hit_player()
 
 
 func _on_Hurtbox_area_entered(area):
