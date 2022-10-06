@@ -1,12 +1,15 @@
 extends KinematicBody2D
 
 
+# appearance in the main map
+const SCALE = 7
+
 # movement
-const GRAVITY = 10
+const GRAVITY = 50
 var velocity = Vector2.ZERO
-const JUMP_STRENGTH = 100
-const HORIZONTAL_SPEED = 5
-const VERTICAL_SPEED = 5
+const JUMP_STRENGTH = 3000
+const HORIZONTAL_SPEED = 300
+const VERTICAL_SPEED = 300
 
 # skills
 var player_freeze = false # do not allow the player to move while activating some skills
@@ -24,6 +27,7 @@ var boomerang
 var freeze = false # freeze the entire scene when activating boomerang
 var boomerang_enabled = true
 var boomerang_returned = false
+var boomerang_thrown = false
 var boomerang_key = "ui_skill3"
 const BOOMERANG_WAIT_TIME = 0.5
 
@@ -65,7 +69,9 @@ func player_kick():
 func player_boomerang():
 	if boomerang_enabled:
 		pointer = Boomerang.instance()
+		pointer.key = "ui_skill3"
 		get_parent().add_child(pointer)
+		pointer.position = position
 		freeze = true
 		boomerang_returned = false
 		boomerang_enabled = false
@@ -110,7 +116,9 @@ func _physics_process(delta):
 
 func _on_Hurtbox_area_exited(area):
 	if area.name == 'Boomerang':
-		if boomerang.velocity != Vector2.ZERO:
+		if not boomerang_thrown:
+			boomerang_thrown = true
+		elif boomerang.velocity != Vector2.ZERO:
 			take_damage(area.DAMAGE)
 			boomerang.hit_player()
 

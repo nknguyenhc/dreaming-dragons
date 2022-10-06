@@ -18,9 +18,13 @@ var key # the key that activated the boomerang
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	sprite = get_node("Sprite")
+	print(sprite.name)
 	direction = sprite.position - position
 	angle = Vector2.RIGHT.angle_to(direction)
-	RADIUS = sqrt(direction.x ^ 2 + direction.y ^ 2)
+	RADIUS = sqrt(pow(direction.x, 2) + pow(direction.y, 2))
+	scale.x = get_parent().get_node("Player").SCALE
+	scale.y = get_parent().get_node("Player").SCALE
+	print("pointer initiated")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -96,5 +100,7 @@ func _physics_process(delta):
 		get_parent().get_node("Player").freeze = false
 		boomerang = Boomerang.instance()
 		boomerang.direction = direction
+		boomerang.position = position
 		get_parent().add_child(boomerang)
 		queue_free()
+		print("pointer freed")
