@@ -90,6 +90,7 @@ func _physics_process(delta):
 		sprite.position.x = RADIUS * cos(angle)
 		sprite.position.y = RADIUS * sin(angle)
 		sprite.rotation_degrees = rad2deg(angle)
+		direction = sprite.position - position
 	
 	else: # when the player releases the key, unfreeze the scene, make this pointer vanish and unleash the boomerang
 		get_parent().get_node("Player").freeze = false
