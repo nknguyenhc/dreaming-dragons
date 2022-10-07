@@ -89,6 +89,10 @@ script = ExtResource( 1 )
 position = Vector2( -2.5, 2.5 )
 shape = SubResource( 1 )
 
+[node name="mouth" type="Area2D" parent="."]
+
+[node name="firing_frequency" type="Timer" parent="."]
+
 [node name="animation" type="AnimatedSprite" parent="."]
 position = Vector2( -1, 1.5 )
 scale = Vector2( 0.96875, 0.984375 )
@@ -97,9 +101,12 @@ animation = "dash"
 frame = 1
 flip_h = true
 
-[node name="mouth" type="Area2D" parent="."]
+[node name="idle_timer" type="Timer" parent="."]
+wait_time = 2.0
 
-[node name="firing_frequency" type="Timer" parent="."]
+[node name="stomp_timer" type="Timer" parent="."]
 
 [connection signal="body_entered" from="mouth" to="." method="_on_mouth_body_entered"]
 [connection signal="timeout" from="firing_frequency" to="." method="_on_firing_frequency_timeout"]
+[connection signal="timeout" from="idle_timer" to="." method="_on_idle_timer_timeout"]
+[connection signal="timeout" from="stomp_timer" to="." method="_on_stomp_timer_timeout"]
