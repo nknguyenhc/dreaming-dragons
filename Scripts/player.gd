@@ -76,6 +76,7 @@ func player_boomerang():
 		boomerang_returned = false
 		boomerang_enabled = false
 	elif boomerang_returned:
+		print("making the boomerang disappear")
 		boomerang.queue_free()
 		get_node("BoomerangTimer").start(BOOMERANG_WAIT_TIME)
 

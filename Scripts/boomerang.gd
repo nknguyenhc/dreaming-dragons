@@ -42,8 +42,16 @@ func _physics_process(delta):
 		velocity -= direction * FRICTION
 
 
-func _on_Boomerang_body_entered(body):
-	if body.get_name() == "obstacle": # to be changed later, take the class_name of the body
+func _on_ReturnDelay_timeout():
+	platform_hit = false
+
+
+func _on_OnGroundTimer_timeout():
+	get_parent().get_node("Player").player_boomerang()
+
+
+func _on_Boomerang_area_entered(area):
+	if area.name == "obstacle": # to be changed later, take the class_name of the body
 		if velocity.y <= 0: # only let the boomerang return when it is travelling up
 			velocity = -velocity
 			platform_hit = true
@@ -52,11 +60,3 @@ func _on_Boomerang_body_entered(body):
 			ground_hit = true
 			if player_hit:
 				get_node("OnGroundTimer").start(GROUND_TIME)
-
-
-func _on_ReturnDelay_timeout():
-	platform_hit = false
-
-
-func _on_OnGroundTimer_timeout():
-	get_parent().get_node("Player").player_boomerang()
