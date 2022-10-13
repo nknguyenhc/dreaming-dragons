@@ -1,14 +1,20 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/player.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Art/MZmapsprites/actor1-1[VS8].png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 100, 208, 100, 98 )
+
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [  ],
+"frames": [ SubResource( 4 ) ],
 "loop": true,
-"name": "default",
+"name": "IDLE",
 "speed": 5.0
 } ]
 
@@ -22,6 +28,7 @@ shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
+animation = "IDLE"
 
 [node name="Hurtbox" type="Area2D" parent="."]
 
