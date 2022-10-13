@@ -1,10 +1,9 @@
 extends Area2D
 
 
-# Declare member variables here. Examples:
-const INITIAL_SPEED = 40
-const FRICTION = 1
-const GRAVITY = 10
+const INITIAL_SPEED = 2
+const FRICTION = 0.05
+const GRAVITY = 1
 
 var speed
 var velocity
@@ -23,11 +22,9 @@ const DAMAGE = 4
 func _ready():
 	speed = INITIAL_SPEED
 	velocity = direction * speed
+	scale.x = get_parent().get_node("Player").SCALE
+	scale.y = get_parent().get_node("Player").SCALE
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
 
 func hit_player():
 	player_hit = true
@@ -35,12 +32,14 @@ func hit_player():
 
 
 func _physics_process(delta):
-	if not platform_hit and not ground_hit:
-		position += velocity
-		velocity -= direction * FRICTION
-	elif player_hit and not ground_hit:
+	if platform_hit or ground_hit:
+		pass
+	elif player_hit:
 		velocity.y += GRAVITY
 		position += velocity
+	else:
+		position += velocity
+		velocity -= direction * FRICTION
 
 
 func _on_Boomerang_body_entered(body):

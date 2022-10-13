@@ -3,7 +3,7 @@
 [ext_resource path="res://Assets/Art/arrow.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/pointer.gd" type="Script" id=2]
 
-[node name="Pointer" type="Node2D"]
+[node name="Pointer" type="Position2D"]
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]

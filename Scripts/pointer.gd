@@ -7,10 +7,10 @@ var angle
 var RADIUS
 var down_strength
 var right_strength
-const ANGULAR_SPEED = 0.3
+const ANGULAR_SPEED = 0.05
 var sprite
-var boomerang
 const Boomerang = preload("res://Scenes/boomerang.tscn")
+var player
 
 var key # the key that activated the boomerang
 
@@ -18,9 +18,11 @@ var key # the key that activated the boomerang
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	sprite = get_node("Sprite")
-	direction = sprite.position - position
+	direction = sprite.position
 	angle = Vector2.RIGHT.angle_to(direction)
-	RADIUS = sqrt(direction.x ^ 2 + direction.y ^ 2)
+	RADIUS = sqrt(pow(direction.x, 2) + pow(direction.y, 2))
+	scale.x = get_parent().get_node("Player").SCALE
+	scale.y = get_parent().get_node("Player").SCALE
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -89,12 +91,15 @@ func _physics_process(delta):
 		# with the new angle, reposition the sprite
 		sprite.position.x = RADIUS * cos(angle)
 		sprite.position.y = RADIUS * sin(angle)
+		direction = sprite.position
+		angle = Vector2.RIGHT.angle_to(direction)
 		sprite.rotation_degrees = rad2deg(angle)
-		direction = sprite.position - position
 	
 	else: # when the player releases the key, unfreeze the scene, make this pointer vanish and unleash the boomerang
-		get_parent().get_node("Player").freeze = false
-		boomerang = Boomerang.instance()
-		boomerang.direction = direction
-		get_parent().add_child(boomerang)
+		player = get_parent().get_node("Player")
+		player.freeze = false
+		player.boomerang = Boomerang.instance()
+		player.boomerang.direction = direction
+		player.boomerang.position = position
+		get_parent().add_child(player.boomerang)
 		queue_free()
