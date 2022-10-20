@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Scripts/player.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Art/MZmapsprites/actor1-1[VS8].png" type="Texture" id=2]
+[ext_resource path="res://Assets/Art/MZmapsprites/punch&kick.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -10,15 +11,65 @@ flags = 4
 atlas = ExtResource( 2 )
 region = Rect2( 100, 200, 100, 100 )
 
-[sub_resource type="AtlasTexture" id=5]
+[sub_resource type="AtlasTexture" id=10]
 flags = 4
-atlas = ExtResource( 2 )
-region = Rect2( 200, 200, 100, 100 )
+atlas = ExtResource( 3 )
+region = Rect2( 400, 300, 100, 100 )
 
-[sub_resource type="AtlasTexture" id=6]
+[sub_resource type="AtlasTexture" id=11]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 500, 300, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=12]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 600, 300, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=13]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 700, 300, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=14]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 800, 300, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=19]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 400, 600, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=20]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 500, 600, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=21]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 600, 600, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=22]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 700, 600, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=23]
 flags = 4
 atlas = ExtResource( 2 )
-region = Rect2( 800, 400, 100, 100 )
+region = Rect2( 600, 200, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=24]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 700, 200, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=25]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 800, 200, 100, 100 )
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -27,9 +78,19 @@ animations = [ {
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 5 ) ],
+"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ],
 "loop": true,
 "name": "kick",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ) ],
+"loop": true,
+"name": "punch",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 23 ), SubResource( 24 ), SubResource( 25 ) ],
+"loop": true,
+"name": "walking",
 "speed": 5.0
 } ]
 
@@ -45,7 +106,9 @@ shape = SubResource( 1 )
 position = Vector2( 0, -4 )
 scale = Vector2( 0.28, 0.28 )
 frames = SubResource( 2 )
-animation = "kick"
+animation = "walking"
+frame = 2
+playing = true
 
 [node name="Hurtbox" type="Area2D" parent="."]
 
@@ -53,16 +116,16 @@ animation = "kick"
 shape = SubResource( 3 )
 
 [node name="PunchTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="KickTimer" type="Timer" parent="."]
-
-[node name="BoomerangTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="InvincibilityTimer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="area_exited" from="Hurtbox" to="." method="_on_Hurtbox_area_exited"]
 [connection signal="timeout" from="PunchTimer" to="." method="_on_PunchTimer_timeout"]
 [connection signal="timeout" from="KickTimer" to="." method="_on_KickTimer_timeout"]
-[connection signal="timeout" from="BoomerangTimer" to="." method="_on_BoomerangTimer_timeout"]
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_InvincibilityTimer_timeout"]
