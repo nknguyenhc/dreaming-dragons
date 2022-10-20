@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 
 # appearance in the main map
-const SCALE = 7
+const SCALE = 4
 
 # movement
 const GRAVITY = 50
@@ -37,10 +37,19 @@ var health = MAX_HEALTH
 var invincible = false
 const INVINCIBILITY_WAIT_TIME = 1
 
+# state of the player
+enum PLAYER_STATE {IDLE, WALKING, PUNCHING, KICKING, CLIMBING}
+export (PLAYER_STATE) var current_state = PLAYER_STATE.IDLE
+var idle_initiated = false
+var walking_initiated = false
+var punching_initiated = false
+var kicking_initiated = false
+var climbing_initiated = false
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	scale = Vector2(SCALE, SCALE)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -55,6 +64,7 @@ func player_punch():
 		add_child(punch)
 		punch_enabled = false
 		get_node("PunchTimer").start(PUNCH_WAIT_TIME)
+		change_state(PLAYER_STATE.PUNCHING)
 
 
 func player_kick():
@@ -64,6 +74,7 @@ func player_kick():
 		add_child(kick)
 		kick_enabled = false
 		get_node("KickTimer").start(KICK_WAIT_TIME)
+		change_state(PLAYER_STATE.KICKING)
 
 
 func player_boomerang():
@@ -76,35 +87,71 @@ func player_boomerang():
 		boomerang_returned = false
 		boomerang_enabled = false
 	elif boomerang_returned:
-		print("making the boomerang disappear")
+		boomerang_enabled = true
+		boomerang_returned = false
+		boomerang_thrown = false
 		boomerang.queue_free()
-		get_node("BoomerangTimer").start(BOOMERANG_WAIT_TIME)
 
 
 func take_damage(damage):
 	if not invincible:
 		# play animation, to be added when the animation set is added
 		health -= damage
+		print(health)
 		invincible = true
 		get_node("InvincibilityTimer").start(INVINCIBILITY_WAIT_TIME)
 
 
 func _physics_process(delta):
 	# movement
+	match current_state:
+		PLAYER_STATE.IDLE:
+			if not idle_initiated:
+				idle_initiated = true
+				get_node("AnimatedSprite").animation = "idle"
+		
+		PLAYER_STATE.WALKING:
+			if not walking_initiated:
+				walking_initiated = true
+				get_node("AnimatedSprite").animation = "walking"
+		
+		PLAYER_STATE.PUNCHING:
+			if not punching_initiated:
+				punching_initiated = true
+				get_node("AnimatedSprite").animation = "punching"
+		
+		PLAYER_STATE.KICKING:
+			if not kicking_initiated:
+				kicking_initiated = true
+				get_node("AnimatedSprite").animation = "kicking"
+		
+		PLAYER_STATE.CLIMBING:
+			continue
+	
 	if not freeze:
 		if not player_freeze:
 			if not is_on_wall(): # move left and right if the player is not on wall
+				if velocity.x == 0 or velocity.y != 0:
+					change_state(PLAYER_STATE.IDLE)
+				else:
+					change_state(PLAYER_STATE.WALKING)
 				velocity.x = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")) * HORIZONTAL_SPEED
 				if Input.is_action_just_pressed("ui_jump") and is_on_floor(): # when the player presses jump
 					velocity.y -= JUMP_STRENGTH - GRAVITY
 				else:
 					velocity.y += GRAVITY
+				# animation
 			else:
 				velocity.x = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")) * HORIZONTAL_SPEED
 				velocity.y = (Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")) * VERTICAL_SPEED
+				change_state(PLAYER_STATE.CLIMBING)
 		else:
 			velocity.y += GRAVITY
 		velocity = move_and_slide(velocity, Vector2.UP)
+		if velocity.x > 0:
+			get_node("AnimatedSprite").flip_h = false
+		elif velocity.x < 0:
+			get_node("AnimatedSprite").flip_h = true
 		
 		# activate skills
 		if Input.is_action_just_pressed("ui_skill1"):
@@ -115,18 +162,30 @@ func _physics_process(delta):
 			player_boomerang()
 
 
+func change_state(state):
+	if current_state != state:
+		idle_initiated = false
+		walking_initiated = false
+		punching_initiated = false
+		kicking_initiated = false
+		climbing_initiated = false
+		current_state = state
+
+
 func _on_Hurtbox_area_exited(area):
 	if area.name == 'Boomerang':
-		if not boomerang_thrown:
-			boomerang_thrown = true
-		elif boomerang.velocity != Vector2.ZERO:
-			take_damage(area.DAMAGE)
-			boomerang.hit_player()
+		if not boomerang_enabled:
+			if not boomerang_thrown:
+				boomerang_thrown = true
+			elif boomerang.velocity != Vector2.ZERO:
+				take_damage(area.DAMAGE)
+				boomerang.hit_player()
 
 
 func _on_Hurtbox_area_entered(area):
 	if area.name == 'Boomerang':
-		boomerang_returned = true
+		if boomerang_thrown: # first time boomerang area enter is when it appears in the scene
+			boomerang_returned = true
 
 
 func _on_PunchTimer_timeout():
@@ -135,10 +194,6 @@ func _on_PunchTimer_timeout():
 
 func _on_KickTimer_timeout():
 	kick_enabled = true
-
-
-func _on_BoomerangTimer_timeout():
-	boomerang_enabled = true
 
 
 func _on_InvincibilityTimer_timeout():

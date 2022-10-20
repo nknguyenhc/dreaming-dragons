@@ -2,7 +2,7 @@ extends Area2D
 
 
 const INITIAL_SPEED = 2
-const FRICTION = 0.05
+const FRICTION = 0.02
 const GRAVITY = 1
 
 var speed
@@ -50,13 +50,17 @@ func _on_OnGroundTimer_timeout():
 	get_parent().get_node("Player").player_boomerang()
 
 
-func _on_Boomerang_area_entered(area):
-	if area.name == "obstacle": # to be changed later, take the class_name of the body
+func _on_Boomerang_body_entered(body):
+	if body.name == "TileMap" or body.name == "TileMap2": # to be changed later, take the class_name of the body
 		if velocity.y <= 0: # only let the boomerang return when it is travelling up
 			velocity = -velocity
 			platform_hit = true
 			get_node("ReturnDelay").start(DELAY_TIME)
 		else:
 			ground_hit = true
+			velocity = Vector2.ZERO
 			if player_hit:
 				get_node("OnGroundTimer").start(GROUND_TIME)
+	
+	if body.name == "Dragon":
+		body.health -= DAMAGE
