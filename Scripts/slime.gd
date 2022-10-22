@@ -18,6 +18,7 @@ func _physics_process(delta):
 	if is_on_floor():
 		velocity = Vector2(0, -700)
 	if health == 0:
+		get_parent().slime_count -= 1
 		queue_free()
 
 

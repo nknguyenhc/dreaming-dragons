@@ -4,6 +4,8 @@ extends KinematicBody2D
 
 #var velocity = Vector2.ZERO
 var t = 0
+var rng = RandomNumberGenerator.new()
+var add_on = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -12,8 +14,8 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	t += delta
-	position.x = 200 * sin(t*2) + 500
-	position.y = 40 * cos(t*2) - 200
+	position.x += 5 * sin(t + add_on)
+	position.y += 1 * cos(t + add_on)
 
 func _on_Area2D_body_entered(body):
 	if body.name == "Player":
