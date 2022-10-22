@@ -13,7 +13,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if get_parent().get_parent().get_node("Player").is_boss_fight_started == false:
+	if get_parent().get_parent().get_node("dragon").is_boss_fight_started == false:
 		if get_parent().get_parent().get_node("Player").position.x - position.x > 900:
 			global_position.x = get_parent().get_parent().get_node("Player").global_position.x - 900
 		if get_parent().get_parent().get_node("Player").position.x - position.x < -900:

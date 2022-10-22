@@ -688,6 +688,8 @@ zoom = Vector2( 2, 2 )
 script = ExtResource( 3 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 4
+collision_mask = 0
 
 [node name="collisionpolygon1" type="CollisionPolygon2D" parent="StaticBody2D"]
 polygon = PoolVector2Array( 2085, -212, 2303, -212, 2303, -125, 2262, -119, 2095, -120, 2089, -129, 2086, -145 )

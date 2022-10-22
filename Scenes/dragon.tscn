@@ -70,7 +70,7 @@ animations = [ {
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 23 ), ExtResource( 23 ), ExtResource( 23 ), ExtResource( 23 ), ExtResource( 23 ), ExtResource( 4 ) ],
+"frames": [ ExtResource( 23 ), ExtResource( 23 ), ExtResource( 23 ), ExtResource( 4 ) ],
 "loop": true,
 "name": "kick",
 "speed": 5.0
@@ -98,7 +98,7 @@ position = Vector2( -1, 1.5 )
 scale = Vector2( 0.96875, 0.984375 )
 frames = SubResource( 2 )
 animation = "idle"
-frame = 4
+frame = 2
 playing = true
 flip_h = true
 

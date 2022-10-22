@@ -3,8 +3,8 @@ extends KinematicBody2D
 # Dragon Animation Asset Source:
 # https://danaida.itch.io/cartoon-dragon-sprite-pack/download/eyJpZCI6NzMxNzEwLCJleHBpcmVzIjoxNjYzODMyMDcyfQ%3d%3d%2eaqW11N%2fTcirE9ccJp16G2Q4OhNI%3d
 
-const idle_pos_left = 2800
-const idle_pos_right = 4700
+const idle_pos_left = 2780
+const idle_pos_right = 4730
 const max_height = -1550
 const Fire = preload("res://Scenes/fire_by_dragon.tscn")
 const HB = preload("res://Scenes/Dragon Health.tscn")
@@ -70,7 +70,7 @@ func _physics_process(delta):
 					get_node("animation").animation = "fly"
 					to_stomp = false
 					stomp_initiated = false
-					get_node("stomp_timer").wait_time = rng.randi_range(6, 9)
+					get_node("stomp_timer").wait_time = rng.randi_range(5, 7)
 					get_node("stomp_timer").start()
 					print("timer_started")
 				
@@ -153,7 +153,7 @@ func _physics_process(delta):
 					damage = 20
 					get_node("animation").animation = "kick"
 					position.x += 50 * direction
-					get_node("delay_timer").wait_time = 1
+					get_node("delay_timer").wait_time = 0.6
 					get_node("delay_timer").start()
 				
 				if delay_timeout:
@@ -206,7 +206,7 @@ func change_state(mode):
 			current_state = BOSS_STATE.SPIT
 	elif mode == 2:
 		# player is on ground and is near
-		if rng.randi_range(1, 2) == 1:
+		if rng.randi_range(1, 2) == 1 && get_parent().get_node("Player").position.y > -850:
 			current_state = BOSS_STATE.KICK
 		else:
 			current_state = BOSS_STATE.FLY

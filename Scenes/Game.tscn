@@ -13,5 +13,5 @@ position = Vector2( 3419, -15.0001 )
 scale = Vector2( 7, 7 )
 
 [node name="dragon" parent="." instance=ExtResource( 3 )]
-position = Vector2( 4700, -852 )
+position = Vector2( 4718, -827 )
 scale = Vector2( 2.17457, 2.17457 )
