@@ -1,12 +1,17 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scenes/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Map1.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/dragon.tscn" type="PackedScene" id=3]
 
 [node name="Node2D" type="Node2D"]
 
 [node name="Map1" parent="." instance=ExtResource( 2 )]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 2957, -856 )
+position = Vector2( 3419, -15.0001 )
 scale = Vector2( 7, 7 )
+
+[node name="dragon" parent="." instance=ExtResource( 3 )]
+position = Vector2( 4700, -852 )
+scale = Vector2( 2.17457, 2.17457 )

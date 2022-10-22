@@ -70,7 +70,7 @@ animations = [ {
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 4 ), ExtResource( 23 ), ExtResource( 23 ) ],
+"frames": [ ExtResource( 23 ), ExtResource( 23 ), ExtResource( 23 ), ExtResource( 23 ), ExtResource( 23 ), ExtResource( 4 ) ],
 "loop": true,
 "name": "kick",
 "speed": 5.0
@@ -83,13 +83,13 @@ animations = [ {
 
 [node name="dragon" type="KinematicBody2D"]
 position = Vector2( 486, 69 )
+collision_layer = 2
+collision_mask = 4
 script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -2.5, 2.5 )
 shape = SubResource( 1 )
-
-[node name="mouth" type="Area2D" parent="."]
 
 [node name="firing_frequency" type="Timer" parent="."]
 
@@ -97,16 +97,20 @@ shape = SubResource( 1 )
 position = Vector2( -1, 1.5 )
 scale = Vector2( 0.96875, 0.984375 )
 frames = SubResource( 2 )
-animation = "dash"
-frame = 1
+animation = "idle"
+frame = 4
+playing = true
 flip_h = true
 
 [node name="idle_timer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 2.5
 
 [node name="stomp_timer" type="Timer" parent="."]
 
-[connection signal="body_entered" from="mouth" to="." method="_on_mouth_body_entered"]
+[node name="delay_timer" type="Timer" parent="."]
+wait_time = 0.5
+
 [connection signal="timeout" from="firing_frequency" to="." method="_on_firing_frequency_timeout"]
 [connection signal="timeout" from="idle_timer" to="." method="_on_idle_timer_timeout"]
 [connection signal="timeout" from="stomp_timer" to="." method="_on_stomp_timer_timeout"]
+[connection signal="timeout" from="delay_timer" to="." method="_on_delay_timer_timeout"]
