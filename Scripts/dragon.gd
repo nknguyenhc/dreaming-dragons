@@ -52,6 +52,7 @@ func _physics_process(delta):
 			continue
 	
 
+
 """
 	if dragon is far from the player, dash towards player
 	if (position.x - get_parent().get_node("player").position.x) < 1000 and status != "dashing":
@@ -73,6 +74,7 @@ func _physics_process(delta):
 		status = "idle"
 """
 
+
 func _on_firing_frequency_timeout():
 	fire = Fire.instance()
 	add_child(fire)
@@ -85,10 +87,10 @@ func fly_stomp_back():
 	
 
 func _on_idle_timer_timeout():
-	if get_parent().get_node("player").position.y - position.y > 500:
+	if get_parent().get_node("Player").position.y - position.y > 500:
 		change_state(1)
 	else:
-		if abs(get_parent().get_node("player").position.x - position.x) < 100:
+		if abs(get_parent().get_node("Player").position.x - position.x) < 100:
 			change_state(2)
 		else:
 			change_state(3)
