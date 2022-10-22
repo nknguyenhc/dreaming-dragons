@@ -687,13 +687,16 @@ script = ExtResource( 3 )
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="collisionpolygon1" type="CollisionPolygon2D" parent="StaticBody2D"]
-polygon = PoolVector2Array( 2085, -210, 2303, -210, 2303, -125, 2262, -119, 2095, -120, 2089, -129, 2086, -145 )
+polygon = PoolVector2Array( 2085, -212, 2303, -212, 2303, -125, 2262, -119, 2095, -120, 2089, -129, 2086, -145 )
 
 [node name="collisionpolygon2" type="CollisionPolygon2D" parent="StaticBody2D"]
-polygon = PoolVector2Array( 1542, -69, 1760, -69, 1759, -30, 1921, -30, 1923, 8, 1911, 34, 1744, 33, 1733, 25, 1553, 25, 1546, 16 )
+polygon = PoolVector2Array( 1542, -69, 1760, -69, 1759, -32, 1921, -32, 1923, 8, 1911, 34, 1744, 33, 1733, 25, 1553, 25, 1546, 16 )
 
 [node name="collisionpolygon3" type="CollisionPolygon2D" parent="StaticBody2D"]
 polygon = PoolVector2Array( 3065, -479, 3057, -472, 3065, -472 )
 
 [node name="collisionpolygon4" type="CollisionPolygon2D" parent="StaticBody2D"]
 polygon = PoolVector2Array( 3269, -378, 3265, -377, 3280, -375 )
+
+[node name="collisionpolygon5" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( -1, 0, 86, 1, 86, 28, 0, 28 )
