@@ -17,7 +17,3 @@ func _ready():
 func _on_Kick_body_entered(body):
 	if body.name == 'Dragon':
 		body.health -= DAMAGE
-
-func _animation_done(animated_sprite): # modify later when the animation is ready
-	queue_free()
-	get_parent().player_freeze = false # allow the player to move when the skill movement is done

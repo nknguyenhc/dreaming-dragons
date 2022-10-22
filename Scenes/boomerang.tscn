@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scripts/boomerang.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Art/All_Fire_Bullet_Pixel_16x16.png" type="Texture" id=2]
@@ -34,6 +34,18 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 0, 0.2 )
+
+[sub_resource type="RectangleShape2D" id=9]
+extents = Vector2( 0, 0.2 )
+
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 0.2, 0 )
+
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 0.2, 0 )
+
 [node name="Boomerang" type="Area2D"]
 script = ExtResource( 1 )
 
@@ -43,15 +55,49 @@ shape = SubResource( 1 )
 [node name="ReturnDelay" type="Timer" parent="."]
 one_shot = true
 
-[node name="OnGroundTimer" type="Timer" parent="."]
-one_shot = true
-
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 0.5, 0.5 )
 frames = SubResource( 6 )
-frame = 3
+frame = 2
 playing = true
+
+[node name="ExistTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="HitFreeTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Top" type="Area2D" parent="."]
+position = Vector2( 0, -2.8 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Top"]
+scale = Vector2( 1.2, 1 )
+shape = SubResource( 7 )
+
+[node name="Bottom" type="Area2D" parent="."]
+position = Vector2( 0, 2.8 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bottom"]
+shape = SubResource( 9 )
+
+[node name="Left" type="Area2D" parent="."]
+position = Vector2( -2.8, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Left"]
+scale = Vector2( 1, 1.2 )
+shape = SubResource( 8 )
+
+[node name="Right" type="Area2D" parent="."]
+position = Vector2( 2.8, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Right"]
+shape = SubResource( 10 )
 
 [connection signal="body_entered" from="." to="." method="_on_Boomerang_body_entered"]
 [connection signal="timeout" from="ReturnDelay" to="." method="_on_ReturnDelay_timeout"]
-[connection signal="timeout" from="OnGroundTimer" to="." method="_on_OnGroundTimer_timeout"]
+[connection signal="timeout" from="ExistTimer" to="." method="_on_ExistTimer_timeout"]
+[connection signal="timeout" from="HitFreeTimer" to="." method="_on_HitFreeTimer_timeout"]
+[connection signal="body_entered" from="Top" to="." method="_on_Top_body_entered"]
+[connection signal="body_entered" from="Bottom" to="." method="_on_Bottom_body_entered"]
+[connection signal="body_entered" from="Left" to="." method="_on_Left_body_entered"]
+[connection signal="body_entered" from="Right" to="." method="_on_Right_body_entered"]
