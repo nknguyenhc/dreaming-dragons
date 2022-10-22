@@ -15,7 +15,7 @@
 [ext_resource path="res://Assets/Art/Slimes/SlimeOrange/SlimeOrange_00018.png" type="Texture" id=13]
 [ext_resource path="res://Assets/Art/Slimes/SlimeOrange/SlimeOrange_00026.png" type="Texture" id=14]
 [ext_resource path="res://Assets/Art/Slimes/SlimeOrange/SlimeOrange_00012.png" type="Texture" id=15]
-[ext_resource path="res://Scenes/slime.gd" type="Script" id=16]
+[ext_resource path="res://Scripts/slime.gd" type="Script" id=16]
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 148.0
@@ -33,6 +33,7 @@ animations = [ {
 radius = 111.0
 
 [node name="slime" type="KinematicBody2D"]
+scale = Vector2( 0.279999, 0.319999 )
 script = ExtResource( 16 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -42,7 +43,7 @@ shape = SubResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-frame = 8
+frame = 7
 speed_scale = 2.0
 playing = true
 
@@ -52,3 +53,5 @@ playing = true
 position = Vector2( 4, 24 )
 scale = Vector2( 1.6, 0.84 )
 shape = SubResource( 3 )
+
+[connection signal="body_entered" from="Hurtbox" to="." method="_on_Hurtbox_body_entered"]
