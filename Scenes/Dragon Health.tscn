@@ -7,7 +7,7 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="TextureProgress" type="TextureProgress" parent="."]
+[node name="dragonhealthbar" type="TextureProgress" parent="."]
 margin_left = 62.0
 margin_top = 50.0
 margin_right = 962.0
