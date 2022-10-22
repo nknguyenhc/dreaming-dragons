@@ -701,7 +701,7 @@ tile_data = PoolIntArray( -159904755, 1610612761, 0, -159903532, 1610612761, 0, 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 607, 51 )
 current = true
-zoom = Vector2( 2, 2 )
+zoom = Vector2( 1.6, 1.6 )
 script = ExtResource( 3 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
@@ -729,3 +729,9 @@ polygon = PoolVector2Array( 4269, 40, 4270, 245, 4309, 245, 4309, 40 )
 
 [node name="collisionpolygon7" type="CollisionPolygon2D" parent="StaticBody2D"]
 polygon = PoolVector2Array( 2914, -573, 2914, -472, 2908, -473, 2911, -573 )
+
+[node name="zoom_time" type="Timer" parent="."]
+wait_time = 1.001
+one_shot = true
+
+[connection signal="timeout" from="zoom_time" to="Camera2D" method="_on_zoom_time_timeout"]
