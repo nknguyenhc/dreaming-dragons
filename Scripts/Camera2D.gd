@@ -1,9 +1,6 @@
 extends Camera2D
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
 var velocity = Vector2.ZERO
 var current_pos #current position
 var final_pos = Vector2(3700, -1280) #final position
@@ -13,6 +10,8 @@ var flag = true
 var dx
 var dy
 var t = 0
+var timeout
+var count = 10
 
 
 # Called when the node enters the scene tree for the first time.
@@ -38,9 +37,16 @@ func _process(delta):
 		dx = (final_pos.x - current_pos.x) / rate
 		dy = (final_pos.y - current_pos.y) / rate
 		position += Vector2(dx, dy)
-		if (t < 400):
-			zoom -= Vector2(0.01,0.01)
 		if position.x - final_pos.x > rate:
+#			if flag == true:
+#				zoomin()
 			camera_moving_to_boss_fighting = false
-	
 
+#func zoomin():
+#	if count > 0:
+#		zoom -= Vector2(0.2,0.2)
+#		count -= 1
+#		get_parent().get_node("zoom_timer").start()
+#
+#func _on_zoom_time_timeout():
+#	zoomin()
