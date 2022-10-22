@@ -52,6 +52,8 @@ var climbing_initiated = false
 var wall_stationary_initiated = false
 
 var is_boss_fight_started = false
+var Health_bars = preload("res://Scenes/Player Health.tscn")
+var health_bar = Health_bars.instance()
 
 
 # Called when the node enters the scene tree for the first time.
@@ -207,6 +209,10 @@ func _physics_process(delta):
 			player_kick(!animated_sprite.flip_h)
 		if Input.is_action_just_pressed("ui_skill3"):
 			player_boomerang()
+		
+		# health bar
+		health_bar.get_node("Player Health Bar").value = health / MAX_HEALTH * 100
+		get_parent().get_node("Map1").get_node("Camera2D").add_child(health_bar)
 
 
 func change_state(state):
