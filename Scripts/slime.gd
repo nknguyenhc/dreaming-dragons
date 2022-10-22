@@ -17,7 +17,7 @@ func _physics_process(delta):
 	move_and_slide(velocity, Vector2.UP)	
 	if is_on_floor():
 		velocity = Vector2(0, -700)
-	if health == 0:
+	if health <= 0:
 		get_parent().slime_count -= 1
 		queue_free()
 
@@ -25,7 +25,4 @@ func _physics_process(delta):
 func _on_Hurtbox_body_entered(body):
 	if body.name == "Player":
 		body.health -= 3
-	if body.name == "boomerang":
-		health -= 5
-	if body.name == "kick":
-		health -= 10
+
