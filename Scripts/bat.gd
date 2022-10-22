@@ -19,6 +19,4 @@ func _physics_process(delta):
 
 func _on_Area2D_body_entered(body):
 	if body.name == "Player":
-		body.health -= 7
-	if body.name == "boomerang":
-		queue_free()
+		body.take_damage(7)

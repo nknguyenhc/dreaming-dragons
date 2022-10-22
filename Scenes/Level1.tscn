@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scenes/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Map1.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Scenes/bat.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/blocking.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/slime.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/bat_follower.tscn" type="PackedScene" id=8]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 4 )
@@ -15,7 +16,7 @@ script = ExtResource( 4 )
 light_mask = 0
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 173, 332 )
+position = Vector2( 3964, 255 )
 scale = Vector2( 7, 7 )
 
 [node name="dragon" parent="." instance=ExtResource( 3 )]
@@ -51,6 +52,9 @@ position = Vector2( 3521, -459 )
 
 [node name="bat3" parent="." instance=ExtResource( 5 )]
 position = Vector2( 4294, -432 )
+
+[node name="bat_follower" parent="." instance=ExtResource( 8 )]
+position = Vector2( 4891, -78 )
 
 [node name="blocking" parent="." instance=ExtResource( 6 )]
 position = Vector2( 2788, -237 )

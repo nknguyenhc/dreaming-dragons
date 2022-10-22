@@ -9,3 +9,4 @@ func _ready():
 func _process(delta):
 	if slime_count == 0:
 		get_node("blocking").queue_free()
+		slime_count -= 1
