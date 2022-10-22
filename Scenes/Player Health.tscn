@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Assets/Art/Health Bar/HB_4.1-Hurt.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Art/Health Bar/HB_4-Healthy.png" type="Texture" id=2]
+
+[node name="Player Health" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Player Health Bar" type="TextureProgress" parent="."]
+margin_right = 900.0
+margin_bottom = 96.0
+rect_scale = Vector2( 1.2, 0.3 )
+rect_pivot_offset = Vector2( 2000, -1000 )
+value = 50.0
+texture_under = ExtResource( 1 )
+texture_progress = ExtResource( 2 )
