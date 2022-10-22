@@ -115,6 +115,7 @@ animations = [ {
 extents = Vector2( 5, 10 )
 
 [node name="Player" type="KinematicBody2D"]
+collision_layer = 4
 script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -125,6 +126,7 @@ position = Vector2( 0, -4 )
 scale = Vector2( 0.28, 0.28 )
 frames = SubResource( 2 )
 animation = "climbing"
+frame = 1
 playing = true
 
 [node name="Hurtbox" type="Area2D" parent="."]

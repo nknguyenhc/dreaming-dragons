@@ -16,11 +16,7 @@ var on_wall = false
 
 # skills
 var player_freeze = false # do not allow the player to move while activating some skills
-var temp_state # state of player before executing punch or kick
-const Punch = preload("res://Scenes/punch.tscn")
-var punch
-var punch_enabled = true
-const PUNCH_WAIT_TIME = 2
+var temp_state # state of player before executing kick
 const Kick = preload("res://Scenes/kick.tscn")
 var kick
 var kick_enabled = true
@@ -43,11 +39,10 @@ var invincible = false
 const INVINCIBILITY_WAIT_TIME = 1
 
 # state of the player
-enum PLAYER_STATE {IDLE, WALKING, PUNCHING, KICKING, CLIMBING, WALL_STATIONARY}
+enum PLAYER_STATE {IDLE, WALKING, SWORD, KICKING, CLIMBING, WALL_STATIONARY}
 export (PLAYER_STATE) var current_state = PLAYER_STATE.IDLE
 var idle_initiated = false
 var walking_initiated = false
-var punching_initiated = false
 var kicking_initiated = false
 var climbing_initiated = false
 var wall_stationary_initiated = false
@@ -61,21 +56,16 @@ func _ready():
 	animated_sprite = get_node("AnimatedSprite")
 
 
-func player_punch():
-	if punch_enabled:
-		player_freeze = true
-		punch = Punch.instance()
-		add_child(punch)
-		punch_enabled = false
-		get_node("PunchTimer").start(PUNCH_WAIT_TIME)
-		temp_state = current_state
-		change_state(PLAYER_STATE.PUNCHING)
+func player_sword():
+	pass
 
 
-func player_kick():
+func player_kick(right):
 	if kick_enabled:
 		player_freeze = true
 		kick = Kick.instance()
+		if not right:
+			kick.scale.x *= -1
 		add_child(kick)
 		kick_enabled = false
 		get_node("KickTimer").start(KICK_WAIT_TIME)
@@ -121,10 +111,8 @@ func _physics_process(delta):
 				walking_initiated = true
 				animated_sprite.play("walking")
 		
-		PLAYER_STATE.PUNCHING:
-			if not punching_initiated:
-				punching_initiated = true
-				animated_sprite.play("punching")
+		PLAYER_STATE.SWORD:
+			pass
 		
 		PLAYER_STATE.KICKING:
 			if not kicking_initiated:
@@ -184,9 +172,9 @@ func _physics_process(delta):
 		
 		# activate skills
 		if Input.is_action_just_pressed("ui_skill1"):
-			player_punch()
+			player_sword()
 		if Input.is_action_just_pressed("ui_skill2"):
-			player_kick()
+			player_kick(!animated_sprite.flip_h)
 		if Input.is_action_just_pressed("ui_skill3"):
 			player_boomerang()
 
@@ -195,7 +183,6 @@ func change_state(state):
 	if current_state != state:
 		idle_initiated = false
 		walking_initiated = false
-		punching_initiated = false
 		kicking_initiated = false
 		climbing_initiated = false
 		wall_stationary_initiated = false
@@ -222,10 +209,6 @@ func _on_Hurtbox_area_entered(area):
 			boomerang_returned = true
 
 
-func _on_PunchTimer_timeout():
-	punch_enabled = true
-
-
 func _on_KickTimer_timeout():
 	kick_enabled = true
 
@@ -239,8 +222,4 @@ func _on_AnimatedSprite_animation_finished():
 	if current_state == PLAYER_STATE.KICKING:
 		get_node("Kick").queue_free()
 		player_freeze = false # allow the player to move when the skill movement is done
-		change_state(temp_state)
-	if current_state == PLAYER_STATE.PUNCHING:
-		get_node("Punch").queue_free()
-		player_freeze = false
 		change_state(temp_state)
