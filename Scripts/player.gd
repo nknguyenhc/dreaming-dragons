@@ -17,10 +17,14 @@ var on_wall = false
 # skills
 var player_freeze = false # do not allow the player to move while activating some skills
 var temp_state # state of player before executing kick
+const Sword = preload("res://Scenes/Sword.tscn")
+var sword
+var sword_enabled = true
+const SWORD_WAIT_TIME = 0.5
 const Kick = preload("res://Scenes/kick.tscn")
 var kick
 var kick_enabled = true
-const KICK_WAIT_TIME = 1
+const KICK_WAIT_TIME = 0.5
 const Boomerang = preload("res://Scenes/pointer.tscn")
 var pointer
 var boomerang
@@ -56,8 +60,24 @@ func _ready():
 	animated_sprite = get_node("AnimatedSprite")
 
 
-func player_sword():
-	pass
+func player_sword(right=true):
+	if sword_enabled:
+		player_freeze = true
+		sword = Sword.instance()
+		if is_on_floor():
+			sword.swing_angle = PI
+		else:
+			sword.swing_angle = 3 * PI / 2
+		sword.right = right
+		add_child(sword)
+		sword_enabled = false
+		temp_state = current_state
+		change_state(PLAYER_STATE.SWORD)
+
+func end_sword():
+	get_node("SwordTimer").start(SWORD_WAIT_TIME)
+	player_freeze = false
+	change_state(temp_state)
 
 
 func player_kick(right):
@@ -172,7 +192,7 @@ func _physics_process(delta):
 		
 		# activate skills
 		if Input.is_action_just_pressed("ui_skill1"):
-			player_sword()
+			player_sword(!animated_sprite.flip_h)
 		if Input.is_action_just_pressed("ui_skill2"):
 			player_kick(!animated_sprite.flip_h)
 		if Input.is_action_just_pressed("ui_skill3"):
@@ -223,3 +243,7 @@ func _on_AnimatedSprite_animation_finished():
 		get_node("Kick").queue_free()
 		player_freeze = false # allow the player to move when the skill movement is done
 		change_state(temp_state)
+
+
+func _on_SwordTimer_timeout():
+	sword_enabled = true

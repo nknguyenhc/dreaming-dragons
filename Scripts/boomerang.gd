@@ -62,7 +62,7 @@ func _on_ReturnDelay_timeout():
 
 
 func _on_Boomerang_body_entered(body):
-	if body.name == "Dragon":
+	if body.name == "dragon":
 		body.health -= DAMAGE
 
 

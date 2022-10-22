@@ -2,7 +2,7 @@ extends Area2D
 
 
 # Declare member variables here. Examples:
-const DAMAGE = 15
+const DAMAGE = 8
 
 
 # Called when the node enters the scene tree for the first time.
@@ -15,5 +15,5 @@ func _ready():
 #	pass
 
 func _on_Kick_body_entered(body):
-	if body.name == 'Dragon':
+	if body.name == 'dragon':
 		body.health -= DAMAGE
