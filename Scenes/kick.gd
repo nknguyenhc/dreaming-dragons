@@ -15,5 +15,5 @@ func _ready():
 #	pass
 
 func _on_Kick_body_entered(body):
-	if body.name == 'dragon':
+	if body.get_collision_layer() == 2:
 		body.health -= DAMAGE

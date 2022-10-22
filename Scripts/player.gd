@@ -20,7 +20,7 @@ var temp_state # state of player before executing kick
 const Sword = preload("res://Scenes/Sword.tscn")
 var sword
 var sword_enabled = true
-const SWORD_WAIT_TIME = 0.5
+const SWORD_WAIT_TIME = 1
 const Kick = preload("res://Scenes/kick.tscn")
 var kick
 var kick_enabled = true
@@ -37,7 +37,7 @@ var boomerang_key = "ui_skill3"
 const BOOMERANG_WAIT_TIME = 0.5
 
 # health
-const MAX_HEALTH = 100
+const MAX_HEALTH = 1
 var health = MAX_HEALTH
 var invincible = false
 const INVINCIBILITY_WAIT_TIME = 1
@@ -117,8 +117,18 @@ func take_damage(damage):
 		invincible = true
 		get_node("InvincibilityTimer").start(INVINCIBILITY_WAIT_TIME)
 
+func die():
+	set_physics_process(false)
+	get_node("AnimatedSprite").scale = Vector2(0.8,0.8)
+	get_node("VanishTimer").start()
+	get_node("AnimatedSprite").animation = "vanishing"
+	get_node("AnimatedSprite").speed_scale = 0.4
+	
 
-func _physics_process(delta):
+func _physics_process(delta):		
+		
+	if health <= 0:
+		die()
 	# movement
 	match current_state:
 		PLAYER_STATE.IDLE:
@@ -247,3 +257,7 @@ func _on_AnimatedSprite_animation_finished():
 
 func _on_SwordTimer_timeout():
 	sword_enabled = true
+
+
+func _on_VanishTimer_timeout():
+	get_parent().get_parent().restart()

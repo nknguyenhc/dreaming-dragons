@@ -1,9 +1,10 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Scripts/player.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Art/MZmapsprites/actor1-1[VS8].png" type="Texture" id=2]
 [ext_resource path="res://Assets/Art/MZmapsprites/punch&kick.png" type="Texture" id=3]
 [ext_resource path="res://Assets/Art/MZmapsprites/climb.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Art/burning_end_2.png" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 5, 10 )
@@ -48,6 +49,31 @@ flags = 4
 atlas = ExtResource( 3 )
 region = Rect2( 800, 300, 100, 100 )
 
+[sub_resource type="AtlasTexture" id=28]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 20, 24 )
+
+[sub_resource type="AtlasTexture" id=29]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 20, 0, 20, 24 )
+
+[sub_resource type="AtlasTexture" id=30]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 40, 0, 20, 24 )
+
+[sub_resource type="AtlasTexture" id=31]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 60, 0, 20, 24 )
+
+[sub_resource type="AtlasTexture" id=32]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 80, 0, 20, 24 )
+
 [sub_resource type="AtlasTexture" id=23]
 flags = 4
 atlas = ExtResource( 2 )
@@ -79,6 +105,11 @@ animations = [ {
 "loop": true,
 "name": "kicking",
 "speed": 15.0
+}, {
+"frames": [ SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ) ],
+"loop": false,
+"name": "vanishing",
+"speed": 5.0
 }, {
 "frames": [ SubResource( 23 ), SubResource( 24 ), SubResource( 25 ) ],
 "loop": true,
@@ -123,6 +154,9 @@ one_shot = true
 [node name="SwordTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="VanishTimer" type="Timer" parent="."]
+wait_time = 3.0
+
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="area_exited" from="Hurtbox" to="." method="_on_Hurtbox_area_exited"]
@@ -130,3 +164,4 @@ one_shot = true
 [connection signal="timeout" from="KickTimer" to="." method="_on_KickTimer_timeout"]
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_InvincibilityTimer_timeout"]
 [connection signal="timeout" from="SwordTimer" to="." method="_on_SwordTimer_timeout"]
+[connection signal="timeout" from="VanishTimer" to="." method="_on_VanishTimer_timeout"]

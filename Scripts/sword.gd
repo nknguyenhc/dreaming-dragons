@@ -1,7 +1,7 @@
 extends Area2D
 
 
-const ANGULAR_V = PI / 14
+const ANGULAR_V = PI / 25
 var swing_angle
 var total_swing = 0
 var player
@@ -32,5 +32,5 @@ func _physics_process(delta):
 
 
 func _on_Area2D_body_entered(body):
-	if body.name == "dragon":
+	if body.get_collision_layer() == 2:
 		body.health -= DAMAGE
