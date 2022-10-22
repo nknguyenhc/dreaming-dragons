@@ -2,17 +2,20 @@ extends KinematicBody2D
 
 # Dragon Animation Asset Source:
 # https://danaida.itch.io/cartoon-dragon-sprite-pack/download/eyJpZCI6NzMxNzEwLCJleHBpcmVzIjoxNjYzODMyMDcyfQ%3d%3d%2eaqW11N%2fTcirE9ccJp16G2Q4OhNI%3d
+var player
 
 const idle_pos_left = 2780
 const idle_pos_right = 4730
 const max_height = -1550
-const Fire = preload("res://Scenes/fire_by_dragon.tscn")
+const ceiling_height = -1700
 const HB = preload("res://Scenes/Dragon Health.tscn")
 var hb = HB.instance()
 
 var is_boss_fight_started = false
 var is_player_close = false
 var velocity = Vector2.ZERO
+
+# skills
 var fire
 var health = 100
 var damage = 10
@@ -27,16 +30,25 @@ var fly_back_dest = idle_pos_left
 var is_dash_back = false
 var direction = -1 # -1 is left and 1 is right
 var dash_dest = idle_pos_left
+const FireBall = preload("res://Scenes/fire_by_dragon.tscn")
+var first_fire_ball
+var fire_initialised = false
+const MAX_N_FIRE_BALLS = 39
+var current_n_fire_balls = 0
+
 enum BOSS_STATE {IDLE, FLY, SPIT, DASH, KICK, FLYBACK}
 export (BOSS_STATE) var current_state = BOSS_STATE.IDLE
 
+
+func _ready():
+	player = get_parent().get_node("Player")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	
 	if !is_player_close:
-		if get_parent().get_node("Player").position.y < -750 && !is_boss_fight_started:
+		if player.position.y < -750 && !is_boss_fight_started:
 			is_boss_fight_started = true
 			get_node("delay_timer").wait_time = 2
 			get_node("delay_timer").start()
@@ -72,10 +84,9 @@ func _physics_process(delta):
 					stomp_initiated = false
 					get_node("stomp_timer").wait_time = rng.randi_range(5, 7)
 					get_node("stomp_timer").start()
-					print("timer_started")
 				
-				if !stomp_initiated && abs(get_parent().get_node("Player").position.x - position.x) < 50 \
-									 && get_parent().get_node("Player").position.y > position.y:
+				if !stomp_initiated && abs(player.position.x - position.x) < 50 \
+									 && player.position.y > position.y:
 					to_stomp = true
 				
 				if !stomp_initiated && to_stomp:
@@ -121,22 +132,33 @@ func _physics_process(delta):
 				if is_on_floor():
 					change_state(0)
 				
-
 				
 			BOSS_STATE.SPIT:
-				change_state(3)
+				if not state_initiated:
+					print("spitting fire")
+					first_fire_ball = FireBall.instance()
+					var another_fire_ball = FireBall.instance()
+					first_fire_ball.landed = false
+					first_fire_ball.position = Vector2(player.position.x, ceiling_height)
+					first_fire_ball.dragon = self
+					first_fire_ball.player = player
+					first_fire_ball.direction_of_spread = "both"
+					get_parent().add_child(first_fire_ball)
+					state_initiated = true
+				if current_n_fire_balls >= MAX_N_FIRE_BALLS:
+					change_state(3)
 			
 			BOSS_STATE.DASH: # done
 				if not state_initiated:
 					state_initiated = true
-					var dif = get_parent().get_node("Player").position.x - position.x
+					var dif = player.position.x - position.x
 					if dif > 0:
 						direction = 1
 						dash_dest = idle_pos_right
 					else:
 						direction = -1
 						dash_dest = idle_pos_left
-					check_and_change_direction()				
+					check_and_change_direction()
 					velocity =  Vector2(dif, 0).normalized() * 800
 					get_node("animation").animation = "dash"
 				
@@ -168,16 +190,13 @@ func check_and_change_direction():
 		get_node("animation").flip_h = false
 	else:
 		get_node("animation").flip_h = true
-	
-func _on_firing_frequency_timeout():
-	fire = Fire.instance()
-	add_child(fire)
+
 
 func _on_idle_timer_timeout():
-	if get_parent().get_node("Player").position.y - position.y > 500:
+	if player.position.y - position.y > 500:
 		change_state(1)
 	else:
-		if abs(get_parent().get_node("Player").position.x - position.x) < 100:
+		if abs(player.position.x - position.x) < 100:
 			change_state(2)
 		else:
 			change_state(3)
@@ -206,14 +225,13 @@ func change_state(mode):
 			current_state = BOSS_STATE.SPIT
 	elif mode == 2:
 		# player is on ground and is near
-		if rng.randi_range(1, 2) == 1 && get_parent().get_node("Player").position.y > -850:
+		if rng.randi_range(1, 2) == 1 && player.position.y > -850:
 			current_state = BOSS_STATE.KICK
 		else:
 			current_state = BOSS_STATE.FLY
 	elif mode == 3:
 		# player is on ground and is far
 		var num = rng.randi_range(1, 3)
-		print(num)
 		if num == 1:
 			current_state = BOSS_STATE.SPIT
 		elif num == 2:
