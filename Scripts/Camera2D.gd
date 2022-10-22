@@ -17,4 +17,8 @@ func _process(delta):
 		global_position.x = get_parent().get_parent().get_node("Player").global_position.x - 900
 	if get_parent().get_parent().get_node("Player").position.x - position.x < -900:
 		global_position.x = get_parent().get_parent().get_node("Player").global_position.x + 900
+	if get_parent().get_parent().get_node("Player").position.y - position.y > 400:
+		global_position.y = get_parent().get_parent().get_node("Player").global_position.y - 400
+	if get_parent().get_parent().get_node("Player").position.y - position.y < -400:
+		global_position.y = get_parent().get_parent().get_node("Player").global_position.y + 400
 
