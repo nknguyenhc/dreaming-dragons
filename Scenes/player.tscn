@@ -1,11 +1,22 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Scripts/player.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Art/MZmapsprites/actor1-1[VS8].png" type="Texture" id=2]
 [ext_resource path="res://Assets/Art/MZmapsprites/punch&kick.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Art/MZmapsprites/climb.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 5, 10 )
+
+[sub_resource type="AtlasTexture" id=26]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 100, 100, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=27]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 200, 100, 100, 100 )
 
 [sub_resource type="AtlasTexture" id=4]
 flags = 4
@@ -74,6 +85,11 @@ region = Rect2( 800, 200, 100, 100 )
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
+"frames": [ SubResource( 26 ), SubResource( 27 ) ],
+"loop": true,
+"name": "climbing",
+"speed": 5.0
+}, {
 "frames": [ SubResource( 4 ) ],
 "loop": true,
 "name": "idle",
@@ -82,7 +98,7 @@ animations = [ {
 "frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ],
 "loop": true,
 "name": "kicking",
-"speed": 5.0
+"speed": 15.0
 }, {
 "frames": [ SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ) ],
 "loop": true,
@@ -99,6 +115,7 @@ animations = [ {
 extents = Vector2( 5, 10 )
 
 [node name="Player" type="KinematicBody2D"]
+collision_layer = 4
 script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -108,8 +125,8 @@ shape = SubResource( 1 )
 position = Vector2( 0, -4 )
 scale = Vector2( 0.28, 0.28 )
 frames = SubResource( 2 )
-animation = "kicking"
-frame = 2
+animation = "climbing"
+frame = 1
 playing = true
 
 [node name="Hurtbox" type="Area2D" parent="."]
