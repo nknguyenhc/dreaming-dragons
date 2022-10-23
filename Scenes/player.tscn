@@ -173,7 +173,7 @@ position = Vector2( 0, -4 )
 scale = Vector2( 0.28, 0.28 )
 frames = SubResource( 2 )
 animation = "take_damage"
-frame = 4
+frame = 1
 playing = true
 
 [node name="Hurtbox" type="Area2D" parent="."]
