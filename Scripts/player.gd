@@ -25,6 +25,7 @@ const SWORD_WAIT_TIME = 1
 const Kick = preload("res://Scenes/kick.tscn")
 var kick
 var kick_enabled = true
+var kick_animation_playing = false
 const KICK_WAIT_TIME = 0.5
 const Boomerang = preload("res://Scenes/pointer.tscn")
 var pointer
@@ -61,6 +62,7 @@ var health_bar = Health_bars.instance()
 func _ready():
 	scale = Vector2(SCALE, SCALE)
 	animated_sprite = get_node("AnimatedSprite")
+	get_parent().get_node("Map1").get_node("Camera2D").add_child(health_bar)
 
 
 func player_sword(right=true):
@@ -85,6 +87,7 @@ func end_sword():
 
 func player_kick(right):
 	if kick_enabled:
+		kick_animation_playing = true
 		player_freeze = true
 		kick = Kick.instance()
 		if not right:
@@ -185,7 +188,8 @@ func _physics_process(delta):
 					change_state(PLAYER_STATE.WALL_STATIONARY)
 		else:
 			velocity.y += GRAVITY
-			velocity.x = 0
+			if is_on_floor() or !current_state == PLAYER_STATE.KICKING:
+				velocity.x = 0
 		temp_velocity = move_and_slide(velocity, Vector2.UP)
 		if temp_velocity.x != velocity.x:
 			on_wall = true
@@ -213,7 +217,6 @@ func _physics_process(delta):
 		
 		# health bar
 		health_bar.get_node("Player Health Bar").value = health * 100 / MAX_HEALTH 
-		get_parent().get_node("Map1").get_node("Camera2D").add_child(health_bar)
 
 
 func change_state(state):
@@ -268,3 +271,8 @@ func _on_SwordTimer_timeout():
 
 func _on_VanishTimer_timeout():
 	get_parent().get_parent().restart()
+
+
+func _on_KickAnimationTimer_timeout():
+	kick_animation_playing = false
+	

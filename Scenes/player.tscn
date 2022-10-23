@@ -156,6 +156,10 @@ one_shot = true
 [node name="VanishTimer" type="Timer" parent="."]
 wait_time = 3.0
 
+[node name="KickAnimationTimer" type="Timer" parent="."]
+wait_time = 0.33
+one_shot = true
+
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="area_exited" from="Hurtbox" to="." method="_on_Hurtbox_area_exited"]
@@ -164,3 +168,4 @@ wait_time = 3.0
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_InvincibilityTimer_timeout"]
 [connection signal="timeout" from="SwordTimer" to="." method="_on_SwordTimer_timeout"]
 [connection signal="timeout" from="VanishTimer" to="." method="_on_VanishTimer_timeout"]
+[connection signal="timeout" from="KickAnimationTimer" to="." method="_on_KickAnimationTimer_timeout"]
