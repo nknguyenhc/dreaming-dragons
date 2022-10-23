@@ -15,13 +15,17 @@ const VERTICAL_SPEED = 300
 var on_wall = false
 var can_climb = true
 
+# collectibles
+var boomerang_collected = false
+var sword_collected = false
+
 # skills
 var player_freeze = false # do not allow the player to move while activating some skills
 var temp_state # state of player before executing kick
 const Sword = preload("res://Scenes/Sword.tscn")
 var sword
 var sword_enabled = true
-const SWORD_WAIT_TIME = 1
+const SWORD_WAIT_TIME = 0.5
 const Kick = preload("res://Scenes/kick.tscn")
 var kick
 var kick_enabled = true
@@ -237,11 +241,11 @@ func _physics_process(delta):
 	
 	if current_state != PLAYER_STATE.TAKE_DAMAGE:
 		# activate skills
-		if Input.is_action_just_pressed("ui_skill1") and current_state != PLAYER_STATE.KICKING:
+		if Input.is_action_just_pressed("ui_skill1") and current_state != PLAYER_STATE.KICKING and sword_collected:
 			player_sword(!animated_sprite.flip_h)
 		if Input.is_action_just_pressed("ui_skill2") and current_state != PLAYER_STATE.SWORD:
 			player_kick(!animated_sprite.flip_h)
-		if Input.is_action_just_pressed("ui_skill3"):
+		if Input.is_action_just_pressed("ui_skill3") and boomerang_collected:
 			player_boomerang()
 	
 	# health bar
@@ -277,6 +281,14 @@ func _on_Hurtbox_area_entered(area):
 		on_boomerang = true
 		if boomerang_thrown: # first time boomerang area enter is when it appears in the scene
 			boomerang_returned = true
+	
+	if area.name == "BoomerangCollectible":
+		boomerang_collected = true
+		area.queue_free()
+	
+	if area.name == "SwordCollectible":
+		sword_collected = true
+		area.queue_free()
 
 
 func _on_KickTimer_timeout():
