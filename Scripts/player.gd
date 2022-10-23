@@ -13,6 +13,7 @@ const JUMP_STRENGTH = 1200
 const HORIZONTAL_SPEED = 450
 const VERTICAL_SPEED = 300
 var on_wall = false
+var can_climb = true
 
 # skills
 var player_freeze = false # do not allow the player to move while activating some skills
@@ -37,7 +38,7 @@ var boomerang_key = "ui_skill3"
 const BOOMERANG_WAIT_TIME = 0.5
 
 # health
-const MAX_HEALTH = 1
+const MAX_HEALTH = 100
 var health = MAX_HEALTH
 var invincible = false
 const INVINCIBILITY_WAIT_TIME = 1
@@ -175,7 +176,7 @@ func _physics_process(delta):
 				else:
 					velocity.y += GRAVITY
 				# animation
-			else:
+			elif can_climb:
 				velocity.x = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")) * HORIZONTAL_SPEED
 				velocity.y = (Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")) * VERTICAL_SPEED
 				if velocity.y != 0:
@@ -211,7 +212,7 @@ func _physics_process(delta):
 			player_boomerang()
 		
 		# health bar
-		health_bar.get_node("Player Health Bar").value = health / MAX_HEALTH * 100
+		health_bar.get_node("Player Health Bar").value = health * 100 / MAX_HEALTH 
 		get_parent().get_node("Map1").get_node("Camera2D").add_child(health_bar)
 
 
