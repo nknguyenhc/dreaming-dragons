@@ -104,7 +104,7 @@ func _on_WaitTimer_timeout():
 
 
 func _on_Bottom_body_entered(body):
-	if body.name == "TileMap" or body.name == "TileMap2":
+	if body.name == "TileMap" or body.name == "TileMap2" or body.name == 'block':
 		landed = true
 
 

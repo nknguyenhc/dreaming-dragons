@@ -11,6 +11,7 @@
 [ext_resource path="res://Scenes/greenslime.tscn" type="PackedScene" id=9]
 
 [node name="Node2D" type="Node2D"]
+pause_mode = 1
 script = ExtResource( 4 )
 
 [node name="Map1" parent="." instance=ExtResource( 2 )]

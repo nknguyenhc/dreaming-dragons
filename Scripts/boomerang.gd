@@ -1,10 +1,10 @@
 extends Area2D
 
 
-const INITIAL_SPEED = 4
-const FRICTION = 0.1
+const INITIAL_SPEED = 3
+const FRICTION = 0.03
 const GRAVITY = 1
-const TERMINAL_v = 8
+const TERMINAL_V = 8
 
 const SCALE = 6
 
@@ -16,15 +16,14 @@ var player
 
 var platform_hit = false
 var flying_off = false
-const HORIZONTAL_SPEED = 0.05 # only use this when it hits a platform
-const DELAY_TIME = 0.2
+const DELAY_TIME = 0.05
 var ground_hit = false
 var player_hit = false
 const EXIST_TIME = 7 # do not allow the boomerang to exist in the scene for too long
 
 var hit_free = false
 var hit_free_ground = false
-const HIT_FREE_TIME = 0.1 # in case the boomerang hits two tilemaps at the same time
+const HIT_FREE_TIME = 0.02 # in case the boomerang hits two tilemaps at the same time
 
 const DAMAGE = 4
 
@@ -48,7 +47,7 @@ func _physics_process(delta):
 	if platform_hit or ground_hit:
 		pass
 	elif player_hit or flying_off:
-		if velocity.y < TERMINAL_v:
+		if velocity.y < TERMINAL_V:
 			velocity.y += GRAVITY
 		position += velocity
 	else:
@@ -98,6 +97,11 @@ func hitting_ground(body):
 			hit_free = true
 			hit_free_ground = true
 			get_node("HitFreeTimer").start(HIT_FREE_TIME)
+			# hit the player if the player is at where the boomerang falls
+			var overlapping_bodies = get_overlapping_bodies()
+			if player in overlapping_bodies:
+				hit_player()
+				player.take_damage(DAMAGE)
 
 
 func _on_Top_body_entered(body):

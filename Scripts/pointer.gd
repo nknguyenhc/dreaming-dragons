@@ -97,7 +97,7 @@ func _physics_process(delta):
 	
 	else: # when the player releases the key, unfreeze the scene, make this pointer vanish and unleash the boomerang
 		player = get_parent().get_node("Player")
-		player.freeze = false
+		get_parent().get_tree().paused = false
 		player.boomerang = Boomerang.instance()
 		player.boomerang.direction = direction
 		player.boomerang.position = position

@@ -7,7 +7,7 @@ var total_swing = 0
 var player
 var right
 
-const DAMAGE = 4
+const DAMAGE = 6
 
 
 func _ready():
