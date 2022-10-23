@@ -18,7 +18,6 @@ var velocity = Vector2.ZERO
 # skills
 var fire
 var health = 100
-var damage = 10
 var state_initiated = false
 var to_stomp = false
 var stomp_initiated = false
@@ -174,14 +173,12 @@ func _physics_process(delta):
 			BOSS_STATE.KICK: # done
 				if not state_initiated:
 					state_initiated = true
-					damage = 20
 					get_node("animation").animation = "kick"
 					position.x += 50 * direction
 					get_node("delay_timer").wait_time = 0.6
 					get_node("delay_timer").start()
 				
 				if delay_timeout:
-					damage = 10
 					position.x -= 50 * direction
 					delay_timeout = false
 					change_state(0)

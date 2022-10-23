@@ -7,6 +7,7 @@ const y_offset = -12
 
 var velocity
 const SPEED = 10
+const DAMAGE = 8
 
 # during flight
 var direction # only used if the fire ball is travelling in mid air
@@ -115,3 +116,8 @@ func _on_Left_body_entered(body):
 func _on_Right_body_entered(body):
 	if (body.name == 'TileMap' or body.name == 'TileMap2' or body.name == 'block') and landed:
 		next_fire_ball.first_rotate_direction = true
+
+
+func _on_fire_by_dragon_body_entered(body):
+	if body.name == "Player":
+		body.take_damage(DAMAGE)

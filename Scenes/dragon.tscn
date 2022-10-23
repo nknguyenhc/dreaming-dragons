@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://Scripts/dragon.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Art/dragon pack/idle3.png" type="Texture" id=2]
@@ -39,6 +39,7 @@
 [ext_resource path="res://Assets/Art/dragon pack/run7.png" type="Texture" id=37]
 [ext_resource path="res://Assets/Art/dragon pack/run8.png" type="Texture" id=38]
 [ext_resource path="res://Assets/Art/dragon pack/run5.png" type="Texture" id=39]
+[ext_resource path="res://Scripts/dragon_hitbox.gd" type="Script" id=40]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 28.5, 28.5 )
@@ -81,6 +82,9 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 28.5, 28.5 )
+
 [node name="dragon" type="KinematicBody2D"]
 collision_layer = 2
 collision_mask = 4
@@ -95,7 +99,7 @@ position = Vector2( -1, 1.5 )
 scale = Vector2( 0.96875, 0.984375 )
 frames = SubResource( 2 )
 animation = "idle"
-frame = 5
+frame = 2
 playing = true
 flip_h = true
 
@@ -107,6 +111,15 @@ wait_time = 2.5
 [node name="delay_timer" type="Timer" parent="."]
 wait_time = 0.5
 
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
+script = ExtResource( 40 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2( -2.5, 2.5 )
+shape = SubResource( 3 )
+
 [connection signal="timeout" from="idle_timer" to="." method="_on_idle_timer_timeout"]
 [connection signal="timeout" from="stomp_timer" to="." method="_on_stomp_timer_timeout"]
 [connection signal="timeout" from="delay_timer" to="." method="_on_delay_timer_timeout"]
+[connection signal="body_entered" from="Hitbox" to="Hitbox" method="_on_Hitbox_body_entered"]
