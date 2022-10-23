@@ -134,7 +134,7 @@ func _physics_process(delta):
 				
 			BOSS_STATE.SPIT:
 				if not state_initiated:
-					print("spitting fire")
+					get_node("animation").animation = "attack"
 					first_fire_ball = FireBall.instance()
 					var another_fire_ball = FireBall.instance()
 					first_fire_ball.landed = false

@@ -1,8 +1,8 @@
 extends Area2D
 
 
-const INITIAL_SPEED = 4
-const FRICTION = 0.1
+const INITIAL_SPEED = 3
+const FRICTION = 0.05
 const GRAVITY = 1
 const TERMINAL_v = 8
 
@@ -16,15 +16,14 @@ var player
 
 var platform_hit = false
 var flying_off = false
-const HORIZONTAL_SPEED = 0.05 # only use this when it hits a platform
-const DELAY_TIME = 0.2
+const DELAY_TIME = 0.1
 var ground_hit = false
 var player_hit = false
 const EXIST_TIME = 7 # do not allow the boomerang to exist in the scene for too long
 
 var hit_free = false
 var hit_free_ground = false
-const HIT_FREE_TIME = 0.1 # in case the boomerang hits two tilemaps at the same time
+const HIT_FREE_TIME = 0.05 # in case the boomerang hits two tilemaps at the same time
 
 const DAMAGE = 4
 

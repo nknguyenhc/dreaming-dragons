@@ -9,8 +9,8 @@ var animated_sprite
 const GRAVITY = 50
 var velocity = Vector2.ZERO
 var temp_velocity
-const JUMP_STRENGTH = 1200
-const HORIZONTAL_SPEED = 450
+const JUMP_STRENGTH = 1100
+const HORIZONTAL_SPEED = 400
 const VERTICAL_SPEED = 300
 var on_wall = false
 var can_climb = true
@@ -30,7 +30,6 @@ const KICK_WAIT_TIME = 0.5
 const Boomerang = preload("res://Scenes/pointer.tscn")
 var pointer
 var boomerang
-var freeze = false # freeze the entire scene when activating boomerang
 var boomerang_enabled = true
 var boomerang_returned = false
 var boomerang_thrown = false
@@ -42,16 +41,20 @@ const BOOMERANG_WAIT_TIME = 0.5
 const MAX_HEALTH = 100
 var health = MAX_HEALTH
 var invincible = false
-const INVINCIBILITY_WAIT_TIME = 1
+const INVINCIBILITY_WAIT_TIME = 1.8
+const RECOIL_SPEED = 400
+const RECOIL_TIME = 0.2
+var recoiling = false
 
 # state of the player
-enum PLAYER_STATE {IDLE, WALKING, SWORD, KICKING, CLIMBING, WALL_STATIONARY}
+enum PLAYER_STATE {IDLE, WALKING, SWORD, KICKING, CLIMBING, WALL_STATIONARY, TAKE_DAMAGE}
 export (PLAYER_STATE) var current_state = PLAYER_STATE.IDLE
 var idle_initiated = false
 var walking_initiated = false
 var kicking_initiated = false
 var climbing_initiated = false
 var wall_stationary_initiated = false
+var take_damage_initiated = false
 
 var is_boss_fight_started = false
 var Health_bars = preload("res://Scenes/Player Health.tscn")
@@ -105,7 +108,7 @@ func player_boomerang():
 		pointer.key = "ui_skill3"
 		get_parent().add_child(pointer)
 		pointer.position = position
-		freeze = true
+		set_physics_process(false)
 		boomerang_returned = false
 		boomerang_enabled = false
 	elif boomerang_returned and on_boomerang:
@@ -117,9 +120,15 @@ func player_boomerang():
 
 func take_damage(damage):
 	if not invincible:
-		# play animation, to be added when the animation set is added
+		if current_state == PLAYER_STATE.KICKING:
+			get_node("Kick").queue_free()
+			player_freeze = false
+		if current_state == PLAYER_STATE.SWORD:
+			get_node("Sword").queue_free()
+			get_node("SwordTimer").start(SWORD_WAIT_TIME)
+			player_freeze = false
+		change_state(PLAYER_STATE.TAKE_DAMAGE)
 		health -= damage
-		print(health)
 		invincible = true
 		get_node("InvincibilityTimer").start(INVINCIBILITY_WAIT_TIME)
 
@@ -165,58 +174,78 @@ func _physics_process(delta):
 				wall_stationary_initiated = true
 				animated_sprite.play("climbing")
 				animated_sprite.playing = false
-	
-	if not freeze:
-		if not player_freeze:
-			if not on_wall: # move left and right if the player is not on wall
-				if velocity.x == 0 or velocity.y != 0:
-					change_state(PLAYER_STATE.IDLE)
-				else:
-					change_state(PLAYER_STATE.WALKING)
-				velocity.x = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")) * HORIZONTAL_SPEED
-				if Input.is_action_just_pressed("ui_jump") and is_on_floor(): # when the player presses jump
-					velocity.y -= JUMP_STRENGTH - GRAVITY
-				else:
-					velocity.y += GRAVITY
-				# animation
-			elif can_climb:
-				velocity.x = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")) * HORIZONTAL_SPEED
-				velocity.y = (Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")) * VERTICAL_SPEED
-				if velocity.y != 0:
-					change_state(PLAYER_STATE.CLIMBING)
-				else:
-					change_state(PLAYER_STATE.WALL_STATIONARY)
-		else:
-			velocity.y += GRAVITY
-			if is_on_floor() or !current_state == PLAYER_STATE.KICKING:
-				velocity.x = 0
-		temp_velocity = move_and_slide(velocity, Vector2.UP)
-		if temp_velocity.x != velocity.x:
-			on_wall = true
-		else:
-			on_wall = false
-		if velocity.x > 0:
-			if animated_sprite.animation == "climbing":
-				animated_sprite.flip_h = true
-			else:
-				animated_sprite.flip_h = false
-		elif velocity.x < 0:
-			if animated_sprite.animation == 'climbing':
-				animated_sprite.flip_h = false
-			else:
-				animated_sprite.flip_h = true
-		velocity = temp_velocity
 		
+		PLAYER_STATE.TAKE_DAMAGE:
+			if not take_damage_initiated:
+				take_damage_initiated = true
+				animated_sprite.play("take_damage")
+				velocity = Vector2.ZERO
+				# recoil fall down
+				get_node("RecoilTimer").start(RECOIL_TIME)
+				recoiling = true
+			else:
+				# recoil
+				if recoiling:
+					if animated_sprite.flip_h:
+						velocity.x = RECOIL_SPEED
+					else:
+						velocity.x = -RECOIL_SPEED
+					velocity.y += GRAVITY
+				else:
+					velocity.x = 0
+					velocity.y += GRAVITY
+	
+	if not player_freeze and current_state != PLAYER_STATE.TAKE_DAMAGE:
+		if not on_wall: # move left and right if the player is not on wall
+			if velocity.x == 0 or velocity.y != 0:
+				change_state(PLAYER_STATE.IDLE)
+			else:
+				change_state(PLAYER_STATE.WALKING)
+			velocity.x = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")) * HORIZONTAL_SPEED
+			if Input.is_action_just_pressed("ui_jump") and is_on_floor(): # when the player presses jump
+				velocity.y -= JUMP_STRENGTH - GRAVITY
+			else:
+				velocity.y += GRAVITY
+			# animation
+		elif can_climb:
+			velocity.x = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")) * HORIZONTAL_SPEED
+			velocity.y = (Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")) * VERTICAL_SPEED
+			if velocity.y != 0:
+				change_state(PLAYER_STATE.CLIMBING)
+			else:
+				change_state(PLAYER_STATE.WALL_STATIONARY)
+	elif current_state != PLAYER_STATE.TAKE_DAMAGE: # player being frozen due to sword
+		velocity.y += GRAVITY
+		if is_on_floor() or !current_state == PLAYER_STATE.KICKING:
+			velocity.x = 0
+	temp_velocity = move_and_slide(velocity, Vector2.UP)
+	if temp_velocity.x != velocity.x:
+		on_wall = true
+	else:
+		on_wall = false
+	if velocity.x > 0 and current_state != PLAYER_STATE.TAKE_DAMAGE:
+		if animated_sprite.animation == "climbing":
+			animated_sprite.flip_h = true
+		else:
+			animated_sprite.flip_h = false
+	elif velocity.x < 0 and current_state != PLAYER_STATE.TAKE_DAMAGE:
+		if animated_sprite.animation == 'climbing':
+			animated_sprite.flip_h = false
+		else:
+			animated_sprite.flip_h = true
+	velocity = temp_velocity
+	
+	if current_state != PLAYER_STATE.TAKE_DAMAGE:
 		# activate skills
-		if Input.is_action_just_pressed("ui_skill1"):
+		if Input.is_action_just_pressed("ui_skill1") and current_state != PLAYER_STATE.KICKING:
 			player_sword(!animated_sprite.flip_h)
-		if Input.is_action_just_pressed("ui_skill2"):
+		if Input.is_action_just_pressed("ui_skill2") and current_state != PLAYER_STATE.SWORD:
 			player_kick(!animated_sprite.flip_h)
 		if Input.is_action_just_pressed("ui_skill3"):
 			player_boomerang()
-		
-		# health bar
-		health_bar.get_node("Player Health Bar").value = health * 100 / MAX_HEALTH 
+	
+	# health bar
+	health_bar.get_node("Player Health Bar").value = health * 100 / MAX_HEALTH 
 
 
 func change_state(state):
@@ -226,6 +255,7 @@ func change_state(state):
 		kicking_initiated = false
 		climbing_initiated = false
 		wall_stationary_initiated = false
+		take_damage_initiated = false
 		if current_state == PLAYER_STATE.WALL_STATIONARY:
 			animated_sprite.playing = true
 		current_state = state
@@ -255,7 +285,6 @@ func _on_KickTimer_timeout():
 
 func _on_InvincibilityTimer_timeout():
 	invincible = false
-	# play a different animation, to be added when animation is ready
 
 
 func _on_AnimatedSprite_animation_finished():
@@ -263,6 +292,8 @@ func _on_AnimatedSprite_animation_finished():
 		get_node("Kick").queue_free()
 		player_freeze = false # allow the player to move when the skill movement is done
 		change_state(temp_state)
+	if current_state == PLAYER_STATE.TAKE_DAMAGE:
+		change_state(PLAYER_STATE.IDLE)
 
 
 func _on_SwordTimer_timeout():
@@ -276,3 +307,6 @@ func _on_VanishTimer_timeout():
 func _on_KickAnimationTimer_timeout():
 	kick_animation_playing = false
 	
+
+func _on_RecoilTimer_timeout():
+	recoiling = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Scripts/player.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Art/MZmapsprites/actor1-1[VS8].png" type="Texture" id=2]
@@ -48,6 +48,41 @@ region = Rect2( 700, 300, 100, 100 )
 flags = 4
 atlas = ExtResource( 3 )
 region = Rect2( 800, 300, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=33]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 100, 200, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=34]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 200, 200, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=35]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 0, 400, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=36]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 100, 200, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=37]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 100, 200, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=38]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 100, 200, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=39]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 100, 200, 100, 100 )
 
 [sub_resource type="AtlasTexture" id=28]
 flags = 4
@@ -106,6 +141,11 @@ animations = [ {
 "name": "kicking",
 "speed": 15.0
 }, {
+"frames": [ SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), null, SubResource( 36 ), null, SubResource( 37 ), null, SubResource( 38 ), null, SubResource( 39 ) ],
+"loop": true,
+"name": "take_damage",
+"speed": 8.0
+}, {
 "frames": [ SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ) ],
 "loop": false,
 "name": "vanishing",
@@ -132,7 +172,8 @@ shape = SubResource( 1 )
 position = Vector2( 0, -4 )
 scale = Vector2( 0.28, 0.28 )
 frames = SubResource( 2 )
-animation = "idle"
+animation = "take_damage"
+frame = 4
 playing = true
 
 [node name="Hurtbox" type="Area2D" parent="."]
@@ -160,6 +201,9 @@ wait_time = 3.0
 wait_time = 0.33
 one_shot = true
 
+[node name="RecoilTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="area_exited" from="Hurtbox" to="." method="_on_Hurtbox_area_exited"]
@@ -169,3 +213,4 @@ one_shot = true
 [connection signal="timeout" from="SwordTimer" to="." method="_on_SwordTimer_timeout"]
 [connection signal="timeout" from="VanishTimer" to="." method="_on_VanishTimer_timeout"]
 [connection signal="timeout" from="KickAnimationTimer" to="." method="_on_KickAnimationTimer_timeout"]
+[connection signal="timeout" from="RecoilTimer" to="." method="_on_RecoilTimer_timeout"]
