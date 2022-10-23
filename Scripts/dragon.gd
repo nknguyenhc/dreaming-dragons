@@ -33,7 +33,7 @@ var dash_dest = idle_pos_left
 const FireBall = preload("res://Scenes/fire_by_dragon.tscn")
 var first_fire_ball
 var fire_initialised = false
-const MAX_N_FIRE_BALLS = 39
+const MAX_N_FIRE_BALLS = 69
 var current_n_fire_balls = 0
 
 enum BOSS_STATE {IDLE, FLY, SPIT, DASH, KICK, FLYBACK}
@@ -146,6 +146,8 @@ func _physics_process(delta):
 					get_parent().add_child(first_fire_ball)
 					state_initiated = true
 				if current_n_fire_balls >= MAX_N_FIRE_BALLS:
+					current_n_fire_balls = 0
+					first_fire_ball.queue_free()
 					change_state(3)
 			
 			BOSS_STATE.DASH: # done
