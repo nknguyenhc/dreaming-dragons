@@ -16,8 +16,8 @@ var on_wall = false
 var can_climb = true
 
 # collectibles
-var boomerang_collected = false
-var sword_collected = false
+var boomerang_collected = true
+var sword_collected = true
 
 # skills
 var player_freeze = false # do not allow the player to move while activating some skills
@@ -112,7 +112,7 @@ func player_boomerang():
 		pointer.key = "ui_skill3"
 		get_parent().add_child(pointer)
 		pointer.position = position
-		set_physics_process(false)
+		get_parent().get_tree().paused = true
 		boomerang_returned = false
 		boomerang_enabled = false
 	elif boomerang_returned and on_boomerang:
