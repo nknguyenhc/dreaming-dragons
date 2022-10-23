@@ -9,9 +9,9 @@ anchor_bottom = 1.0
 
 [node name="dragonhealthbar" type="TextureProgress" parent="."]
 margin_left = -330.0
-margin_top = -380.0
+margin_top = -435.0
 margin_right = 570.0
-margin_bottom = -284.0
+margin_bottom = -339.0
 rect_scale = Vector2( 0.875047, 0.163772 )
 value = 50.0
 texture_under = ExtResource( 2 )

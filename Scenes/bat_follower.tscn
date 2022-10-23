@@ -77,7 +77,7 @@ script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 12 )
-frame = 5
+frame = 7
 speed_scale = 3.0
 playing = true
 
@@ -97,4 +97,5 @@ shape = SubResource( 13 )
 wait_time = 2.037
 
 [connection signal="body_entered" from="Hurtbox" to="." method="_on_Hurtbox_body_entered"]
+[connection signal="body_exited" from="Hurtbox" to="." method="_on_Hurtbox_body_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

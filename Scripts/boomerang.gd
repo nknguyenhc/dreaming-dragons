@@ -1,8 +1,8 @@
 extends Area2D
 
 
-const INITIAL_SPEED = 2
-const FRICTION = 0.02
+const INITIAL_SPEED = 4
+const FRICTION = 0.1
 const GRAVITY = 1
 const TERMINAL_v = 8
 
@@ -78,7 +78,7 @@ func _on_HitFreeTimer_timeout():
 
 
 func hitting_platform(body, top): # top is a boolean value
-	if body.name == "TileMap" or body.name == "TileMap2": # to be changed later, take the class_name of the body
+	if body.get_collision_layer() == 4: # to be changed later, take the class_name of the body
 		if not hit_free and not hit_free_ground:
 			if top:
 				velocity.y = -velocity.y
@@ -91,7 +91,7 @@ func hitting_platform(body, top): # top is a boolean value
 
 
 func hitting_ground(body):
-	if body.name == "TileMap" or body.name == "TileMap2": # to be changed later, take the class_name of the body
+	if body.name == "TileMap" or body.name == "TileMap2" or body.name == "block": # to be changed later, take the class_name of the body
 		if not hit_free_ground:
 			ground_hit = true
 			velocity = Vector2.ZERO
