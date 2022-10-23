@@ -22,6 +22,7 @@ func _ready():
 	dragon = get_parent().get_parent().get_node("dragon")
 	player = get_parent().get_parent().get_node("Player")
 	background = get_parent().get_node("Background")
+	position = player.position
 	pass # Replace with function body.
 
 
@@ -29,14 +30,14 @@ func _ready():
 func _process(delta):
 	t += 1
 	if dragon.is_boss_fight_started == false:
-		if player.position.x - position.x > 600:
-			global_position.x = player.global_position.x - 600
-		if player.position.x - position.x < -600:
-			global_position.x = player.global_position.x + 600
-		if player.position.y - position.y > 300:
-			global_position.y = player.global_position.y - 300
-		if player.position.y - position.y < -300:
-			global_position.y = player.global_position.y + 300	
+		if player.position.x - position.x > 300:
+			global_position.x = player.global_position.x - 300
+		if player.position.x - position.x < -300:
+			global_position.x = player.global_position.x + 300
+		if player.position.y - position.y > 150:
+			global_position.y = player.global_position.y - 150
+		if player.position.y - position.y < -150:
+			global_position.y = player.global_position.y + 150	
 		background.position = position * 0.96
 	
 	elif camera_moving_to_boss_fighting == true:

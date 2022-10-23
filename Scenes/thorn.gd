@@ -1,10 +1,11 @@
 extends Area2D
 
 var is_damaging = false
+var damage = 10
 
 func _physics_process(delta):
 	if is_damaging:
-		get_parent().get_parent().get_node("Player").take_damage(30)
+		get_parent().get_parent().get_node("Player").take_damage(damage)
 
 
 func _on_thorn_body_entered(body):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scenes/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Map1.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Scenes/blocking.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/slime.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/bat_follower.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/greenslime.tscn" type="PackedScene" id=9]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 4 )
@@ -16,7 +17,7 @@ script = ExtResource( 4 )
 light_mask = 0
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 147, 309 )
+position = Vector2( -3905, -691 )
 scale = Vector2( 7, 7 )
 
 [node name="dragon" parent="." instance=ExtResource( 3 )]
@@ -24,25 +25,25 @@ position = Vector2( 4718, -827 )
 scale = Vector2( 2.17457, 2.17457 )
 
 [node name="slime" parent="." instance=ExtResource( 7 )]
-position = Vector2( 1747, 352 )
+position = Vector2( 1783, 149 )
 
 [node name="slime2" parent="." instance=ExtResource( 7 )]
-position = Vector2( 1900, 264 )
+position = Vector2( 1001, 253 )
 
 [node name="slime3" parent="." instance=ExtResource( 7 )]
-position = Vector2( 1601, 234 )
+position = Vector2( 414, 137 )
 
 [node name="slime4" parent="." instance=ExtResource( 7 )]
-position = Vector2( 2199, -287 )
+position = Vector2( 2201, -275 )
 
 [node name="slime5" parent="." instance=ExtResource( 7 )]
 position = Vector2( 1647, -241 )
 
 [node name="slime6" parent="." instance=ExtResource( 7 )]
-position = Vector2( 2398, 142 )
+position = Vector2( 2413, -43 )
 
 [node name="slime7" parent="." instance=ExtResource( 7 )]
-position = Vector2( 2103, 8 )
+position = Vector2( 2106, -27 )
 
 [node name="bat" parent="." instance=ExtResource( 5 )]
 position = Vector2( 3260, 226 )
@@ -58,3 +59,30 @@ position = Vector2( 4891, -78 )
 
 [node name="blocking" parent="." instance=ExtResource( 6 )]
 position = Vector2( 2788, -237 )
+
+[node name="greenslime" parent="." instance=ExtResource( 9 )]
+position = Vector2( -3175, -1129 )
+
+[node name="greenslime2" parent="." instance=ExtResource( 9 )]
+position = Vector2( -1881, -664 )
+
+[node name="greenslime3" parent="." instance=ExtResource( 9 )]
+position = Vector2( -1325, -347 )
+
+[node name="greenslime4" parent="." instance=ExtResource( 9 )]
+position = Vector2( -572, 3 )
+
+[node name="greenslime5" parent="." instance=ExtResource( 9 )]
+position = Vector2( -800, 185 )
+
+[node name="slime9" parent="." instance=ExtResource( 7 )]
+position = Vector2( -1024, -1515 )
+
+[node name="slime10" parent="." instance=ExtResource( 7 )]
+position = Vector2( -650, -1433 )
+
+[node name="slime11" parent="." instance=ExtResource( 7 )]
+position = Vector2( -476, -1433 )
+
+[node name="slime12" parent="." instance=ExtResource( 7 )]
+position = Vector2( -94, -1520 )

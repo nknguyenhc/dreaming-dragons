@@ -5,7 +5,6 @@ extends KinematicBody2D
 var gravity = 40
 var velocity = Vector2(0, -700)
 var health = 20
-var decrement = 1
 
 
 # Called when the node enters the scene tree for the first time.
@@ -19,7 +18,6 @@ func _physics_process(delta):
 	if is_on_floor():
 		velocity = Vector2(0, -700)
 	if health <= 0:
-		get_parent().slime_count -= decrement
 		queue_free()
 
 
