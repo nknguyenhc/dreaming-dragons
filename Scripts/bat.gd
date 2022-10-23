@@ -6,6 +6,7 @@ extends KinematicBody2D
 var t = 0
 var rng = RandomNumberGenerator.new()
 var add_on = 0
+var health = 15
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -16,6 +17,8 @@ func _physics_process(delta):
 	t += delta
 	position.x += 5 * sin(t + add_on)
 	position.y += 1 * cos(t + add_on)
+	if health <= 0:
+		queue_free()
 
 func _on_Area2D_body_entered(body):
 	if body.name == "Player":
