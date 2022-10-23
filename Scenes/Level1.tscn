@@ -17,7 +17,7 @@ script = ExtResource( 4 )
 light_mask = 0
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 147, 309 )
+position = Vector2( 2999, -572 )
 scale = Vector2( 7, 7 )
 
 [node name="dragon" parent="." instance=ExtResource( 3 )]

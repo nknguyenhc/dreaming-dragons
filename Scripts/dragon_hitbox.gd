@@ -8,7 +8,7 @@ var damage
 
 func _ready():
 	dragon = get_parent()
-	player = dragon.player
+	player = dragon.get_parent().get_node("Player")
 
 
 func _physics_process(delta):
