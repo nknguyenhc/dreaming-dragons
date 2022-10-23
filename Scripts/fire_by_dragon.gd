@@ -2,9 +2,12 @@ extends Area2D
 
 
 const SCALE = 4
+const x_offset = 6
+const y_offset = -12
 
 var velocity
-const SPEED = 2
+const SPEED = 10
+const DAMAGE = 8
 
 # during flight
 var direction # only used if the fire ball is travelling in mid air
@@ -15,11 +18,13 @@ const marker = -950
 var next_fire_ball
 var next_fire_ball2
 var direction_of_spread # both or left or right
-const SPACE_IN_BETWEEN = 10
-const WAIT_TIME = 1
+const SPACE_IN_BETWEEN = 5
+const WAIT_TIME = 0.05
 var fire_spread = false # set to true when two fire balls next to it have appeared
-var rotate_direction = false # set to true if the side hits a wall
-var test_list
+var first_rotate_direction # set to true if this fireball is the first one to be rotated
+var left_position
+var right_position
+var tested = false # test for rotation
 
 var player
 var dragon
@@ -35,16 +40,44 @@ var dragon
 
 
 func _ready():
-	if direction_of_spread == "both":
+	if direction_of_spread == 'both':
 		scale.x = SCALE
 		scale.y = SCALE
+	left_position = get_node("Left").position.x
+	right_position = get_node("Right").position.x
 	if not landed:
 		direction = player.position - position
 		velocity = Vector2.ZERO
 		velocity.x = direction.x / sqrt(pow(direction.x, 2) + pow(direction.y, 2)) * SPEED
 		velocity.y = direction.y / sqrt(pow(direction.x, 2) + pow(direction.y, 2)) * SPEED
-	if rotate_direction:
-		print("rotate direction true!")
+	if first_rotate_direction:
+		if direction_of_spread == "left":
+			rotation_degrees = 90
+			position.x += x_offset
+		elif direction_of_spread == 'right':
+			rotation_degrees = -90
+			position.x -= x_offset
+		position.y += y_offset
+	dragon.current_n_fire_balls += 1
+	next_fire_ball = dragon.FireBall.instance()
+	next_fire_ball.player = player
+	next_fire_ball.dragon = dragon
+	next_fire_ball.landed = true
+	if direction_of_spread == 'both':
+		next_fire_ball.direction_of_spread = "right"
+		next_fire_ball.position.x = SPACE_IN_BETWEEN
+		next_fire_ball2 = dragon.FireBall.instance()
+		next_fire_ball2.player = player
+		next_fire_ball2.dragon = dragon
+		next_fire_ball2.landed = true
+		next_fire_ball2.direction_of_spread = "left"
+		next_fire_ball2.position.x = -SPACE_IN_BETWEEN
+	else:
+		next_fire_ball.direction_of_spread = direction_of_spread
+		if direction_of_spread == "left":
+			next_fire_ball.position.x = -SPACE_IN_BETWEEN
+		else:
+			next_fire_ball.position.x = SPACE_IN_BETWEEN
 
 
 func _physics_process(delta):
@@ -54,42 +87,14 @@ func _physics_process(delta):
 		position += velocity
 	else:
 		if not fire_spread:
-			next_fire_ball = dragon.FireBall.instance()
-			next_fire_ball.player = player
-			next_fire_ball.dragon = dragon
-			next_fire_ball.landed = true
-			if direction_of_spread == 'both':
-				next_fire_ball.direction_of_spread = "right"
-				next_fire_ball.position.x = SPACE_IN_BETWEEN
-				next_fire_ball2 = dragon.FireBall.instance()
-				next_fire_ball2.player = player
-				next_fire_ball2.dragon = dragon
-				next_fire_ball2.landed = true
-				next_fire_ball2.direction_of_spread = "left"
-				next_fire_ball2.position.x = -SPACE_IN_BETWEEN
-			else:
-				next_fire_ball.direction_of_spread = direction_of_spread
-				if direction_of_spread == "left":
-					next_fire_ball.position.x = -SPACE_IN_BETWEEN
-					test_list = get_node("Left").get_overlapping_bodies()
-					if len(test_list) > 0 and (test_list[0].name == "TileMap" or test_list[0].name == "TileMap2"):
-						rotate_direction = true
-				else:
-					next_fire_ball.position.x = SPACE_IN_BETWEEN
 			fire_spread = true
 			get_node("WaitTimer").start(WAIT_TIME)
-
-
-func _on_Left_body_entered(body):
-	if body.name == "TileMap" or body.name == 'TileMap2':
-		if direction_of_spread == 'left' or direction_of_spread == 'both':
-			rotate_direction = true
-
-
-func _on_Right_body_entered(body):
-	if body.name == "TileMap" or body.name == 'TileMap2':
-		if direction_of_spread == 'right' or direction_of_spread == 'both':
-			rotate_direction = true
+		
+		# move the left and right area2d to the centre
+		if not tested:
+			get_node("Left").position.x = right_position
+			get_node("Right").position.x = left_position
+			tested = true
 
 
 func _on_WaitTimer_timeout():
@@ -101,4 +106,18 @@ func _on_WaitTimer_timeout():
 func _on_Bottom_body_entered(body):
 	if body.name == "TileMap" or body.name == "TileMap2":
 		landed = true
-		print("landed")
+
+
+func _on_Left_body_entered(body):
+	if (body.name == 'TileMap' or body.name == 'TileMap2' or body.name == 'block') and landed:
+		next_fire_ball.first_rotate_direction = true
+
+
+func _on_Right_body_entered(body):
+	if (body.name == 'TileMap' or body.name == 'TileMap2' or body.name == 'block') and landed:
+		next_fire_ball.first_rotate_direction = true
+
+
+func _on_fire_by_dragon_body_entered(body):
+	if body.name == "Player":
+		body.take_damage(DAMAGE)

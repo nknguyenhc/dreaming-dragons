@@ -18,7 +18,6 @@ var velocity = Vector2.ZERO
 # skills
 var fire
 var health = 100
-var damage = 10
 var state_initiated = false
 var to_stomp = false
 var stomp_initiated = false
@@ -33,7 +32,7 @@ var dash_dest = idle_pos_left
 const FireBall = preload("res://Scenes/fire_by_dragon.tscn")
 var first_fire_ball
 var fire_initialised = false
-const MAX_N_FIRE_BALLS = 39
+const MAX_N_FIRE_BALLS = 69
 var current_n_fire_balls = 0
 
 enum BOSS_STATE {IDLE, FLY, SPIT, DASH, KICK, FLYBACK}
@@ -146,6 +145,8 @@ func _physics_process(delta):
 					get_parent().add_child(first_fire_ball)
 					state_initiated = true
 				if current_n_fire_balls >= MAX_N_FIRE_BALLS:
+					current_n_fire_balls = 0
+					first_fire_ball.queue_free()
 					change_state(3)
 			
 			BOSS_STATE.DASH: # done
@@ -172,14 +173,12 @@ func _physics_process(delta):
 			BOSS_STATE.KICK: # done
 				if not state_initiated:
 					state_initiated = true
-					damage = 20
 					get_node("animation").animation = "kick"
 					position.x += 50 * direction
 					get_node("delay_timer").wait_time = 0.6
 					get_node("delay_timer").start()
 				
 				if delay_timeout:
-					damage = 10
 					position.x -= 50 * direction
 					delay_timeout = false
 					change_state(0)

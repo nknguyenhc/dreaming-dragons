@@ -67,6 +67,7 @@ shape = SubResource( 7 )
 [node name="WaitTimer" type="Timer" parent="."]
 one_shot = true
 
+[connection signal="body_entered" from="." to="." method="_on_fire_by_dragon_body_entered"]
 [connection signal="body_entered" from="Bottom" to="." method="_on_Bottom_body_entered"]
 [connection signal="body_entered" from="Left" to="." method="_on_Left_body_entered"]
 [connection signal="body_entered" from="Right" to="." method="_on_Right_body_entered"]
