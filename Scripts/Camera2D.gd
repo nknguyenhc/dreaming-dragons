@@ -54,8 +54,8 @@ func _process(delta):
 #			if flag == true:
 #				zoomin()
 			camera_moving_to_boss_fighting = false
-			get_node("Player Health").rect_position.y -= 21
-			get_node("Player Health").rect_position.x -= 100
+			get_node("Player Health").rect_position.y -= 87
+			get_node("Player Health").rect_position.x -= 250
 			get_node("Player Health").visible = true
 			
 
