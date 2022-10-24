@@ -6,7 +6,7 @@ var player
 
 const idle_pos_left = 2780
 const idle_pos_right = 4730
-const max_height = -1650
+const max_height = -1680
 const ceiling_height = -1700
 const HB = preload("res://Scenes/Dragon Health.tscn")
 var hb = HB.instance()
@@ -19,6 +19,8 @@ var velocity = Vector2.ZERO
 var FLY_SPEED = 400
 const STOMP_MARKER = 1000
 const STOMP_SPEED = 1500
+var IDLE_TIME = 2.5
+var STOMP_DELAY_TIME = 0.15
 var fire
 var health = 100
 const LEVEL2_MARK = 75
@@ -80,10 +82,15 @@ func _physics_process(delta):
 						direction = -1
 						check_and_change_direction()
 					get_node("animation").animation = "idle"
+					get_node("idle_timer").wait_time = IDLE_TIME
 					get_node("idle_timer").start()
 				
 			BOSS_STATE.FLY: # done
 				if not state_initiated:
+					if direction == 1:
+						fly_back_dest = idle_pos_right
+					else:
+						fly_back_dest = idle_pos_left
 					state_initiated = true
 					is_back = false
 					get_node("animation").animation = "fly"
@@ -97,12 +104,12 @@ func _physics_process(delta):
 					if rng.randi_range(1, SPIT_FIRE_WHILE_FLYING_CHANCES) == 1:
 						change_state(7)
 				
-				if !stomp_initiated && abs(player.position.x - position.x) < 50 \
-									 && player.position.y > position.y:
+				if (!stomp_initiated and abs(player.position.x - position.x) < 50 \
+						and player.position.y > position.y) or abs(position.x - fly_back_dest) < 50:
 					to_stomp = true
 				
 				if !stomp_initiated && to_stomp:
-					get_node("delay_timer").wait_time = 0.2
+					get_node("delay_timer").wait_time = STOMP_DELAY_TIME
 					get_node("delay_timer").start()
 					to_stomp = false
 					stomp_initiated = true
@@ -204,6 +211,9 @@ func _physics_process(delta):
 	if health < LEVEL2_MARK:
 		FLY_SPEED = 600
 		spit_fire_from_drag = true
+		IDLE_TIME = 1
+		STOMP_DELAY_TIME = 0.05
+		get_node("animation").modulate = Color(1, 0.3, 0.3)
 
 
 func fire_from_pos(x, y):
