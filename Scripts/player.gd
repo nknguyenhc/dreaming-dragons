@@ -138,9 +138,9 @@ func take_damage(damage):
 
 func die():
 	set_physics_process(false)
+	get_node("AnimatedSprite").play("vanishing")
 	get_node("AnimatedSprite").scale = Vector2(0.8,0.8)
 	get_node("VanishTimer").start()
-	get_node("AnimatedSprite").animation = "vanishing"
 	get_node("AnimatedSprite").speed_scale = 0.4
 	
 
@@ -182,7 +182,8 @@ func _physics_process(delta):
 		PLAYER_STATE.TAKE_DAMAGE:
 			if not take_damage_initiated:
 				take_damage_initiated = true
-				animated_sprite.play("take_damage")
+				if health > 0:
+					animated_sprite.play("take_damage")
 				velocity = Vector2.ZERO
 				# recoil fall down
 				get_node("RecoilTimer").start(RECOIL_TIME)
