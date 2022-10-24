@@ -7,10 +7,10 @@ var map
 func _ready():
 	map = get_node("Map1")
 	
-	get_node("slime9").health = 1	
-	get_node("slime10").health = 1
-	get_node("slime11").health = 1
-	get_node("slime12").health = 1
+	get_node("slime9").health = 10	
+	get_node("slime10").health = 10
+	get_node("slime11").health = 10
+	get_node("slime12").health = 10
 	get_node("slime9").decrement = 0	
 	get_node("slime10").decrement = 0	
 	get_node("slime11").decrement = 0

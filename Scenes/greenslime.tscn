@@ -49,7 +49,7 @@ radius = 95.9825
 height = 58.0358
 
 [node name="slime" type="KinematicBody2D"]
-scale = Vector2( 0.279999, 0.319999 )
+scale = Vector2( 0.164635, 0.188155 )
 collision_layer = 2
 collision_mask = 4
 script = ExtResource( 1 )
@@ -61,7 +61,7 @@ shape = SubResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-frame = 23
+frame = 24
 speed_scale = 2.0
 playing = true
 
