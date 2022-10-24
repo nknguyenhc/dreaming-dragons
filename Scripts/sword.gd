@@ -32,5 +32,6 @@ func _physics_process(delta):
 
 
 func _on_Area2D_body_entered(body):
-	if body.get_collision_layer() == 2:
+	print(body.name)
+	if body.get_collision_layer() == 2 or body.get_collision_layer() == 16:
 		body.health -= DAMAGE
