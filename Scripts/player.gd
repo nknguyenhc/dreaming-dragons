@@ -14,10 +14,15 @@ const HORIZONTAL_SPEED = 400
 const VERTICAL_SPEED = 300
 var on_wall = false
 var can_climb = true
+const TEMP_SPEED_LIMIT = 20 # to detect whether the player is on wall
 
 # collectibles
-var boomerang_collected = true
-var sword_collected = true
+var boomerang_collected = false
+var sword_collected = false
+var SwordTutorial = preload("res://Scenes/SwordTutorial.tscn")
+var sword_tutorial
+var BoomerangTutorial = preload("res://Scenes/BoomerangTutorial.tscn")
+var boomerang_tutorial
 
 # skills
 var player_freeze = false # do not allow the player to move while activating some skills
@@ -145,10 +150,10 @@ func die():
 	
 
 func _physics_process(delta):		
-		
+	
 	if health <= 0:
 		die()
-	# movement
+	
 	match current_state:
 		PLAYER_STATE.IDLE:
 			if not idle_initiated:
@@ -224,7 +229,7 @@ func _physics_process(delta):
 		if is_on_floor() or !current_state == PLAYER_STATE.KICKING:
 			velocity.x = 0
 	temp_velocity = move_and_slide(velocity, Vector2.UP)
-	if temp_velocity.x != velocity.x:
+	if abs(temp_velocity.x) < TEMP_SPEED_LIMIT and velocity.x != 0:
 		on_wall = true
 	else:
 		on_wall = false
@@ -286,10 +291,16 @@ func _on_Hurtbox_area_entered(area):
 	if area.name == "BoomerangCollectible":
 		boomerang_collected = true
 		area.queue_free()
+		boomerang_tutorial = BoomerangTutorial.instance()
+		get_parent().camera.add_child(boomerang_tutorial)
+		get_parent().get_tree().paused = true
 	
 	if area.name == "SwordCollectible":
 		sword_collected = true
 		area.queue_free()
+		sword_tutorial = SwordTutorial.instance()
+		get_parent().camera.add_child(sword_tutorial)
+		get_parent().get_tree().paused = true
 
 
 func _on_KickTimer_timeout():

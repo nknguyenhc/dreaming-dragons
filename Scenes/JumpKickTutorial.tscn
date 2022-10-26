@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/Intro_tutorial.gd" type="Script" id=1]
+
+[node name="JumpKickTutorial" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="."]
+margin_right = 270.0
+margin_bottom = 41.0
+visible_characters = 0
+percent_visible = 0.0
+text = "To jump, press SPACE ..."
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_right = 325.0
+margin_bottom = 31.0
+visible_characters = 0
+percent_visible = 0.0
+text = "You can kick to inflict damage on the target ..."
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+margin_right = 232.0
+margin_bottom = 30.0
+visible_characters = 0
+percent_visible = 0.0
+text = "Press W to attack"
