@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/fire_spread.mp3-9749d13a05ae072da0ff0ebf0edf0568.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music/SFX/fire_spread.mp3"
+dest_files=[ "res://.import/fire_spread.mp3-9749d13a05ae072da0ff0ebf0edf0568.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

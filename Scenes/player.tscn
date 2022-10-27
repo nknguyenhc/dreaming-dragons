@@ -1,10 +1,22 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://Scripts/player.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Art/MZmapsprites/actor1-1[VS8].png" type="Texture" id=2]
 [ext_resource path="res://Assets/Art/MZmapsprites/punch&kick.png" type="Texture" id=3]
 [ext_resource path="res://Assets/Art/MZmapsprites/climb.png" type="Texture" id=4]
 [ext_resource path="res://Assets/Art/burning_end_2.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Music/SFX/boomerang_hit.mp3" type="AudioStream" id=6]
+[ext_resource path="res://Assets/Music/SFX/boomerang_catch.mp3" type="AudioStream" id=7]
+[ext_resource path="res://Assets/Music/SFX/boomerang_throw.mp3" type="AudioStream" id=8]
+[ext_resource path="res://Assets/Music/SFX/climb.mp3" type="AudioStream" id=9]
+[ext_resource path="res://Assets/Music/SFX/walk_on_grass.mp3" type="AudioStream" id=10]
+[ext_resource path="res://Assets/Music/SFX/collectible.mp3" type="AudioStream" id=11]
+[ext_resource path="res://Assets/Music/SFX/player_hurt.mp3" type="AudioStream" id=12]
+[ext_resource path="res://Assets/Music/SFX/sword_hit.wav" type="AudioStream" id=13]
+[ext_resource path="res://Assets/Music/SFX/sword_swing.mp3" type="AudioStream" id=14]
+[ext_resource path="res://Assets/Music/SFX/leaf_hurt.mp3" type="AudioStream" id=15]
+[ext_resource path="res://Assets/Music/SFX/jump.mp3" type="AudioStream" id=16]
+[ext_resource path="res://Assets/Music/SFX/player_kick.mp3" type="AudioStream" id=17]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 5, 10 )
@@ -203,6 +215,45 @@ one_shot = true
 
 [node name="RecoilTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="boomerang_throw" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 8 )
+
+[node name="boomerang_catch" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 7 )
+
+[node name="boomerang_hit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
+volume_db = 15.344
+
+[node name="climb" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 9 )
+volume_db = -10.23
+
+[node name="walk" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 10 )
+
+[node name="collectible" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 11 )
+
+[node name="player_hurt" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 12 )
+
+[node name="sword_swing" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 14 )
+
+[node name="sword_hit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 13 )
+
+[node name="leaf_hurt" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 15 )
+volume_db = 11.934
+
+[node name="jump" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 16 )
+
+[node name="player_kick" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 17 )
 
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]

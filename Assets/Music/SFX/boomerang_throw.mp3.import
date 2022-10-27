@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/boomerang_throw.mp3-d987773a7d6e9006faf02f1d6c94a8df.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music/SFX/boomerang_throw.mp3"
+dest_files=[ "res://.import/boomerang_throw.mp3-d987773a7d6e9006faf02f1d6c94a8df.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

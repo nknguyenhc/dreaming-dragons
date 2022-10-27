@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/boomerang_hit.mp3-5d8dddfd351200f7f525a898a1c5dff0.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music/SFX/boomerang_hit.mp3"
+dest_files=[ "res://.import/boomerang_hit.mp3-5d8dddfd351200f7f525a898a1c5dff0.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

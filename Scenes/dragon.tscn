@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://Scripts/dragon.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Art/dragon pack/idle3.png" type="Texture" id=2]
@@ -40,6 +40,12 @@
 [ext_resource path="res://Assets/Art/dragon pack/run8.png" type="Texture" id=38]
 [ext_resource path="res://Assets/Art/dragon pack/run5.png" type="Texture" id=39]
 [ext_resource path="res://Scripts/dragon_hitbox.gd" type="Script" id=40]
+[ext_resource path="res://Assets/Music/SFX/dragon_dash.mp3" type="AudioStream" id=42]
+[ext_resource path="res://Assets/Music/SFX/dragon_kick.mp3" type="AudioStream" id=43]
+[ext_resource path="res://Assets/Music/SFX/dragon_spit.wav" type="AudioStream" id=44]
+[ext_resource path="res://Assets/Music/SFX/dragon_idle.wav" type="AudioStream" id=45]
+[ext_resource path="res://Assets/Music/SFX/dragon_hurt.wav" type="AudioStream" id=46]
+[ext_resource path="res://Assets/Music/SFX/stomp.mp3" type="AudioStream" id=47]
 
 [sub_resource type="CapsuleShape2D" id=3]
 radius = 26.5
@@ -101,7 +107,7 @@ position = Vector2( -1, 1.5 )
 scale = Vector2( 0.96875, 0.984375 )
 frames = SubResource( 2 )
 animation = "idle"
-frame = 4
+frame = 2
 playing = true
 flip_h = true
 
@@ -120,6 +126,24 @@ script = ExtResource( 40 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2( -3, 3 )
 shape = SubResource( 4 )
+
+[node name="dragon_stomp" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 47 )
+
+[node name="dragon_dash" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 42 )
+
+[node name="dragon_hurt" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 46 )
+
+[node name="dragon_idle" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 45 )
+
+[node name="dragon_kick" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 43 )
+
+[node name="dragon_spit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 44 )
 
 [connection signal="timeout" from="idle_timer" to="." method="_on_idle_timer_timeout"]
 [connection signal="timeout" from="stomp_timer" to="." method="_on_stomp_timer_timeout"]

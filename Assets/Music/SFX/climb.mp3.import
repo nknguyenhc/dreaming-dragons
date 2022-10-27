@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/climb.mp3-9290fe7cc251aefef10e516d24165162.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music/SFX/climb.mp3"
+dest_files=[ "res://.import/climb.mp3-9290fe7cc251aefef10e516d24165162.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

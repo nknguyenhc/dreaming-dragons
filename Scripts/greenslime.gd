@@ -5,14 +5,18 @@ extends KinematicBody2D
 var gravity = 40
 var velocity = Vector2(0, -700)
 var health = 20
+var prev_frame_health
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	prev_frame_health = health
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
+	if prev_frame_health != health:
+		get_parent().get_node("slime_bat_hurt").play()
+	prev_frame_health = health
 	velocity.y += gravity
 	move_and_slide(velocity, Vector2.UP)	
 	if is_on_floor():

@@ -16,6 +16,10 @@ var on_wall = false
 var can_climb = true
 const TEMP_SPEED_LIMIT = 20 # to detect whether the player is on wall
 
+#SFX
+var is_climb_music_playing = false
+var is_walk_music_playing = false
+
 # collectibles
 var boomerang_collected = false
 var sword_collected = false
@@ -47,7 +51,7 @@ var boomerang_key = "ui_skill3"
 const BOOMERANG_WAIT_TIME = 0.5
 
 # health
-const MAX_HEALTH = 100
+const MAX_HEALTH = 200
 var health = MAX_HEALTH
 var invincible = false
 const INVINCIBILITY_WAIT_TIME = 1.8
@@ -80,6 +84,7 @@ func _ready():
 func player_sword(right=true):
 	if sword_enabled:
 		player_freeze = true
+		get_node("sword_swing").play()
 		sword = Sword.instance()
 		if is_on_floor():
 			sword.swing_angle = PI
@@ -100,6 +105,7 @@ func end_sword():
 func player_kick(right):
 	if kick_enabled:
 		kick_animation_playing = true
+		get_node("player_kick").play()
 		player_freeze = true
 		kick = Kick.instance()
 		if not right:
@@ -121,6 +127,7 @@ func player_boomerang():
 		boomerang_returned = false
 		boomerang_enabled = false
 	elif boomerang_returned and on_boomerang:
+		get_node("boomerang_catch").play()
 		boomerang_enabled = true
 		boomerang_returned = false
 		boomerang_thrown = false
@@ -129,6 +136,7 @@ func player_boomerang():
 
 func take_damage(damage):
 	if not invincible:
+		get_node("player_hurt").play()
 		if current_state == PLAYER_STATE.KICKING:
 			get_node("Kick").queue_free()
 			player_freeze = false
@@ -164,6 +172,7 @@ func _physics_process(delta):
 			if not walking_initiated:
 				walking_initiated = true
 				animated_sprite.play("walking")
+				get_node("walk").play()
 		
 		PLAYER_STATE.SWORD:
 			pass
@@ -213,6 +222,7 @@ func _physics_process(delta):
 				change_state(PLAYER_STATE.WALKING)
 			velocity.x = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")) * HORIZONTAL_SPEED
 			if Input.is_action_just_pressed("ui_jump") and is_on_floor(): # when the player presses jump
+				get_node("jump").play()
 				velocity.y -= JUMP_STRENGTH - GRAVITY
 			else:
 				velocity.y += GRAVITY
@@ -222,8 +232,12 @@ func _physics_process(delta):
 			velocity.y = (Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")) * VERTICAL_SPEED
 			if velocity.y != 0:
 				change_state(PLAYER_STATE.CLIMBING)
+				if not is_climb_music_playing:
+					get_node("climb").play()
+					is_climb_music_playing = true
 			else:
 				change_state(PLAYER_STATE.WALL_STATIONARY)
+				is_climb_music_playing = false
 	elif current_state != PLAYER_STATE.TAKE_DAMAGE: # player being frozen due to sword
 		velocity.y += GRAVITY
 		if is_on_floor() or !current_state == PLAYER_STATE.KICKING:
@@ -259,6 +273,10 @@ func _physics_process(delta):
 
 
 func change_state(state):
+	if current_state == PLAYER_STATE.CLIMBING && state != PLAYER_STATE.CLIMBING:
+		get_node("climb").stop()
+	if current_state == PLAYER_STATE.WALKING && state != PLAYER_STATE.WALKING:
+		get_node("walk").stop()
 	if current_state != state:
 		idle_initiated = false
 		walking_initiated = false
@@ -290,6 +308,7 @@ func _on_Hurtbox_area_entered(area):
 	
 	if area.name == "BoomerangCollectible":
 		boomerang_collected = true
+		get_node("collectible").play()
 		area.queue_free()
 		boomerang_tutorial = BoomerangTutorial.instance()
 		get_parent().camera.add_child(boomerang_tutorial)
@@ -297,6 +316,7 @@ func _on_Hurtbox_area_entered(area):
 	
 	if area.name == "SwordCollectible":
 		sword_collected = true
+		get_node("collectible").play()
 		area.queue_free()
 		sword_tutorial = SwordTutorial.instance()
 		get_parent().camera.add_child(sword_tutorial)

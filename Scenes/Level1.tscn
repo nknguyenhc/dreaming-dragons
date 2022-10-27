@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scenes/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Map1.tscn" type="PackedScene" id=2]
@@ -9,6 +9,10 @@
 [ext_resource path="res://Scenes/slime.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/bat_follower.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/greenslime.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Assets/Music/SFX/magic.mp3" type="AudioStream" id=10]
+[ext_resource path="res://Assets/Music/SFX/slime_bat_hurt.mp3" type="AudioStream" id=11]
+[ext_resource path="res://Assets/Music/SFX/slime_bat_attack.mp3" type="AudioStream" id=12]
+[ext_resource path="res://Assets/Music/Main Bgm.mp3" type="AudioStream" id=14]
 
 [node name="Node2D" type="Node2D"]
 pause_mode = 1
@@ -18,7 +22,7 @@ script = ExtResource( 4 )
 light_mask = 0
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( -3854, -709 )
+position = Vector2( -3867, -756 )
 scale = Vector2( 7, 7 )
 
 [node name="dragon" parent="." instance=ExtResource( 3 )]
@@ -68,7 +72,7 @@ position = Vector2( -3175, -1129 )
 position = Vector2( -1881, -664 )
 
 [node name="greenslime3" parent="." instance=ExtResource( 9 )]
-position = Vector2( -1325, -347 )
+position = Vector2( -1351, -331 )
 
 [node name="greenslime4" parent="." instance=ExtResource( 9 )]
 position = Vector2( -572, 3 )
@@ -90,5 +94,25 @@ position = Vector2( -94, -1520 )
 
 [node name="IntroDelay" type="Timer" parent="."]
 one_shot = true
+
+[node name="magic" type="AudioStreamPlayer2D" parent="."]
+pause_mode = 2
+stream = ExtResource( 10 )
+
+[node name="slime_bat_hurt" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 11 )
+
+[node name="slime_bat_attack" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 12 )
+volume_db = 16.196
+
+[node name="bgm" type="AudioStreamPlayer2D" parent="."]
+pause_mode = 2
+stream = ExtResource( 14 )
+autoplay = true
+
+[node name="boss_bgm" type="AudioStreamPlayer2D" parent="."]
+pause_mode = 2
+stream = ExtResource( 14 )
 
 [connection signal="timeout" from="IntroDelay" to="." method="_on_IntroDelay_timeout"]

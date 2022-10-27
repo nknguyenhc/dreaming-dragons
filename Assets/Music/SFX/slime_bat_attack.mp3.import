@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/slime_bat_attack.mp3-44019bf5fff907fdfb21924c8a3f2db4.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music/SFX/slime_bat_attack.mp3"
+dest_files=[ "res://.import/slime_bat_attack.mp3-44019bf5fff907fdfb21924c8a3f2db4.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

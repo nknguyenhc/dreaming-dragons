@@ -102,4 +102,5 @@ func _physics_process(delta):
 		player.boomerang.direction = direction
 		player.boomerang.position = position
 		get_parent().add_child(player.boomerang)
+		player.get_node("boomerang_throw").play()
 		queue_free()

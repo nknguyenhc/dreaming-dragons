@@ -17,3 +17,5 @@ func _ready():
 func _on_Kick_body_entered(body):
 	if body.get_collision_layer() == 2:
 		body.health -= DAMAGE
+		if body.name == "dragon":
+			body.get_node("dragon_hurt").play()

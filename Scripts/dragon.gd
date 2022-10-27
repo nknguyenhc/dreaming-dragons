@@ -24,6 +24,7 @@ var STOMP_DELAY_TIME = 0.15
 var fire
 var health = 100
 const LEVEL2_MARK = 75
+var is_level_2_music_played = false
 var state_initiated = false
 var to_stomp = false
 var stomp_initiated = false
@@ -81,6 +82,7 @@ func _physics_process(delta):
 					else:
 						direction = -1
 						check_and_change_direction()
+					get_node("dragon_idle").play()
 					get_node("animation").animation = "idle"
 					get_node("idle_timer").wait_time = IDLE_TIME
 					get_node("idle_timer").start()
@@ -118,6 +120,7 @@ func _physics_process(delta):
 					velocity = Vector2(0, STOMP_SPEED)
 					move_and_slide(velocity, Vector2.UP)
 					if is_on_floor():
+						get_node("dragon_stomp").play()
 						is_back = true
 						delay_timeout = false
 						
@@ -154,6 +157,7 @@ func _physics_process(delta):
 				
 			BOSS_STATE.SPIT:
 				if not state_initiated:
+					get_node("dragon_spit").play()
 					get_node("animation").animation = "attack"
 					fire_from_pos(player.position.x, ceiling_height)
 					state_initiated = true
@@ -185,6 +189,7 @@ func _physics_process(delta):
 						direction = -1
 						dash_dest = idle_pos_left
 					check_and_change_direction()
+					get_node("dragon_dash").play()
 					velocity =  Vector2(dif, 0).normalized() * 800
 					get_node("animation").animation = "dash"
 				
@@ -198,6 +203,7 @@ func _physics_process(delta):
 			BOSS_STATE.KICK: # done
 				if not state_initiated:
 					state_initiated = true
+					get_node("dragon_kick").play()
 					get_node("animation").animation = "kick"
 					position.x += 50 * direction
 					get_node("delay_timer").wait_time = 0.6
@@ -209,6 +215,9 @@ func _physics_process(delta):
 					change_state(0)
 	
 	if health < LEVEL2_MARK:
+		if not is_level_2_music_played:
+			is_level_2_music_played = true
+			get_node("dragon_spit").play()
 		FLY_SPEED = 600
 		spit_fire_from_drag = true
 		IDLE_TIME = 1

@@ -14,4 +14,5 @@ func restart():
 	remove_child(lvl1)
 	lvl1 = Level1.instance()
 	lvl1.game = self
+	lvl1.slime_count = 7
 	add_child(lvl1)

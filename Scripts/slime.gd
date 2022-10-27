@@ -8,6 +8,7 @@ var bullet
 var gravity = 40
 var velocity = Vector2(0, -700)
 var health = 20
+var prev_frame_health
 var decrement = 1
 
 var bullet_ready = true
@@ -15,11 +16,15 @@ var bullet_ready = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	prev_frame_health = health
 	get_node("BulletTimer").wait_time = randi() % 5 + 5
-	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
+	if prev_frame_health != health:
+		get_parent().get_node("slime_bat_hurt").play()
+	prev_frame_health = health
+	
 	velocity.y += gravity
 	move_and_slide(velocity, Vector2.UP)	
 	if is_on_floor():
@@ -28,6 +33,7 @@ func _physics_process(delta):
 		get_parent().slime_count -= decrement
 		queue_free()
 	if bullet_ready and (position - get_parent().get_node("Player").position).length() < 700:
+		get_parent().get_node("slime_bat_attack").play()
 		bullet = Bullet.instance()
 		bullet.position = position
 		get_parent().add_child(bullet)

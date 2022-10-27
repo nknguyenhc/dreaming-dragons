@@ -14,6 +14,8 @@ var direction # only used if the fire ball is travelling in mid air
 var landed # will be set to true once the fireball hits ground
 const marker = -950
 
+var is_land_music_played = false
+
 # during spreading
 var next_fire_ball
 var next_fire_ball2
@@ -63,6 +65,7 @@ func _ready():
 	next_fire_ball.player = player
 	next_fire_ball.dragon = dragon
 	next_fire_ball.landed = true
+	next_fire_ball.is_land_music_played = true
 	if direction_of_spread == 'both':
 		next_fire_ball.direction_of_spread = "right"
 		next_fire_ball.position.x = SPACE_IN_BETWEEN
@@ -70,6 +73,7 @@ func _ready():
 		next_fire_ball2.player = player
 		next_fire_ball2.dragon = dragon
 		next_fire_ball2.landed = true
+		next_fire_ball2.is_land_music_played = true
 		next_fire_ball2.direction_of_spread = "left"
 		next_fire_ball2.position.x = -SPACE_IN_BETWEEN
 	else:
@@ -86,6 +90,10 @@ func _physics_process(delta):
 			get_node("Bottom").set_collision_mask_bit(2, true)
 		position += velocity
 	else:
+		if not is_land_music_played:
+			is_land_music_played = true
+			get_node("fire_land").play()
+			get_node("fire_spread").play()
 		if not fire_spread:
 			fire_spread = true
 			get_node("WaitTimer").start(WAIT_TIME)

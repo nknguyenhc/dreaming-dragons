@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/player_kick.mp3-c28cbc53b8f8d1b1bd8add37113f8351.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music/SFX/player_kick.mp3"
+dest_files=[ "res://.import/player_kick.mp3-c28cbc53b8f8d1b1bd8add37113f8351.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

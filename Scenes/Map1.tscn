@@ -1140,11 +1140,6 @@ polygon = PoolVector2Array( 2995, 395, 3019, 396, 2977, 396 )
 [node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="StaticBody2D"]
 polygon = PoolVector2Array( -4174, -565, -4174, -1200, -4347, -1200 )
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 607, 226 )
-current = true
-script = ExtResource( 3 )
-
 [node name="zoom_time" type="Timer" parent="."]
 wait_time = 1.001
 one_shot = true
@@ -1289,6 +1284,11 @@ scale = Vector2( 2, 2 )
 [node name="SwordCollectible" parent="." instance=ExtResource( 17 )]
 position = Vector2( -1440, -264 )
 scale = Vector2( 2, 2 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 607, 226 )
+current = true
+script = ExtResource( 3 )
 
 [connection signal="body_entered" from="thorn" to="thorn" method="_on_thorn_body_entered"]
 [connection signal="body_exited" from="thorn" to="thorn" method="_on_thorn_body_exited"]

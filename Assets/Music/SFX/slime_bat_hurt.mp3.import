@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/slime_bat_hurt.mp3-fb018e8b4cd685fa999f9e5d0e24f9b6.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music/SFX/slime_bat_hurt.mp3"
+dest_files=[ "res://.import/slime_bat_hurt.mp3-fb018e8b4cd685fa999f9e5d0e24f9b6.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

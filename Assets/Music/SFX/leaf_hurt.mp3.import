@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/leaf_hurt.mp3-5a943ad363809896d7f2251402879b4b.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music/SFX/leaf_hurt.mp3"
+dest_files=[ "res://.import/leaf_hurt.mp3-5a943ad363809896d7f2251402879b4b.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

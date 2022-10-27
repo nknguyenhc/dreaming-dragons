@@ -78,6 +78,7 @@ func _process(delta):
 		get_tree().paused = true
 	
 	if slime_count == 0:
+		get_node("magic").play()
 		get_node("blocking").queue_free()
 		slime_count -= 1
 

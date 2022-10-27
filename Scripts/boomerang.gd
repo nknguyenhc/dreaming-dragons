@@ -63,6 +63,7 @@ func _on_ReturnDelay_timeout():
 func _on_Boomerang_body_entered(body):
 	if body.get_collision_layer() == 2:
 		body.health -= DAMAGE
+		player.get_node("boomerang_hit").play()
 
 
 func _on_ExistTimer_timeout():

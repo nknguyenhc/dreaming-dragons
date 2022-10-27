@@ -41,6 +41,8 @@ func _process(delta):
 		background.position = position * 0.96
 	
 	elif camera_moving_to_boss_fighting == true:
+		#get_parent().get_parent().get_node("bgm").stop()
+		#get_parent().get_parent().get_node("boss_bgm").play()
 		get_parent().get_node("block").get_node("collision").disabled = false
 		current_pos = position
 		dx = (final_pos.x - current_pos.x) / rate

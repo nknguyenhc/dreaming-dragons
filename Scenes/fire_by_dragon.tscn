@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Assets/Art/dragon pack/attack1.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/fire_by_dragon.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Music/SFX/fire_land.mp3" type="AudioStream" id=3]
+[ext_resource path="res://Assets/Music/SFX/fire_spread.mp3" type="AudioStream" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 4 )
@@ -66,6 +68,12 @@ shape = SubResource( 7 )
 
 [node name="WaitTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="fire_land" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+
+[node name="fire_spread" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
 
 [connection signal="body_entered" from="." to="." method="_on_fire_by_dragon_body_entered"]
 [connection signal="body_entered" from="Bottom" to="." method="_on_Bottom_body_entered"]

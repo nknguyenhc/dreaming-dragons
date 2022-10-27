@@ -12,13 +12,17 @@ var add_on = 0
 var health = 15
 var is_damaging = false
 var bullet_ready = true
+var prev_frame_health
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	get_node("BulletTimer").wait_time = randi() % 3 + 3 + floor(randf())
+	prev_frame_health = health
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
+	if prev_frame_health != health:
+		get_parent().get_node("slime_bat_hurt").play()
 	t += delta
 	position.x += 5 * sin(3 * t + add_on)
 	position.y += 1 * cos(3 * t + add_on)
@@ -29,6 +33,7 @@ func _physics_process(delta):
 	
 	if get_parent().slime_count <= 0:
 		if bullet_ready and (position - get_parent().get_node("Player").position).length() < 800:
+			get_parent().get_node("slime_bat_attack").play()
 			bullet = Bullet.instance()
 			bullet.position = position
 			get_parent().add_child(bullet)
