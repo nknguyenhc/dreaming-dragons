@@ -1261,7 +1261,7 @@ scale = Vector2( 0.0916725, 0.0916725 )
 texture = ExtResource( 10 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="mp4-2"]
-position = Vector2( -142, -1396.14 )
+position = Vector2( -134, -1398 )
 polygon = PoolVector2Array( -1262.3, 185, -1093.3, 185, -1093.3, 206, -1262.3, 206 )
 
 [node name="mp4-1" type="KinematicBody2D" parent="."]

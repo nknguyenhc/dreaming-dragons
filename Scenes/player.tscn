@@ -194,9 +194,6 @@ playing = true
 position = Vector2( -0.5, -0.5 )
 shape = SubResource( 3 )
 
-[node name="PunchTimer" type="Timer" parent="."]
-one_shot = true
-
 [node name="KickTimer" type="Timer" parent="."]
 one_shot = true
 
@@ -214,6 +211,9 @@ wait_time = 0.33
 one_shot = true
 
 [node name="RecoilTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="OffPlatformTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="boomerang_throw" type="AudioStreamPlayer2D" parent="."]
@@ -258,10 +258,10 @@ stream = ExtResource( 17 )
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="area_exited" from="Hurtbox" to="." method="_on_Hurtbox_area_exited"]
-[connection signal="timeout" from="PunchTimer" to="." method="_on_PunchTimer_timeout"]
 [connection signal="timeout" from="KickTimer" to="." method="_on_KickTimer_timeout"]
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_InvincibilityTimer_timeout"]
 [connection signal="timeout" from="SwordTimer" to="." method="_on_SwordTimer_timeout"]
 [connection signal="timeout" from="VanishTimer" to="." method="_on_VanishTimer_timeout"]
 [connection signal="timeout" from="KickAnimationTimer" to="." method="_on_KickAnimationTimer_timeout"]
 [connection signal="timeout" from="RecoilTimer" to="." method="_on_RecoilTimer_timeout"]
+[connection signal="timeout" from="OffPlatformTimer" to="." method="_on_OffPlatformTimer_timeout"]

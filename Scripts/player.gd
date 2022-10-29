@@ -13,6 +13,10 @@ const JUMP_STRENGTH = 1100
 const HORIZONTAL_SPEED = 400
 const VERTICAL_SPEED = 300
 var on_wall = false
+var can_jump = false # raycast detection
+var last_frame_on_floor = false
+const OFF_PLATFORM_GRACE_PERIOD = 0.2
+var off_platform_timer
 var can_climb = true
 const TEMP_SPEED_LIMIT = 20 # to detect whether the player is on wall
 
@@ -79,6 +83,7 @@ func _ready():
 	scale = Vector2(SCALE, SCALE)
 	animated_sprite = get_node("AnimatedSprite")
 	get_parent().get_node("Map1").get_node("Camera2D").add_child(health_bar)
+	off_platform_timer = get_node("OffPlatformTimer")
 
 
 func player_sword(right=true):
@@ -221,12 +226,24 @@ func _physics_process(delta):
 			else:
 				change_state(PLAYER_STATE.WALKING)
 			velocity.x = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")) * HORIZONTAL_SPEED
-			if Input.is_action_just_pressed("ui_jump") and is_on_floor(): # when the player presses jump
+			if Input.is_action_just_pressed("ui_jump") and (is_on_floor() or can_jump): # when the player presses jump
 				get_node("jump").play()
 				velocity.y -= JUMP_STRENGTH - GRAVITY
+				last_frame_on_floor = false # to avoid activating the off_platform_timer
+				if not off_platform_timer.is_stopped():
+					off_platform_timer.stop()
+					can_jump = false
 			else:
 				velocity.y += GRAVITY
-			# animation
+				if is_on_floor():
+					last_frame_on_floor = true
+					if not off_platform_timer.is_stopped():
+						off_platform_timer.stop()
+						can_jump = false
+				elif last_frame_on_floor:
+					can_jump = true
+					off_platform_timer.start(OFF_PLATFORM_GRACE_PERIOD)
+					last_frame_on_floor = false
 		elif can_climb:
 			velocity.x = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")) * HORIZONTAL_SPEED
 			velocity.y = (Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")) * VERTICAL_SPEED
@@ -354,3 +371,7 @@ func _on_KickAnimationTimer_timeout():
 
 func _on_RecoilTimer_timeout():
 	recoiling = false
+
+
+func _on_OffPlatformTimer_timeout():
+	can_jump = false
