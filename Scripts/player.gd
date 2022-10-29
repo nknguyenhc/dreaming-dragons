@@ -12,13 +12,16 @@ var temp_velocity
 const JUMP_STRENGTH = 1100
 const HORIZONTAL_SPEED = 400
 const VERTICAL_SPEED = 300
-var on_wall = false
+# jump
 var can_jump = false # raycast detection
 var last_frame_on_floor = false
 const OFF_PLATFORM_GRACE_PERIOD = 0.2
 var off_platform_timer
+# climb wall
+var on_wall = false
 var can_climb = true
 const TEMP_SPEED_LIMIT = 20 # to detect whether the player is on wall
+var wall_v_speed = 0
 
 #SFX
 var is_climb_music_playing = false
@@ -59,7 +62,7 @@ const MAX_HEALTH = 200
 var health = MAX_HEALTH
 var invincible = false
 const INVINCIBILITY_WAIT_TIME = 1.8
-const RECOIL_SPEED = 400
+const RECOIL_SPEED = 250
 const RECOIL_TIME = 0.2
 var recoiling = false
 
@@ -255,6 +258,7 @@ func _physics_process(delta):
 			else:
 				change_state(PLAYER_STATE.WALL_STATIONARY)
 				is_climb_music_playing = false
+			velocity.y += wall_v_speed # in case of climbing on a moving platform, wall_v_speed is non-zero
 	elif current_state != PLAYER_STATE.TAKE_DAMAGE: # player being frozen due to sword
 		velocity.y += GRAVITY
 		if is_on_floor() or !current_state == PLAYER_STATE.KICKING:
@@ -262,8 +266,13 @@ func _physics_process(delta):
 	temp_velocity = move_and_slide(velocity, Vector2.UP)
 	if abs(temp_velocity.x) < TEMP_SPEED_LIMIT and velocity.x != 0:
 		on_wall = true
+		if get_slide_count() > 0:
+			var collider = get_slide_collision(0).collider
+			if "mp" in collider.name and collider.is_vertical: # climbing on vertically moving platform
+				wall_v_speed = collider.speed * collider.dir
 	else:
 		on_wall = false
+		wall_v_speed = 0 # must reset this variable whenever the player leaves a wall
 	if velocity.x > 0 and current_state != PLAYER_STATE.TAKE_DAMAGE:
 		if animated_sprite.animation == "climbing":
 			animated_sprite.flip_h = true

@@ -153,10 +153,10 @@ animations = [ {
 "name": "kicking",
 "speed": 15.0
 }, {
-"frames": [ SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), null, SubResource( 36 ), null, SubResource( 37 ), null, SubResource( 38 ), null, SubResource( 39 ) ],
+"frames": [ SubResource( 33 ), SubResource( 34 ), SubResource( 34 ), SubResource( 35 ), SubResource( 35 ), null, SubResource( 36 ), null, SubResource( 37 ), null, SubResource( 38 ), null, SubResource( 39 ) ],
 "loop": true,
 "name": "take_damage",
-"speed": 8.0
+"speed": 15.0
 }, {
 "frames": [ SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ) ],
 "loop": false,
