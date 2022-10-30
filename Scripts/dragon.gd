@@ -45,6 +45,8 @@ var spit_fire_from_drag = false
 const SPIT_FIRE_WHILE_FLYING_CHANCES = 100
 const SPIT_FIRE_HEIGHT = -1300
 const GROUND_MARKER = -950
+var Ending_Animation = preload("res://Scenes/Ending.tscn")
+var ending_animation
 
 enum BOSS_STATE {IDLE, FLY, SPIT, SPIT_ON_AIR, DASH, KICK, FLYBACK}
 export (BOSS_STATE) var current_state = BOSS_STATE.IDLE
@@ -223,6 +225,10 @@ func _physics_process(delta):
 		IDLE_TIME = 1
 		STOMP_DELAY_TIME = 0.05
 		get_node("animation").modulate = Color(1, 0.3, 0.3)
+	
+	if health <= 0:
+		get_node("animation").animation = "death"
+		get_node("death_timer").start()
 
 
 func fire_from_pos(x, y):
@@ -262,6 +268,10 @@ func _on_delay_timer_timeout():
 	delay_timeout = true
 	get_node("delay_timer").stop()
 	
+func _on_death_timer_timeout():
+	ending_animation = Ending_Animation.instance()
+	get_parent().get_node("Map1").get_node("Camera2D").add_child(ending_animation)
+	
 func change_state(mode):
 	velocity = Vector2.ZERO
 	state_initiated = false
@@ -297,3 +307,4 @@ func change_state(mode):
 		current_state = BOSS_STATE.DASH
 	elif mode == 7:
 		current_state = BOSS_STATE.SPIT_ON_AIR
+

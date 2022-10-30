@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Assets/Art/bat_bullet1.png" type="Texture" id=1]
-[ext_resource path="res://Scenes/SlimeBullet.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/SlimeBullet.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Art/bat_bullet2.png" type="Texture" id=3]
 
 [sub_resource type="SpriteFrames" id=5]
@@ -23,7 +23,6 @@ script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 5 )
-frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

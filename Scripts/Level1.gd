@@ -14,7 +14,8 @@ var JumpKickTutorial = preload("res://Scenes/JumpKickTutorial.tscn")
 var jump_kick_tutorial
 var ClimbTutorial = preload("res://Scenes/climb_tutorial.tscn")
 var climb_tutorial
-
+var RestartWindow = preload("res://Scenes/restart.tscn")
+var restart_window
 
 func _ready():
 	map = get_node("Map1")
@@ -81,6 +82,12 @@ func _process(delta):
 		get_node("magic").play()
 		get_node("blocking").queue_free()
 		slime_count -= 1
+	
+	if Input.is_action_just_pressed("ui_restart"):
+		restart_window = RestartWindow.instance()
+		get_node("Player").invincible = true
+		get_node("Map1").get_node("Camera2D").add_child(restart_window)
+		restart_window.get_node("WindowDialog").popup()
 
 
 func _on_IntroDelay_timeout():
