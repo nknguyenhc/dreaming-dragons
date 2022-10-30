@@ -1,67 +1,43 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Assets/Art/chest.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Art/Mossy Tileset/herb.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/medicine.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Art/Mossy Tileset/empty_herb.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Music/SFX/heal.mp3" type="AudioStream" id=4]
 
 [sub_resource type="RectangleShape2D" id=9]
-extents = Vector2( 10, 13.0556 )
-
-[sub_resource type="AtlasTexture" id=1]
-flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 48, 32 )
-
-[sub_resource type="AtlasTexture" id=2]
-flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 48, 32 )
-
-[sub_resource type="AtlasTexture" id=3]
-flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 48, 0, 48, 32 )
-
-[sub_resource type="AtlasTexture" id=4]
-flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 96, 0, 48, 32 )
-
-[sub_resource type="AtlasTexture" id=5]
-flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 144, 0, 48, 32 )
-
-[sub_resource type="AtlasTexture" id=8]
-flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 144, 0, 48, 32 )
+extents = Vector2( 5.55556, 13.0556 )
 
 [sub_resource type="SpriteFrames" id=6]
 animations = [ {
-"frames": [ SubResource( 1 ) ],
+"frames": [ ExtResource( 1 ) ],
 "loop": true,
 "name": "closed",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 8 ) ],
+"frames": [ ExtResource( 1 ), ExtResource( 3 ) ],
 "loop": true,
 "name": "open",
-"speed": 5.0
+"speed": 4.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=7]
-extents = Vector2( 13.1944, 13.6111 )
+extents = Vector2( 6.11111, 13.6111 )
 
 [node name="medicine" type="StaticBody2D"]
-scale = Vector2( 1.8, 1.8 )
-collision_layer = 2
+position = Vector2( 0, -10 )
+scale = Vector2( 2.312, 2.312 )
+collision_layer = 0
+collision_mask = 0
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 6.3889 )
+position = Vector2( -1.11111, 6.3889 )
 shape = SubResource( 9 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0, 6.11111 )
+scale = Vector2( 0.0685975, 0.0685975 )
 frames = SubResource( 6 )
 animation = "closed"
 speed_scale = 0.7
@@ -70,12 +46,17 @@ playing = true
 [node name="RecoverBox" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RecoverBox"]
-position = Vector2( 0, 6.38889 )
+position = Vector2( -1.11111, 6.38889 )
 shape = SubResource( 7 )
 
 [node name="timer" type="Timer" parent="."]
-wait_time = 0.992
+wait_time = 0.5
 one_shot = true
+
+[node name="heal" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+volume_db = 20.0
+max_distance = 20000.0
 
 [connection signal="body_entered" from="RecoverBox" to="." method="_on_RecoverBox_body_entered"]
 [connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]
