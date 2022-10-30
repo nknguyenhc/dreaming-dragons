@@ -58,8 +58,8 @@ var boomerang_key = "ui_skill3"
 const BOOMERANG_WAIT_TIME = 0.5
 
 # health
-const MAX_HEALTH = 200
-var health = MAX_HEALTH
+var MAX_HEALTH = 200
+var health
 var invincible = false
 const INVINCIBILITY_WAIT_TIME = 1.8
 const RECOIL_SPEED = 250
@@ -83,6 +83,7 @@ var health_bar = Health_bars.instance()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	health = MAX_HEALTH
 	scale = Vector2(SCALE, SCALE)
 	animated_sprite = get_node("AnimatedSprite")
 	get_parent().get_node("Map1").get_node("Camera2D").add_child(health_bar)

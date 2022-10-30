@@ -3,7 +3,7 @@ extends KinematicBody2D
 var Bullet = preload("res://Scenes/BatBullet.tscn")
 var bullet
 
-var speed = 3
+var speed = 2
 var flag = true
 var timeout = false
 var health = 15
@@ -12,6 +12,12 @@ var bullet_ready = true
 
 func _ready():
 	get_node("BulletTimer").wait_time = randi() % 3 + 3 + floor(randf())
+	if get_parent().get_parent().cur_mode == "Medium":
+		speed = 2
+	elif get_parent().get_parent().cur_mode == "Hard":
+		speed = 2.5
+	else:
+		speed = 3	
 
 func _physics_process(delta):
 	if health <= 0:

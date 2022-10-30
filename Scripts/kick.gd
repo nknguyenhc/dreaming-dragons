@@ -2,7 +2,7 @@ extends Area2D
 
 
 # Declare member variables here. Examples:
-const DAMAGE = 8
+const DAMAGE = 6
 
 
 # Called when the node enters the scene tree for the first time.

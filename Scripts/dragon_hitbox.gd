@@ -15,9 +15,9 @@ func _physics_process(delta):
 	if dragon.current_state == dragon.BOSS_STATE.DASH:
 		damage = 10
 	elif dragon.current_state == dragon.BOSS_STATE.KICK:
-		damage = 12
+		damage = 15
 	elif dragon.stomp_initiated and dragon.delay_timeout:
-		damage = 12
+		damage = 20
 	else:
 		damage = 4
 

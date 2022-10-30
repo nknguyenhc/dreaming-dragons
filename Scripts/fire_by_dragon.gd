@@ -6,7 +6,7 @@ const x_offset = 6
 const y_offset = -12
 
 var velocity
-const SPEED = 10
+var SPEED = 10
 const DAMAGE = 8
 
 # during flight
@@ -31,7 +31,6 @@ var tested = false # test for rotation
 var player
 var dragon
 
-
 #start 2 timers
 
 
@@ -42,6 +41,12 @@ var dragon
 
 
 func _ready():
+	if get_tree().root.get_child(0).cur_mode == "Medium":
+		SPEED = 10
+	elif get_tree().root.get_child(0).cur_mode == "Hard":
+		SPEED = 15
+	else:
+			SPEED = 20
 	if direction_of_spread == 'both':
 		scale.x = SCALE
 		scale.y = SCALE

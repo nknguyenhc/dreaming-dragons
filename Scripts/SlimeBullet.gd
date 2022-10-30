@@ -12,6 +12,12 @@ var speed = 500
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	dir = (get_parent().get_node("Player").position - position).normalized()
+	if get_parent().get_parent().cur_mode == "Medium":
+		speed = 250
+	elif get_parent().get_parent().cur_mode == "Hard":
+		speed = 350
+	else:
+		speed = 500
 
 func _process(delta):
 	position += dir * speed * delta

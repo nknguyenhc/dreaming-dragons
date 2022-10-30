@@ -23,7 +23,7 @@ var IDLE_TIME = 2.5
 var STOMP_DELAY_TIME = 0.15
 var fire
 var health = 100
-const LEVEL2_MARK = 75
+var LEVEL2_MARK = 50
 var is_level_2_music_played = false
 var state_initiated = false
 var to_stomp = false
@@ -54,6 +54,12 @@ export (BOSS_STATE) var current_state = BOSS_STATE.IDLE
 
 func _ready():
 	player = get_parent().get_node("Player")
+	if get_parent().get_parent().cur_mode == "Medium":
+		LEVEL2_MARK = 50
+	elif get_parent().get_parent().cur_mode == "Hard":
+		LEVEL2_MARK = 65
+	else:
+		LEVEL2_MARK = 80
 
 
 func _physics_process(delta):
@@ -171,6 +177,7 @@ func _physics_process(delta):
 			
 			BOSS_STATE.SPIT_ON_AIR:
 				if not state_initiated:
+					get_node("dragon_spit").play()
 					get_node("animation").animation = "attack"
 					fire_from_pos(position.x, position.y)
 					state_initiated = true
