@@ -33,8 +33,8 @@
 [ext_resource path="res://Assets/Art/Slimes/SlimeGreen/SlimeBasic_00002.png" type="Texture" id=31]
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 108.453
-height = 60.4264
+radius = 134.999
+height = 32.0846
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -45,8 +45,8 @@ animations = [ {
 } ]
 
 [sub_resource type="CapsuleShape2D" id=3]
-radius = 95.9825
-height = 58.0358
+radius = 79.7218
+height = 70.5589
 
 [node name="slime" type="KinematicBody2D"]
 scale = Vector2( 0.164635, 0.188155 )
@@ -61,7 +61,7 @@ shape = SubResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-frame = 14
+frame = 2
 speed_scale = 2.0
 playing = true
 

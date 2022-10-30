@@ -1,10 +1,12 @@
 extends Area2D
 
 
-const INITIAL_SPEED = 3
+var INITIAL_SPEED = 2.2
+
 const FRICTION = 0.03
 const GRAVITY = 1
-const TERMINAL_V = 8
+const TERMINAL_V = 3
+const MAX_V = 100
 
 const SCALE = 6
 
@@ -19,7 +21,7 @@ var flying_off = false
 const DELAY_TIME = 0.05
 var ground_hit = false
 var player_hit = false
-const EXIST_TIME = 7 # do not allow the boomerang to exist in the scene for too long
+const EXIST_TIME = 10 # do not allow the boomerang to exist in the scene for too long
 
 var hit_free = false
 var hit_free_ground = false
@@ -30,9 +32,11 @@ const DAMAGE = 4
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	player = get_parent().get_node("Player")
+	if get_parent().get_node("dragon").is_boss_fight_started:
+		INITIAL_SPEED = 3
 	speed = INITIAL_SPEED
 	velocity = direction * speed
-	player = get_parent().get_node("Player")
 	scale.x = SCALE
 	scale.y = SCALE
 	get_node("ExistTimer").start(EXIST_TIME)
@@ -53,6 +57,10 @@ func _physics_process(delta):
 	else:
 		position += velocity
 		velocity -= direction * FRICTION
+		if abs(velocity.x) > MAX_V:
+			velocity.x = velocity.x / abs(velocity.x) * MAX_V
+		if abs(velocity.y) > MAX_V:
+			velocity.y = velocity.y / abs(velocity.y) * MAX_V
 
 
 func _on_ReturnDelay_timeout():
@@ -62,6 +70,7 @@ func _on_ReturnDelay_timeout():
 
 func _on_Boomerang_body_entered(body):
 	if body.get_collision_layer() == 2:
+		velocity /= 2
 		body.health -= DAMAGE
 		player.get_node("boomerang_hit").play()
 

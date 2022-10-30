@@ -67,7 +67,7 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=13]
-extents = Vector2( 51.5, 10.5 )
+extents = Vector2( 65.9722, 20.1389 )
 
 [sub_resource type="RectangleShape2D" id=14]
 extents = Vector2( 17, 12.5 )
@@ -85,7 +85,8 @@ speed_scale = 3.0
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -12, 21.5 )
+position = Vector2( -11.8056, 20.1389 )
+scale = Vector2( 1, 1 )
 shape = SubResource( 13 )
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -94,7 +95,7 @@ scale = Vector2( 3.20624, 1 )
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2( -11, 13.5 )
+position = Vector2( -10.3964, 9.72223 )
 shape = SubResource( 14 )
 
 [node name="BulletTimer" type="Timer" parent="."]
