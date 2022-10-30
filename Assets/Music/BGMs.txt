@@ -1,0 +1,28 @@
+Game BGM
+Boss BGM
+
+walk 1
+climb 1
+jump 1
+
+kick 1
+sword 1
+(success) 1
+boomerang 1
+(success) 1
+
+player_hurt 1
+slime_bat_hurt 1
+slime_bat_attack 1
+
+leaf_hurt  1
+magic sound 1
+
+dragon_stomp 1
+dragon_dash 1
+dragon_spit 1
+fire_spread 1 1 
+dragon_kick
+
+https://www.fesliyanstudios.com/
+https://mixkit.co/free-sound-effects

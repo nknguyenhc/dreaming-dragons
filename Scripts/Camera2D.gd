@@ -13,6 +13,8 @@ var t = 0
 var timeout
 var count = 10
 
+var is_boss_bgm_played = false
+
 var dragon
 var player
 var background
@@ -41,8 +43,10 @@ func _process(delta):
 		background.position = position * 0.96
 	
 	elif camera_moving_to_boss_fighting == true:
-		#get_parent().get_parent().get_node("bgm").stop()
-		#get_parent().get_parent().get_node("boss_bgm").play()
+		get_parent().get_parent().get_node("bgm").stop()
+		if not is_boss_bgm_played:
+			get_parent().get_parent().get_node("boss_bgm").play()
+			is_boss_bgm_played = true
 		get_parent().get_node("block").get_node("collision").disabled = false
 		current_pos = position
 		dx = (final_pos.x - current_pos.x) / rate

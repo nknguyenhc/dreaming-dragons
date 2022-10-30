@@ -71,9 +71,11 @@ one_shot = true
 
 [node name="fire_land" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 3 )
+max_distance = 20000.0
 
 [node name="fire_spread" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 4 )
+max_distance = 20000.0
 
 [connection signal="body_entered" from="." to="." method="_on_fire_by_dragon_body_entered"]
 [connection signal="body_entered" from="Bottom" to="." method="_on_Bottom_body_entered"]

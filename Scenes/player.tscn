@@ -153,10 +153,10 @@ animations = [ {
 "name": "kicking",
 "speed": 15.0
 }, {
-"frames": [ SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), null, SubResource( 36 ), null, SubResource( 37 ), null, SubResource( 38 ), null, SubResource( 39 ) ],
+"frames": [ SubResource( 33 ), SubResource( 34 ), SubResource( 34 ), SubResource( 35 ), SubResource( 35 ), null, SubResource( 36 ), null, SubResource( 37 ), null, SubResource( 38 ), null, SubResource( 39 ) ],
 "loop": true,
 "name": "take_damage",
-"speed": 8.0
+"speed": 15.0
 }, {
 "frames": [ SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ) ],
 "loop": false,
@@ -218,39 +218,51 @@ one_shot = true
 
 [node name="boomerang_throw" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 8 )
+max_distance = 20000.0
 
 [node name="boomerang_catch" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 7 )
+max_distance = 20000.0
 
 [node name="boomerang_hit" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 6 )
 volume_db = 15.344
+max_distance = 20000.0
 
 [node name="climb" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 9 )
 volume_db = -10.23
+max_distance = 20000.0
 
 [node name="walk" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 10 )
+volume_db = -11.934
+max_distance = 20000.0
 
 [node name="collectible" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 11 )
+max_distance = 20000.0
 
 [node name="player_hurt" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 12 )
+max_distance = 20000.0
 
 [node name="sword_swing" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 14 )
+max_distance = 20000.0
 
 [node name="sword_hit" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 13 )
+max_distance = 20000.0
 
 [node name="leaf_hurt" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 15 )
 volume_db = 11.934
+max_distance = 20000.0
 
 [node name="jump" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 16 )
+max_distance = 20000.0
 
 [node name="player_kick" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 17 )
