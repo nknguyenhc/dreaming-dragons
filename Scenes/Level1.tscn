@@ -12,7 +12,7 @@
 [ext_resource path="res://Assets/Music/SFX/magic.mp3" type="AudioStream" id=10]
 [ext_resource path="res://Assets/Music/SFX/slime_bat_hurt.mp3" type="AudioStream" id=11]
 [ext_resource path="res://Assets/Music/SFX/slime_bat_attack.mp3" type="AudioStream" id=12]
-[ext_resource path="res://Scenes/medicine.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Scenes/restart.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Assets/Music/Main Bgm.mp3" type="AudioStream" id=14]
 [ext_resource path="res://Assets/Music/Boss Fight.mp3" type="AudioStream" id=15]
 
@@ -26,21 +26,6 @@ light_mask = 0
 [node name="dragon" parent="." instance=ExtResource( 3 )]
 position = Vector2( 4718, -827 )
 scale = Vector2( 2.17457, 2.17457 )
-
-[node name="medicine" parent="." instance=ExtResource( 13 )]
-position = Vector2( -1273, -969 )
-rotation = -0.75762
-collision_mask = 4
-
-[node name="medicine2" parent="." instance=ExtResource( 13 )]
-position = Vector2( -125, -604 )
-
-[node name="medicine3" parent="." instance=ExtResource( 13 )]
-position = Vector2( 1862, -261 )
-
-[node name="medicine4" parent="." instance=ExtResource( 13 )]
-position = Vector2( 4346, 25.0001 )
-rotation = 0.943726
 
 [node name="slime" parent="." instance=ExtResource( 7 )]
 position = Vector2( 1783, 149 )
@@ -111,7 +96,7 @@ one_shot = true
 [node name="magic" type="AudioStreamPlayer2D" parent="."]
 pause_mode = 2
 stream = ExtResource( 10 )
-volume_db = 21.311
+volume_db = 9.377
 max_distance = 20000.0
 
 [node name="slime_bat_hurt" type="AudioStreamPlayer2D" parent="."]
@@ -137,7 +122,11 @@ volume_db = -11.082
 max_distance = 20000.0
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( -4045, -693 )
+position = Vector2( -3971, -691 )
 scale = Vector2( 7, 7 )
+
+[node name="Restart" parent="." instance=ExtResource( 13 )]
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
 [connection signal="timeout" from="IntroDelay" to="." method="_on_IntroDelay_timeout"]

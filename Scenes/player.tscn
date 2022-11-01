@@ -240,6 +240,7 @@ volume_db = -11.934
 max_distance = 20000.0
 
 [node name="collectible" type="AudioStreamPlayer2D" parent="."]
+pause_mode = 2
 stream = ExtResource( 11 )
 max_distance = 20000.0
 

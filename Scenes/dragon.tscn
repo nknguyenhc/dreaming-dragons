@@ -64,9 +64,9 @@ animations = [ {
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 18 ), ExtResource( 27 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 16 ) ],
-"loop": true,
+"loop": false,
 "name": "death",
-"speed": 5.0
+"speed": 2.0
 }, {
 "frames": [ ExtResource( 8 ), ExtResource( 26 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 19 ) ],
 "loop": true,
@@ -107,7 +107,7 @@ position = Vector2( -1, 1.5 )
 scale = Vector2( 0.96875, 0.984375 )
 frames = SubResource( 2 )
 animation = "idle"
-frame = 4
+frame = 5
 playing = true
 flip_h = true
 
@@ -120,6 +120,7 @@ wait_time = 2.5
 wait_time = 0.5
 
 [node name="death_timer" type="Timer" parent="."]
+wait_time = 3.0
 one_shot = true
 
 [node name="Hitbox" type="Area2D" parent="."]
@@ -132,6 +133,7 @@ shape = SubResource( 4 )
 
 [node name="dragon_stomp" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 47 )
+volume_db = 20.459
 max_distance = 20000.0
 
 [node name="dragon_dash" type="AudioStreamPlayer2D" parent="."]

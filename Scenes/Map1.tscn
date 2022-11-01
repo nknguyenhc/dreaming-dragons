@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=2]
+[gd_scene load_steps=49 format=2]
 
 [ext_resource path="res://Assets/Art/Mossy Tileset/Mossy - TileSet.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Art/Mossy Tileset/block.png" type="Texture" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://Scenes/blockplant.gd" type="Script" id=15]
 [ext_resource path="res://Scenes/BoomerangCollectible.tscn" type="PackedScene" id=16]
 [ext_resource path="res://Scenes/SwordCollectible.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Scenes/medicine.tscn" type="PackedScene" id=18]
 
 [sub_resource type="RectangleShape2D" id=29]
 extents = Vector2( 61.75, 19 )
@@ -1295,6 +1296,21 @@ scale = Vector2( 2, 2 )
 [node name="SwordCollectible" parent="." instance=ExtResource( 17 )]
 position = Vector2( -1440, -264 )
 scale = Vector2( 2, 2 )
+
+[node name="medicine" parent="." instance=ExtResource( 18 )]
+position = Vector2( -1273, -969 )
+rotation = -0.75762
+collision_mask = 4
+
+[node name="medicine2" parent="." instance=ExtResource( 18 )]
+position = Vector2( -125, -604 )
+
+[node name="medicine3" parent="." instance=ExtResource( 18 )]
+position = Vector2( 1862, -261 )
+
+[node name="medicine4" parent="." instance=ExtResource( 18 )]
+position = Vector2( 4346, 25.0001 )
+rotation = 0.943726
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 607, 226 )

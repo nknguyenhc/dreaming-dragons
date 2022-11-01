@@ -65,6 +65,7 @@ const INVINCIBILITY_WAIT_TIME = 1.8
 const RECOIL_SPEED = 250
 const RECOIL_TIME = 0.2
 var recoiling = false
+var is_dead = false
 
 # state of the player
 enum PLAYER_STATE {IDLE, WALKING, SWORD, KICKING, CLIMBING, WALL_STATIONARY, TAKE_DAMAGE}
@@ -144,7 +145,7 @@ func player_boomerang():
 
 
 func take_damage(damage):
-	if not invincible:
+	if not invincible and not is_dead and damage > 0:
 		get_node("player_hurt").play()
 		if current_state == PLAYER_STATE.KICKING:
 			get_node("Kick").queue_free()
@@ -159,6 +160,7 @@ func take_damage(damage):
 		get_node("InvincibilityTimer").start(INVINCIBILITY_WAIT_TIME)
 
 func die():
+	is_dead = true
 	set_physics_process(false)
 	get_node("AnimatedSprite").play("vanishing")
 	get_node("AnimatedSprite").scale = Vector2(0.8,0.8)
@@ -296,7 +298,7 @@ func _physics_process(delta):
 			player_boomerang()
 	
 	# health bar
-	health_bar.get_node("Player Health Bar").value = health * 100 / MAX_HEALTH 
+	health_bar.get_node("Player Health").get_node("Player Health Bar").value = health * 100 / MAX_HEALTH 
 
 
 func change_state(state):
@@ -372,7 +374,7 @@ func _on_SwordTimer_timeout():
 
 
 func _on_VanishTimer_timeout():
-	get_parent().get_parent().restart()
+	get_parent().get_parent().restart_from_last_save_point()
 
 
 func _on_KickAnimationTimer_timeout():

@@ -44,9 +44,9 @@ func _ready():
 	if get_tree().root.get_child(0).cur_mode == "Medium":
 		SPEED = 10
 	elif get_tree().root.get_child(0).cur_mode == "Hard":
-		SPEED = 15
+		SPEED = 14 # Interestingly, it u change to 15 or 16, the direction of spread is buggy
 	else:
-			SPEED = 20
+		SPEED = 20
 	if direction_of_spread == 'both':
 		scale.x = SCALE
 		scale.y = SCALE

@@ -55,7 +55,7 @@ one_shot = true
 
 [node name="heal" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 4 )
-volume_db = 20.0
+volume_db = 3.803
 max_distance = 20000.0
 
 [connection signal="body_entered" from="RecoverBox" to="." method="_on_RecoverBox_body_entered"]
