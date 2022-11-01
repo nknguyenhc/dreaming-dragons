@@ -25,7 +25,6 @@ func _ready():
 	player = get_parent().get_parent().get_node("Player")
 	background = get_parent().get_node("Background")
 	position = player.position
-	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -52,7 +51,7 @@ func _process(delta):
 		dx = (final_pos.x - current_pos.x) / rate
 		dy = (final_pos.y - current_pos.y) / rate
 		position += Vector2(dx, dy)
-		get_node("Player Health").visible = false
+		get_node("Player Health").get_node("Player Health").visible = false
 		zoom = Vector2(1.5,1.5)
 		background.scale = Vector2(1.5 / 1.2, 1.5 / 1.2)
 		background.position = position# + accumulated_pos_change
@@ -60,9 +59,9 @@ func _process(delta):
 #			if flag == true:
 #				zoomin()
 			camera_moving_to_boss_fighting = false
-			get_node("Player Health").rect_position.y -= 87
-			get_node("Player Health").rect_position.x -= 250
-			get_node("Player Health").visible = true
+			get_node("Player Health").get_node("Player Health").rect_position.y -= 110
+			get_node("Player Health").get_node("Player Health").rect_position.x -= 250
+			get_node("Player Health").get_node("Player Health").visible = true
 			
 
  
