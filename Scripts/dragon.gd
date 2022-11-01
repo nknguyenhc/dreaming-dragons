@@ -45,8 +45,10 @@ var spit_fire_from_drag = false
 const SPIT_FIRE_WHILE_FLYING_CHANCES = 100
 const SPIT_FIRE_HEIGHT = -1300
 const GROUND_MARKER = -950
+
 var Ending_Animation = preload("res://Scenes/Ending.tscn")
 var ending_animation
+var is_death_initiated = false
 
 enum BOSS_STATE {IDLE, FLY, SPIT, SPIT_ON_AIR, DASH, KICK, FLYBACK}
 export (BOSS_STATE) var current_state = BOSS_STATE.IDLE
@@ -63,179 +65,184 @@ func _ready():
 
 
 func _physics_process(delta):
-	
-	if !is_player_close:
-		if player.position.y < -750 && player.position.x > 2000 && !is_boss_fight_started:
-			is_boss_fight_started = true
-			get_node("delay_timer").wait_time = 2
-			get_node("delay_timer").start()
-		if delay_timeout:
-			is_player_close = true
-			delay_timeout = false
-			get_parent().get_node("Map1").get_node("Camera2D").add_child(hb)
-			
-	
+	hb.get_node("dragonhealthbar").value = health
+	if health <= 0:
+		if not is_death_initiated:
+			get_node("dragon_idle").play()
+			get_node("animation").animation = "death"
+			get_node("death_timer").start()
+			is_death_initiated = true
+			velocity = Vector2(0, 0)
+		velocity.y += 10
+		move_and_slide(velocity)
 	else:
-		hb.get_node("dragonhealthbar").value = health
+	
+		if !is_player_close:
+			if player.position.y < -750 && player.position.x > 2000 && !is_boss_fight_started:
+				is_boss_fight_started = true
+				get_node("delay_timer").wait_time = 2
+				get_node("delay_timer").start()
+			if delay_timeout:
+				is_player_close = true
+				delay_timeout = false
+				get_parent().get_node("Map1").get_node("Camera2D").add_child(hb)
+				
 		
-		match current_state:
-			
-			BOSS_STATE.IDLE: # done
-				if not state_initiated:			
-					state_initiated = true
-					
-					if abs(position.x - idle_pos_left) < abs(position.x - idle_pos_right): # should face right
-						direction = 1
-						check_and_change_direction()
-					else:
-						direction = -1
-						check_and_change_direction()
-					get_node("dragon_idle").play()
-					get_node("animation").animation = "idle"
-					get_node("idle_timer").wait_time = IDLE_TIME
-					get_node("idle_timer").start()
+		else:			
+			match current_state:
 				
-			BOSS_STATE.FLY: # done
-				if not state_initiated:
-					if direction == 1:
-						fly_back_dest = idle_pos_right
-					else:
-						fly_back_dest = idle_pos_left
-					state_initiated = true
-					is_back = false
-					get_node("animation").animation = "fly"
-					to_stomp = false
-					stomp_initiated = false
-					get_node("stomp_timer").wait_time = rng.randi_range(5, 7)
-					get_node("stomp_timer").start()
-				
-				if spit_fire_from_drag and !stomp_initiated and !to_stomp and position.y < SPIT_FIRE_HEIGHT\
-					and player.is_on_floor() and player.position.y > GROUND_MARKER:
-					if rng.randi_range(1, SPIT_FIRE_WHILE_FLYING_CHANCES) == 1:
-						change_state(7)
-				
-				if (!stomp_initiated and abs(player.position.x - position.x) < 50 \
-						and player.position.y > position.y) or abs(position.x - fly_back_dest) < 50:
-					to_stomp = true
-				
-				if !stomp_initiated && to_stomp:
-					get_node("delay_timer").wait_time = STOMP_DELAY_TIME
-					get_node("delay_timer").start()
-					to_stomp = false
-					stomp_initiated = true
-				
-				if stomp_initiated && delay_timeout:
-					velocity = Vector2(0, STOMP_SPEED)
-					move_and_slide(velocity, Vector2.UP)
-					if is_on_floor():
-						get_node("dragon_stomp").play()
-						is_back = true
-						delay_timeout = false
+				BOSS_STATE.IDLE: # done
+					if not state_initiated:			
+						state_initiated = true
 						
-				elif !is_back: # initial fly up and horizontally
+						if abs(position.x - idle_pos_left) < abs(position.x - idle_pos_right): # should face right
+							direction = 1
+							check_and_change_direction()
+						else:
+							direction = -1
+							check_and_change_direction()
+						get_node("dragon_idle").play()
+						get_node("animation").animation = "idle"
+						get_node("idle_timer").wait_time = IDLE_TIME
+						get_node("idle_timer").start()
+					
+				BOSS_STATE.FLY: # done
+					if not state_initiated:
+						if direction == 1:
+							fly_back_dest = idle_pos_right
+						else:
+							fly_back_dest = idle_pos_left
+						state_initiated = true
+						is_back = false
+						get_node("animation").animation = "fly"
+						to_stomp = false
+						stomp_initiated = false
+						get_node("stomp_timer").wait_time = rng.randi_range(5, 7)
+						get_node("stomp_timer").start()
+					
+					if spit_fire_from_drag and !stomp_initiated and !to_stomp and position.y < SPIT_FIRE_HEIGHT\
+						and player.is_on_floor() and player.position.y > GROUND_MARKER:
+						if rng.randi_range(1, SPIT_FIRE_WHILE_FLYING_CHANCES) == 1:
+							change_state(7)
+					
+					if (!stomp_initiated and abs(player.position.x - position.x) < 50 \
+							and player.position.y > position.y) or abs(position.x - fly_back_dest) < 50:
+						to_stomp = true
+					
+					if !stomp_initiated && to_stomp:
+						get_node("delay_timer").wait_time = STOMP_DELAY_TIME
+						get_node("delay_timer").start()
+						to_stomp = false
+						stomp_initiated = true
+					
+					if stomp_initiated && delay_timeout:
+						velocity = Vector2(0, STOMP_SPEED)
+						move_and_slide(velocity, Vector2.UP)
+						if is_on_floor():
+							get_node("dragon_stomp").play()
+							is_back = true
+							delay_timeout = false
+							
+					elif !is_back: # initial fly up and horizontally
+						velocity = Vector2(0, -FLY_SPEED)
+						if position.y < max_height:
+							velocity = Vector2(FLY_SPEED * direction, 0)
+						move_and_slide(velocity)
+					
+					if is_back:
+						if position.y < -STOMP_MARKER: # on platform
+							change_state(4)
+						else: # on ground
+							change_state(6)
+						is_back = false
+				
+				BOSS_STATE.FLYBACK: # done
+					if not state_initiated:
+						if direction == 1:
+							fly_back_dest = idle_pos_right
+						else:
+							fly_back_dest = idle_pos_left
+						state_initiated = true
+					
 					velocity = Vector2(0, -FLY_SPEED)
 					if position.y < max_height:
 						velocity = Vector2(FLY_SPEED * direction, 0)
-					move_and_slide(velocity)
-				
-				if is_back:
-					if position.y < -STOMP_MARKER: # on platform
-						change_state(4)
-					else: # on ground
-						change_state(6)
-					is_back = false
-			
-			BOSS_STATE.FLYBACK: # done
-				if not state_initiated:
-					if direction == 1:
-						fly_back_dest = idle_pos_right
-					else:
-						fly_back_dest = idle_pos_left
-					state_initiated = true
-				
-				velocity = Vector2(0, -FLY_SPEED)
-				if position.y < max_height:
-					velocity = Vector2(FLY_SPEED * direction, 0)
-				if abs(position.x - fly_back_dest) < 20:
-					velocity = Vector2(0, FLY_SPEED)
-				move_and_slide(velocity, Vector2.UP)
-				if is_on_floor():
-					change_state(0)
-				
-				
-			BOSS_STATE.SPIT:
-				if not state_initiated:
-					get_node("dragon_spit").play()
-					get_node("animation").animation = "attack"
-					fire_from_pos(player.position.x, ceiling_height)
-					state_initiated = true
-				if current_n_fire_balls >= MAX_N_FIRE_BALLS:
-					current_n_fire_balls = 0
-					first_fire_ball.queue_free()
-					fire_initialised = false
-					change_state(3)
-			
-			BOSS_STATE.SPIT_ON_AIR:
-				if not state_initiated:
-					get_node("dragon_spit").play()
-					get_node("animation").animation = "attack"
-					fire_from_pos(position.x, position.y)
-					state_initiated = true
-				if current_n_fire_balls >= MAX_N_FIRE_BALLS:
-					current_n_fire_balls = 0
-					first_fire_ball.queue_free()
-					fire_initialised = false
-					change_state(5)
-			
-			BOSS_STATE.DASH: # done
-				if not state_initiated:
-					state_initiated = true
-					var dif = player.position.x - position.x
-					if dif > 0:
-						direction = 1
-						dash_dest = idle_pos_right
-					else:
-						direction = -1
-						dash_dest = idle_pos_left
-					check_and_change_direction()
-					get_node("dragon_dash").play()
-					velocity =  Vector2(dif, 0).normalized() * 800
-					get_node("animation").animation = "dash"
-				
-				move_and_slide(velocity)
-				if abs(position.x - dash_dest) < 20:
-					direction *= -1
-					check_and_change_direction()
-					change_state(0)
+					if abs(position.x - fly_back_dest) < 20:
+						velocity = Vector2(0, FLY_SPEED)
+					move_and_slide(velocity, Vector2.UP)
+					if is_on_floor():
+						change_state(0)
 					
-							
-			BOSS_STATE.KICK: # done
-				if not state_initiated:
-					state_initiated = true
-					get_node("dragon_kick").play()
-					get_node("animation").animation = "kick"
-					position.x += 50 * direction
-					get_node("delay_timer").wait_time = 0.6
-					get_node("delay_timer").start()
+					
+				BOSS_STATE.SPIT:
+					if not state_initiated:
+						get_node("dragon_spit").play()
+						get_node("animation").animation = "attack"
+						fire_from_pos(player.position.x, ceiling_height)
+						state_initiated = true
+					if current_n_fire_balls >= MAX_N_FIRE_BALLS:
+						current_n_fire_balls = 0
+						first_fire_ball.queue_free()
+						fire_initialised = false
+						change_state(3)
 				
-				if delay_timeout:
-					position.x -= 50 * direction
-					delay_timeout = false
-					change_state(0)
-	
-	if health < LEVEL2_MARK:
-		if not is_level_2_music_played:
-			is_level_2_music_played = true
-			get_node("dragon_spit").play()
-		FLY_SPEED = 600
-		spit_fire_from_drag = true
-		IDLE_TIME = 1
-		STOMP_DELAY_TIME = 0.05
-		get_node("animation").modulate = Color(1, 0.3, 0.3)
-	
-	if health <= 0:
-		get_node("animation").animation = "death"
-		get_node("death_timer").start()
+				BOSS_STATE.SPIT_ON_AIR:
+					if not state_initiated:
+						get_node("dragon_spit").play()
+						get_node("animation").animation = "attack"
+						fire_from_pos(position.x, position.y)
+						state_initiated = true
+					if current_n_fire_balls >= MAX_N_FIRE_BALLS:
+						current_n_fire_balls = 0
+						first_fire_ball.queue_free()
+						fire_initialised = false
+						change_state(5)
+				
+				BOSS_STATE.DASH: # done
+					if not state_initiated:
+						state_initiated = true
+						var dif = player.position.x - position.x
+						if dif > 0:
+							direction = 1
+							dash_dest = idle_pos_right
+						else:
+							direction = -1
+							dash_dest = idle_pos_left
+						check_and_change_direction()
+						get_node("dragon_dash").play()
+						velocity =  Vector2(dif, 0).normalized() * 800
+						get_node("animation").animation = "dash"
+					
+					move_and_slide(velocity)
+					if abs(position.x - dash_dest) < 20:
+						direction *= -1
+						check_and_change_direction()
+						change_state(0)
+						
+								
+				BOSS_STATE.KICK: # done
+					if not state_initiated:
+						state_initiated = true
+						get_node("dragon_kick").play()
+						get_node("animation").animation = "kick"
+						position.x += 50 * direction
+						get_node("delay_timer").wait_time = 0.6
+						get_node("delay_timer").start()
+					
+					if delay_timeout:
+						position.x -= 50 * direction
+						delay_timeout = false
+						change_state(0)
+		
+		if health < LEVEL2_MARK:
+			if not is_level_2_music_played:
+				is_level_2_music_played = true
+				get_node("dragon_spit").play()
+			FLY_SPEED = 600
+			spit_fire_from_drag = true
+			IDLE_TIME = 1
+			STOMP_DELAY_TIME = 0.05
+			get_node("animation").modulate = Color(1, 0.3, 0.3)
 
 
 func fire_from_pos(x, y):
@@ -278,6 +285,11 @@ func _on_delay_timer_timeout():
 func _on_death_timer_timeout():
 	ending_animation = Ending_Animation.instance()
 	get_parent().get_node("Map1").get_node("Camera2D").add_child(ending_animation)
+	for child in get_children():
+		child.queue_free()
+	for child in get_parent().get_children():
+		if child.name == "fire_by_dragon":
+			child.queue_free()
 	
 func change_state(mode):
 	velocity = Vector2.ZERO
