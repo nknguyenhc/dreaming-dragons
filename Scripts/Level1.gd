@@ -94,10 +94,8 @@ func _process(delta):
 		slime_count -= 1
 
 	if Input.is_action_just_pressed("ui_restart"):
-		restart_window = RestartWindow.instance()
-		get_node("Player").invincible = true
-		get_node("Map1").get_node("Camera2D").add_child(restart_window)
-		restart_window.get_node("WindowDialog").popup()
+		get_tree().paused = true
+		get_node("Restart").get_node("Restart").open()
 
 
 func _on_IntroDelay_timeout():

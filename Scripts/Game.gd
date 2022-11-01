@@ -56,7 +56,7 @@ func start_from_title_scene(mode):
 func gn(s):
 	return lvl1.get_node(s)
 
-func restart():
+func restart_from_last_save_point():
 	if player.boomerang_collected == true:
 		boomerang = true
 	elif player.sword_collected == true:
@@ -77,3 +77,14 @@ func restart():
 		player.position = sword_respawn_pos
 		lvl1.get_node("Map1").get_node("SwordCollectible").queue_free()
 	add_child(lvl1)
+
+func restart_from_mode_selection():
+	for child in get_children():
+		child.queue_free()
+	intro_tutorial_done = false
+	jump_kick_tutorial_done = false
+	climb_tutorial_done = false
+	boomerang = false
+	sword = false
+	modes = Modes.instance()
+	add_child(modes)
