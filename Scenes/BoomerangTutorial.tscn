@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/Intro_tutorial.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Art/Arial.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Assets/Art/boomerang.png" type="Texture" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 20
@@ -39,7 +40,7 @@ margin_bottom = 112.0
 custom_fonts/normal_font = SubResource( 2 )
 visible_characters = 0
 percent_visible = 0.0
-text = "Hold V to determine the direction ..."
+text = "Hold V to determine the direction, release to fire the boomerang ..."
 
 [node name="RichTextLabel3" type="RichTextLabel" parent="."]
 margin_right = 497.0
@@ -47,7 +48,7 @@ margin_bottom = 144.0
 custom_fonts/normal_font = SubResource( 3 )
 visible_characters = 0
 percent_visible = 0.0
-text = "Release V to fire the boomerang"
+text = "If the boomerang flies back at you, press V again to catch it. If you fail to catch, it damages yourself ..."
 
 [node name="RichTextLabel4" type="RichTextLabel" parent="."]
 margin_right = 497.0
@@ -55,4 +56,18 @@ margin_bottom = 147.0
 custom_fonts/normal_font = SubResource( 4 )
 visible_characters = 0
 percent_visible = 0.0
+text = "You can still press V to collect the boomerang on the ground. Uncollected boomerang only comes back to you after a long time..."
+
+[node name="RichTextLabel5" type="RichTextLabel" parent="."]
+margin_right = 497.0
+margin_bottom = 144.0
+custom_fonts/normal_font = SubResource( 3 )
+visible_characters = 0
+percent_visible = 0.0
 text = "Game Saved"
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -31, 16 )
+rotation = 0.553119
+scale = Vector2( 2.60163, 2.60163 )
+texture = ExtResource( 3 )

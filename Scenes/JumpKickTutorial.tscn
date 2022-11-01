@@ -35,7 +35,7 @@ margin_bottom = 160.0
 custom_fonts/normal_font = SubResource( 2 )
 visible_characters = 0
 percent_visible = 0.0
-text = "You can kick to inflict damage on the target ..."
+text = "Press X to kick and inflict damage on the target ..."
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="."]
 margin_right = 232.0
@@ -43,4 +43,4 @@ margin_bottom = 147.0
 custom_fonts/normal_font = SubResource( 3 )
 visible_characters = 0
 percent_visible = 0.0
-text = "Press X to kick"
+text = "Beware of spikes! They can be very hurtful!"

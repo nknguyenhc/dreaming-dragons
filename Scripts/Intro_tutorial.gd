@@ -13,6 +13,19 @@ func _ready():
 	frame_count = 0
 	current_text = get_child(0)
 	N_TEXTS = get_child_count()
+	if name == "IntroTutorial":
+		rect_position += Vector2(100, -100) 
+	elif name == "JumpKickTutorial":
+		rect_position += Vector2(200, -200)
+	elif name == "ClimbTutorial":
+		rect_position += Vector2(0, -100)
+	elif name == "SwordTutorial":
+		rect_position += Vector2(-100, -100)
+		N_TEXTS -= 1 # to account for the Sprite
+	elif name == "BoomerangTutorial":
+		rect_position += Vector2(-100, -40)
+		N_TEXTS -= 1 # to account for the Sprite
+
 
 
 func _process(delta):

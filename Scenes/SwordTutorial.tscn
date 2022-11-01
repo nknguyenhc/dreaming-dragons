@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/Intro_tutorial.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Art/Arial.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Assets/Art/sword.png" type="Texture" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 20
@@ -39,7 +40,7 @@ margin_bottom = 104.0
 custom_fonts/normal_font = SubResource( 2 )
 visible_characters = 0
 percent_visible = 0.0
-text = "To use the sword, press C"
+text = "Press C to swing the sword"
 
 [node name="RichTextLabel3" type="RichTextLabel" parent="."]
 margin_right = 400.0
@@ -47,7 +48,7 @@ margin_bottom = 113.0
 custom_fonts/normal_font = SubResource( 3 )
 visible_characters = 0
 percent_visible = 0.0
-text = "Only the blade of the sword takes damage"
+text = "Only the blade of the sword deals damage"
 
 [node name="RichTextLabel4" type="RichTextLabel" parent="."]
 margin_right = 400.0
@@ -56,3 +57,9 @@ custom_fonts/normal_font = SubResource( 4 )
 visible_characters = 0
 percent_visible = 0.0
 text = "Game Saved"
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -27, 36 )
+rotation = -0.309159
+scale = Vector2( 0.236002, 0.236002 )
+texture = ExtResource( 3 )

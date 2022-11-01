@@ -19,4 +19,12 @@ margin_bottom = 80.0
 custom_fonts/normal_font = SubResource( 1 )
 visible_characters = 0
 percent_visible = 0.0
-text = "To climb the wall on the right, hold on to the right arrow key and press the up arrow key"
+text = "To climb the wall on the right, hold on to the right arrow key and press the up arrow key ..."
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+margin_right = 304.0
+margin_bottom = 80.0
+custom_fonts/normal_font = SubResource( 1 )
+visible_characters = 0
+percent_visible = 0.0
+text = "You can only climb on walls with grass!"
