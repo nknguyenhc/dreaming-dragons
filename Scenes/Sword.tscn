@@ -19,6 +19,6 @@ shape = SubResource( 1 )
 rotation = -2.35494
 scale = Vector2( 0.018544, 0.018544 )
 texture = ExtResource( 2 )
-offset = Vector2( 250, -250 )
+offset = Vector2( 220, -270 )
 
 [connection signal="body_entered" from="." to="." method="_on_Area2D_body_entered"]

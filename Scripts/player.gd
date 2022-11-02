@@ -72,6 +72,7 @@ enum PLAYER_STATE {IDLE, WALKING, SWORD, KICKING, CLIMBING, WALL_STATIONARY, TAK
 export (PLAYER_STATE) var current_state = PLAYER_STATE.IDLE
 var idle_initiated = false
 var walking_initiated = false
+var sword_initiated = false
 var kicking_initiated = false
 var climbing_initiated = false
 var wall_stationary_initiated = false
@@ -115,7 +116,6 @@ func end_sword():
 func player_kick(right):
 	if kick_enabled:
 		kick_animation_playing = true
-		get_node("player_kick").play()
 		player_freeze = true
 		kick = Kick.instance()
 		if not right:
@@ -186,7 +186,9 @@ func _physics_process(delta):
 				get_node("walk").play()
 		
 		PLAYER_STATE.SWORD:
-			pass
+			if not sword_initiated:
+				sword_initiated = true
+				animated_sprite.play("swing_sword")
 		
 		PLAYER_STATE.KICKING:
 			if not kicking_initiated:
@@ -311,6 +313,7 @@ func change_state(state):
 		walking_initiated = false
 		kicking_initiated = false
 		climbing_initiated = false
+		sword_initiated = false
 		wall_stationary_initiated = false
 		take_damage_initiated = false
 		if current_state == PLAYER_STATE.WALL_STATIONARY:
