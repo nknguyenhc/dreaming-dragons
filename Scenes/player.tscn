@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://Scripts/player.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Art/MZmapsprites/actor1-1[VS8].png" type="Texture" id=2]
@@ -60,6 +60,16 @@ region = Rect2( 700, 300, 100, 100 )
 flags = 4
 atlas = ExtResource( 3 )
 region = Rect2( 800, 300, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=40]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 400, 100, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=41]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 500, 100, 100, 100 )
 
 [sub_resource type="AtlasTexture" id=33]
 flags = 4
@@ -153,6 +163,11 @@ animations = [ {
 "name": "kicking",
 "speed": 15.0
 }, {
+"frames": [ SubResource( 40 ), SubResource( 41 ), SubResource( 41 ), SubResource( 40 ) ],
+"loop": true,
+"name": "swing_sword",
+"speed": 3.0
+}, {
 "frames": [ SubResource( 33 ), SubResource( 34 ), SubResource( 34 ), SubResource( 35 ), SubResource( 35 ), null, SubResource( 36 ), null, SubResource( 37 ), null, SubResource( 38 ), null, SubResource( 39 ) ],
 "loop": true,
 "name": "take_damage",
@@ -184,8 +199,8 @@ shape = SubResource( 1 )
 position = Vector2( 0, -4 )
 scale = Vector2( 0.28, 0.28 )
 frames = SubResource( 2 )
-animation = "vanishing"
-frame = 4
+animation = "swing_sword"
+frame = 2
 playing = true
 
 [node name="Hurtbox" type="Area2D" parent="."]
