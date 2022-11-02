@@ -23,6 +23,18 @@ func start_from_title_scene(mode):
 	lvl1 = Level1.instance()
 	lvl1.game = self
 	player = lvl1.get_node("Player")
+	lvl1.slime_count = 7
+	if boomerang == true:
+		player.boomerang_collected = true
+		player.sword_collected = true
+		player.position = boomerang_respawn_pos
+		lvl1.get_node("Map1").get_node("BoomerangCollectible").queue_free()
+		lvl1.get_node("Map1").get_node("SwordCollectible").queue_free()
+	elif sword == true:
+		player.sword_collected = true
+		player.position = sword_respawn_pos
+		lvl1.get_node("Map1").get_node("SwordCollectible").queue_free()
+	
 	if mode == "Medium":
 		cur_mode = "Medium"
 		gn("Player").MAX_HEALTH = 200
@@ -62,29 +74,19 @@ func restart_from_last_save_point():
 	elif player.sword_collected == true:
 		sword = true
 	remove_child(lvl1)
-	lvl1 = Level1.instance()
-	lvl1.game = self
-	lvl1.slime_count = 7
-	player = lvl1.get_node("Player")
-	if boomerang == true:
-		player.boomerang_collected = true
-		player.sword_collected = true
-		player.position = boomerang_respawn_pos
-		lvl1.get_node("Map1").get_node("BoomerangCollectible").queue_free()
-		lvl1.get_node("Map1").get_node("SwordCollectible").queue_free()
-	elif sword == true:
-		player.sword_collected = true
-		player.position = sword_respawn_pos
-		lvl1.get_node("Map1").get_node("SwordCollectible").queue_free()
-	add_child(lvl1)
+	start_from_title_scene(cur_mode)
 
 func restart_from_mode_selection():
 	for child in get_children():
-		child.queue_free()
+		if child.name != "BugTimer":
+			child.queue_free()
+	modes = Modes.instance()
+	add_child(modes)
+	get_node("BugTimer").start()
+
+func _on_BugTimer_timeout(): # because "queue_free" takes time, cannot initiate right after it
 	intro_tutorial_done = false
 	jump_kick_tutorial_done = false
 	climb_tutorial_done = false
 	boomerang = false
 	sword = false
-	modes = Modes.instance()
-	add_child(modes)
