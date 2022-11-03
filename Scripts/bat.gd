@@ -13,16 +13,21 @@ var health = 15
 var is_damaging = false
 var bullet_ready = true
 var prev_frame_health
+var hurt_animation
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	get_node("BulletTimer").wait_time = randi() % 3 + 3 + floor(randf())
 	prev_frame_health = health
+	hurt_animation = get_node("HurtAnimation")
+	hurt_animation.hide()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	if prev_frame_health != health:
 		get_parent().get_node("slime_bat_hurt").play()
+		hurt_animation.play()
+		hurt_animation.show()
 	t += delta
 	position.x += 5 * sin(3 * t + add_on)
 	position.y += 1 * cos(3 * t + add_on)
@@ -52,3 +57,8 @@ func _on_Area2D_body_exited(body):
 func _on_BulletTimer_timeout():
 	get_node("BulletTimer").wait_time = randi() % 3 + 3 + floor(randf())
 	bullet_ready = true
+
+
+func _on_HurtAnimation_animation_finished():
+	hurt_animation.stop()
+	hurt_animation.hide()

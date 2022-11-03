@@ -31,8 +31,6 @@ var tested = false # test for rotation
 var player
 var dragon
 
-#start 2 timers
-
 
 #the static body come with sprite and hurtbox.
 #end this loop when time is up on timer 1 (burn_time).
@@ -128,7 +126,10 @@ func _on_Left_body_entered(body):
 
 func _on_Right_body_entered(body):
 	if (body.name == 'TileMap' or body.name == 'TileMap2' or body.name == 'block') and landed:
-		next_fire_ball.first_rotate_direction = true
+		if direction_of_spread == "both":
+			next_fire_ball2.first_rotate_direction = true
+		else:
+			next_fire_ball.first_rotate_direction = true
 
 
 func _on_fire_by_dragon_body_entered(body):

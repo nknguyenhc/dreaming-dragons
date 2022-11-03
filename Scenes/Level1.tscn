@@ -122,11 +122,9 @@ volume_db = -11.082
 max_distance = 20000.0
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( -3971, -691 )
+position = Vector2( -3899, -697 )
 scale = Vector2( 7, 7 )
 
 [node name="Restart" parent="." instance=ExtResource( 13 )]
-scale = Vector2( 1, 1 )
-transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
 [connection signal="timeout" from="IntroDelay" to="." method="_on_IntroDelay_timeout"]
