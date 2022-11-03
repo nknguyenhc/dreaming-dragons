@@ -978,7 +978,7 @@ polygon = PoolVector2Array( 288, 75, 327, 71, 329, 198, 286, 198 )
 
 [node name="CollisionPolygon2D17" type="CollisionPolygon2D" parent="unclimable"]
 position = Vector2( 3949, -35 )
-polygon = PoolVector2Array( 303, 74, 326, 74, 328, 226, 303, 226 )
+polygon = PoolVector2Array( 303, 74, 326, 74, 326, 209, 303, 208 )
 
 [node name="CollisionPolygon2D18" type="CollisionPolygon2D" parent="unclimable"]
 position = Vector2( 2552, -631 )
@@ -1149,7 +1149,7 @@ position = Vector2( 2, 0 )
 polygon = PoolVector2Array( 3269, -378, 3266, -377, 3280, 38, 3280, -375 )
 
 [node name="collisionpolygon6" type="CollisionPolygon2D" parent="StaticBody2D"]
-polygon = PoolVector2Array( 4269, 40, 4270, 245, 4309, 245, 4309, 40 )
+polygon = PoolVector2Array( 4269, 40, 4269, 245, 4309, 245, 4309, 40 )
 
 [node name="collisionpolygon7" type="CollisionPolygon2D" parent="StaticBody2D"]
 polygon = PoolVector2Array( 2914, -573, 2914, -472, 2908, -473, 2911, -573 )
