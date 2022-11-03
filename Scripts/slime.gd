@@ -11,7 +11,7 @@ var health = 20
 var prev_frame_health
 var decrement = 1
 
-var bullet_ready = true
+var bullet_ready = false
 
 var hurt_animation
 
@@ -22,6 +22,7 @@ func _ready():
 	get_node("BulletTimer").wait_time = randi() % 5 + 5
 	hurt_animation = get_node("HurtAnimation")
 	hurt_animation.hide()
+	get_node("BulletTimer").start()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
