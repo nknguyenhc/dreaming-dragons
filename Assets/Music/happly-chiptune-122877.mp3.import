@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/happly-chiptune-122877.mp3-9b3bd63ae54e154091c27cd081c1bf80.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music/happly-chiptune-122877.mp3"
+dest_files=[ "res://.import/happly-chiptune-122877.mp3-9b3bd63ae54e154091c27cd081c1bf80.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
