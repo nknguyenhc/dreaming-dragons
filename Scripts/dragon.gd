@@ -115,7 +115,9 @@ func _physics_process(delta):
 						get_node("animation").animation = "idle"
 						get_node("idle_timer").wait_time = IDLE_TIME
 						get_node("idle_timer").start()
-						if rng.randi_range(1, 5) == 1 && not is_medicine_exist:
+						medicine_num = rng.randi_range(1,2)
+						print(medicine_num)
+						if medicine_num == 1 && not is_medicine_exist:
 							is_medicine_exist = true
 							medicine = Medicine.instance()
 							medicine_num = rng.randi_range(1,4)
@@ -314,7 +316,7 @@ func _on_death_timer_timeout():
 		if child.name == "fire_by_dragon":
 			child.queue_free()
 	get_parent().get_node("boss_bgm").stop()
-	get_parent().get_node("victory_bgm").start()
+	get_parent().get_node("victory_bgm").play()
 	
 func change_state(mode):
 	velocity = Vector2.ZERO
