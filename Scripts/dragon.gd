@@ -313,6 +313,8 @@ func _on_death_timer_timeout():
 	for child in get_parent().get_children():
 		if child.name == "fire_by_dragon":
 			child.queue_free()
+	get_parent().get_node("boss_bgm").stop()
+	get_parent().get_node("victory_bgm").start()
 	
 func change_state(mode):
 	velocity = Vector2.ZERO

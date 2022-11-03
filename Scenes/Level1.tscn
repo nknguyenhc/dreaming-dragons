@@ -124,6 +124,8 @@ max_distance = 20000.0
 
 [node name="victory_bgm" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 16 )
+volume_db = -10.23
+max_distance = 20000.0
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( -3899, -697 )
