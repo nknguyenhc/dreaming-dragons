@@ -1305,7 +1305,7 @@ polygon = PoolVector2Array( -1262.3, 185, -1093.3, 185, -1093.3, 206, -1262.3, 2
 
 [node name="HurtAnimation" type="AnimatedSprite" parent="."]
 position = Vector2( -1268, -814 )
-scale = Vector2( 1.7964, 1.7964 )
+scale = Vector2( 1.12967, 1.12967 )
 frames = SubResource( 31 )
 
 [node name="BoomerangCollectible" parent="." instance=ExtResource( 16 )]
