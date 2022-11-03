@@ -25,7 +25,7 @@ script = ExtResource( 4 )
 light_mask = 0
 
 [node name="dragon" parent="." instance=ExtResource( 3 )]
-position = Vector2( 4718, -827 )
+position = Vector2( 4709, -1654 )
 scale = Vector2( 2.17457, 2.17457 )
 
 [node name="slime" parent="." instance=ExtResource( 7 )]

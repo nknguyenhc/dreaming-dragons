@@ -8,6 +8,7 @@ const idle_pos_left = 2780
 const idle_pos_right = 4730
 const max_height = -1680
 const ceiling_height = -1700
+const start_pos = Vector2(4718, -827)
 const HB = preload("res://Scenes/Dragon Health.tscn")
 var hb = HB.instance()
 
@@ -90,6 +91,7 @@ func _physics_process(delta):
 		if !is_player_close:
 			if player.position.y < -750 && player.position.x > 2000 && !is_boss_fight_started:
 				is_boss_fight_started = true
+				position = start_pos
 				get_node("delay_timer").wait_time = 2
 				get_node("delay_timer").start()
 			if delay_timeout:
