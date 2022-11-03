@@ -249,10 +249,12 @@ func _physics_process(delta):
 						off_platform_timer.stop()
 						can_jump = false
 				elif last_frame_on_floor:
+					print("raycast activated")
 					can_jump = true
 					off_platform_timer.start(OFF_PLATFORM_GRACE_PERIOD)
 					last_frame_on_floor = false
 		elif can_climb:
+			last_frame_on_floor = false
 			velocity.x = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")) * HORIZONTAL_SPEED
 			velocity.y = (Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")) * VERTICAL_SPEED
 			if velocity.y != 0:
@@ -264,6 +266,8 @@ func _physics_process(delta):
 				change_state(PLAYER_STATE.WALL_STATIONARY)
 				is_climb_music_playing = false
 			velocity.y += wall_v_speed # in case of climbing on a moving platform, wall_v_speed is non-zero
+		else:
+			last_frame_on_floor = false
 	elif current_state != PLAYER_STATE.TAKE_DAMAGE: # player being frozen due to sword
 		velocity.y += GRAVITY
 		if is_on_floor() or !current_state == PLAYER_STATE.KICKING:
