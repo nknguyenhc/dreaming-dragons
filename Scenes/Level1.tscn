@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Scenes/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Map1.tscn" type="PackedScene" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://Scenes/restart.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Assets/Music/Main Bgm.mp3" type="AudioStream" id=14]
 [ext_resource path="res://Assets/Music/Boss Fight.mp3" type="AudioStream" id=15]
+[ext_resource path="res://Assets/Music/happly-chiptune-122877.mp3" type="AudioStream" id=16]
 
 [node name="Node2D" type="Node2D"]
 pause_mode = 1
@@ -120,6 +121,9 @@ pause_mode = 2
 stream = ExtResource( 15 )
 volume_db = -11.082
 max_distance = 20000.0
+
+[node name="victory_bgm" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 16 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( -3899, -697 )
