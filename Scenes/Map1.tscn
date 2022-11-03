@@ -1152,6 +1152,9 @@ polygon = PoolVector2Array( 2995, 395, 3019, 396, 2977, 396 )
 [node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="StaticBody2D"]
 polygon = PoolVector2Array( -4174, -565, -4174, -1200, -4347, -1200 )
 
+[node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( 4797, -796, 4796, -803, 4798, -818, 4798, -796 )
+
 [node name="zoom_time" type="Timer" parent="."]
 wait_time = 1.001
 one_shot = true
