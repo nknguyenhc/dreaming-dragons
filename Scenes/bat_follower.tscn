@@ -1,7 +1,10 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Assets/Art/bat.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/bat_follower.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Art/3rd Job/Soul Seeker (Hit) (5).png" type="Texture" id=3]
+[ext_resource path="res://Assets/Art/3rd Job/Soul Seeker (Hit) (6).png" type="Texture" id=4]
+[ext_resource path="res://Assets/Art/3rd Job/Soul Seeker (Hit) (4).png" type="Texture" id=5]
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
@@ -69,6 +72,14 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=13]
 extents = Vector2( 48, 16.5 )
 
+[sub_resource type="SpriteFrames" id=14]
+animations = [ {
+"frames": [ ExtResource( 5 ), ExtResource( 3 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "default",
+"speed": 8.0
+} ]
+
 [node name="bat_follower" type="KinematicBody2D"]
 scale = Vector2( 0.959998, 0.709727 )
 collision_layer = 2
@@ -77,7 +88,7 @@ script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 12 )
-frame = 4
+frame = 6
 speed_scale = 3.0
 playing = true
 
@@ -98,7 +109,13 @@ wait_time = 2.037
 
 [node name="BulletTimer" type="Timer" parent="."]
 
+[node name="HurtAnimation" type="AnimatedSprite" parent="."]
+position = Vector2( -14.5416, 4.63272 )
+scale = Vector2( 0.872999, 1.04877 )
+frames = SubResource( 14 )
+
 [connection signal="body_entered" from="Hurtbox" to="." method="_on_Hurtbox_body_entered"]
 [connection signal="body_exited" from="Hurtbox" to="." method="_on_Hurtbox_body_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="BulletTimer" to="." method="_on_BulletTimer_timeout"]
+[connection signal="animation_finished" from="HurtAnimation" to="." method="_on_HurtAnimation_animation_finished"]

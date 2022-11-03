@@ -28,6 +28,7 @@ func _physics_process(delta):
 		get_parent().get_node("slime_bat_hurt").play()
 		hurt_animation.play()
 		hurt_animation.show()
+		prev_frame_health = health
 	t += delta
 	position.x += 5 * sin(3 * t + add_on)
 	position.y += 1 * cos(3 * t + add_on)

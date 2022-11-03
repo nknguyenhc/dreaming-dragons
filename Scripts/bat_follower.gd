@@ -7,6 +7,8 @@ var speed = 2
 var flag = true
 var timeout = false
 var health = 15
+var prev_frame_health = health
+var hurt_animation
 var is_damaging = false
 var bullet_ready = true
 
@@ -17,9 +19,16 @@ func _ready():
 	elif get_parent().get_parent().cur_mode == "Hard":
 		speed = 2.5
 	else:
-		speed = 3	
+		speed = 3
+	
+	hurt_animation = get_node("HurtAnimation")
+	hurt_animation.hide()
 
 func _physics_process(delta):
+	if prev_frame_health != health:
+		prev_frame_health = health
+		hurt_animation.play()
+		hurt_animation.show()
 	if health <= 0:
 		queue_free()
 	if is_damaging:
@@ -56,3 +65,8 @@ func _on_Timer_timeout():
 func _on_BulletTimer_timeout():
 	get_node("BulletTimer").wait_time = randi() % 3 + 3 + floor(randf())
 	bullet_ready = true
+
+
+func _on_HurtAnimation_animation_finished():
+	hurt_animation.stop()
+	hurt_animation.hide()
