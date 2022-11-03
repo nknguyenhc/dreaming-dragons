@@ -46,6 +46,16 @@ const SPIT_FIRE_WHILE_FLYING_CHANCES = 100
 const SPIT_FIRE_HEIGHT = -1300
 const GROUND_MARKER = -950
 
+# healing items
+const medicine_pos_1 = Vector2(3008, -1201)
+const medicine_pos_2 = Vector2(3506, -1356)
+const medicine_pos_3 = Vector2(3973, -1213)
+const medicine_pos_4 = Vector2(4482, -1365)
+const Medicine = preload("res://Scenes/medicine.tscn")
+var medicine
+var medicine_num
+var is_medicine_exist = false
+
 var Ending_Animation = preload("res://Scenes/Ending.tscn")
 var ending_animation
 var is_death_initiated = false
@@ -105,6 +115,19 @@ func _physics_process(delta):
 						get_node("animation").animation = "idle"
 						get_node("idle_timer").wait_time = IDLE_TIME
 						get_node("idle_timer").start()
+						if rng.randi_range(1, 5) == 1 && not is_medicine_exist:
+							is_medicine_exist = true
+							medicine = Medicine.instance()
+							medicine_num = rng.randi_range(1,4)
+							if medicine_num == 1:
+								medicine.position = medicine_pos_1
+							elif medicine_num == 2:
+								medicine.position = medicine_pos_2
+							elif medicine_num == 3:
+								medicine.position = medicine_pos_3
+							else:
+								medicine.position = medicine_pos_4
+							get_parent().get_node("Map1").add_child(medicine)
 					
 				BOSS_STATE.FLY: # done
 					if not state_initiated:

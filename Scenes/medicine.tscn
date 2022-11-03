@@ -44,6 +44,8 @@ speed_scale = 0.7
 playing = true
 
 [node name="RecoverBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RecoverBox"]
 position = Vector2( -1.11111, 6.38889 )
