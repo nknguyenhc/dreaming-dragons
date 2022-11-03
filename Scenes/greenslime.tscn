@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Scripts/greenslime.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Art/Slimes/SlimeGreen/SlimeBasic_00014.png" type="Texture" id=2]
@@ -31,6 +31,9 @@
 [ext_resource path="res://Assets/Art/Slimes/SlimeGreen/SlimeBasic_00003.png" type="Texture" id=29]
 [ext_resource path="res://Assets/Art/Slimes/SlimeGreen/SlimeBasic_00005.png" type="Texture" id=30]
 [ext_resource path="res://Assets/Art/Slimes/SlimeGreen/SlimeBasic_00002.png" type="Texture" id=31]
+[ext_resource path="res://Assets/Art/3rd Job/Soul Seeker (Hit) (5).png" type="Texture" id=32]
+[ext_resource path="res://Assets/Art/3rd Job/Soul Seeker (Hit) (6).png" type="Texture" id=33]
+[ext_resource path="res://Assets/Art/3rd Job/Soul Seeker (Hit) (4).png" type="Texture" id=34]
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 134.999
@@ -48,6 +51,14 @@ animations = [ {
 radius = 79.7218
 height = 70.5589
 
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ ExtResource( 34 ), ExtResource( 32 ), ExtResource( 33 ) ],
+"loop": true,
+"name": "default",
+"speed": 10.0
+} ]
+
 [node name="slime" type="KinematicBody2D"]
 scale = Vector2( 0.164635, 0.188155 )
 collision_layer = 2
@@ -61,7 +72,7 @@ shape = SubResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-frame = 2
+frame = 11
 speed_scale = 2.0
 playing = true
 
@@ -72,4 +83,9 @@ position = Vector2( 0, 6.25002 )
 scale = Vector2( 1.6, 0.84 )
 shape = SubResource( 3 )
 
+[node name="HurtAnimation" type="AnimatedSprite" parent="."]
+scale = Vector2( 3.81425, 3.81425 )
+frames = SubResource( 4 )
+
 [connection signal="body_entered" from="Hurtbox" to="." method="_on_Hurtbox_body_entered"]
+[connection signal="animation_finished" from="HurtAnimation" to="." method="_on_HurtAnimation_animation_finished"]

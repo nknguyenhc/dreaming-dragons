@@ -13,16 +13,22 @@ var decrement = 1
 
 var bullet_ready = true
 
+var hurt_animation
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	prev_frame_health = health
 	get_node("BulletTimer").wait_time = randi() % 5 + 5
+	hurt_animation = get_node("HurtAnimation")
+	hurt_animation.hide()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	if prev_frame_health != health:
 		get_parent().get_node("slime_bat_hurt").play()
+		hurt_animation.show()
+		hurt_animation.play()
 	prev_frame_health = health
 	
 	velocity.y += gravity
@@ -47,3 +53,8 @@ func _on_Hurtbox_body_entered(body):
 func _on_BulletTimer_timeout():
 	get_node("BulletTimer").wait_time = randi() % 5 + 5
 	bullet_ready = true
+
+
+func _on_HurtAnimation_animation_finished():
+	hurt_animation.stop()
+	hurt_animation.hide()
