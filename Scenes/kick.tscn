@@ -16,7 +16,7 @@ animations = [ {
 "frames": [ ExtResource( 4 ), ExtResource( 3 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 2 ), ExtResource( 7 ) ],
 "loop": true,
 "name": "default",
-"speed": 15.0
+"speed": 14.0
 } ]
 
 [node name="Kick" type="Area2D"]
@@ -33,7 +33,7 @@ shape = SubResource( 1 )
 position = Vector2( 5, 2.5 )
 scale = Vector2( 0.0492958, 0.0663265 )
 frames = SubResource( 2 )
-frame = 3
+frame = 4
 playing = true
 
 [connection signal="body_entered" from="." to="." method="_on_Kick_body_entered"]
