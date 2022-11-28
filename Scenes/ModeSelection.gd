@@ -1,5 +1,7 @@
 extends Node2D
 var game
+const Intro = preload("res://Scenes/Intro.tscn")
+var intro
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -7,15 +9,22 @@ func _ready():
 
 
 func _on_Medium_pressed():
-	game.start_from_title_scene("Medium")
+	pressed("Medium")
 	queue_free()
 
 
 func _on_Hard_pressed():
-	game.start_from_title_scene("Hard")
+	pressed("Hard")
 	queue_free()
 
 
 func _on_Asian_pressed():
-	game.start_from_title_scene("Asian")
+	pressed("Asian")
 	queue_free()
+
+
+func pressed(mode):
+	intro = Intro.instance()
+	intro.mode = mode
+	intro.game = game
+	game.add_child(intro)

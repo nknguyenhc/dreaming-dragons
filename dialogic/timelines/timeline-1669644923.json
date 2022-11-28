@@ -1,0 +1,25 @@
+{
+	"events": [
+		{
+			"character": "",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "Before anyone could realise, the dragon soon burned down the area and captured all villagers ..."
+		},
+		{
+			"character": "",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "Luckily, the prince survives ..."
+		},
+		{
+			"emit_signal": "start_game",
+			"event_id": "dialogic_040"
+		}
+	],
+	"metadata": {
+		"dialogic-version": "1.4.5",
+		"file": "timeline-1669644923.json",
+		"name": "intro1"
+	}
+}

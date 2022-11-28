@@ -1,0 +1,25 @@
+{
+	"events": [
+		{
+			"character": "",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "Once upon a time, there is a peaceful village situated in the middle of a large valley ..."
+		},
+		{
+			"character": "",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "One day, a dragon flown over upon the village. The dragon terrorised the village ..."
+		},
+		{
+			"emit_signal": "dragon_appear",
+			"event_id": "dialogic_040"
+		}
+	],
+	"metadata": {
+		"dialogic-version": "1.4.5",
+		"file": "timeline-1669626716.json",
+		"name": "intro"
+	}
+}
