@@ -10,19 +10,19 @@
 			"character": "",
 			"event_id": "dialogic_001",
 			"portrait": "",
-			"text": "The dragon also stole the villagers' good dreams, ..."
-		},
-		{
-			"character": "",
-			"event_id": "dialogic_001",
-			"portrait": "",
-			"text": "Leaving the villagers with only nightmares ..."
+			"text": "The dragon also stole the villagers' good dreams, leaving the villagers with only nightmares ..."
 		},
 		{
 			"character": "",
 			"event_id": "dialogic_001",
 			"portrait": "",
 			"text": "You, the prince of the village, is now on a mission to rescue the village ..."
+		},
+		{
+			"character": "",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "Slain the dragon, to bring back everyone's good dreams!"
 		},
 		{
 			"emit_signal": "start_game",

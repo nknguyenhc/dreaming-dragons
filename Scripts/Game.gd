@@ -80,7 +80,9 @@ func start_from_title_scene(mode):
 		gn("slime11").health = 10
 		gn("slime12").health = 10
 		pass
-	get_node("title").queue_free()
+	for child in get_children():
+		if child.name == "title":
+			child.queue_free()
 	add_child(lvl1)
 
 func gn(s):

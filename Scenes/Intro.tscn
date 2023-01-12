@@ -335,7 +335,7 @@ position = Vector2( -157, 297 )
 scale = Vector2( 2.70313, 2.70313 )
 frames = SubResource( 1 )
 animation = "idle"
-frame = 3
+frame = 1
 playing = true
 
 [connection signal="timeout" from="FireTimer" to="." method="_on_FireTimer_timeout"]
