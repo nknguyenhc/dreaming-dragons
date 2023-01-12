@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Assets/Music/title.wav" type="AudioStream" id=1]
+
+[node name="title_music" type="Node2D"]
+
+[node name="title" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 1 )
+volume_db = -11.082
+autoplay = true
+max_distance = 20000.0

@@ -8,6 +8,8 @@ var jump_kick_tutorial_done = false
 var climb_tutorial_done = false
 const sword_respawn_pos = Vector2(-1450, -400)
 const second_respawn_pos = Vector2(2700, -200)
+const Title_music = preload("res://Scenes/title_music.tscn")
+var title_music
 
 
 var second = false
@@ -19,6 +21,9 @@ var cur_mode = "Medium"
 func _ready():
 	modes = Modes.instance()
 	add_child(modes)
+	title_music = Title_music.instance()
+	title_music.name = "title"
+	add_child(title_music)
 
 func start_from_title_scene(mode):
 	lvl1 = Level1.instance()
@@ -75,6 +80,7 @@ func start_from_title_scene(mode):
 		gn("slime11").health = 10
 		gn("slime12").health = 10
 		pass
+	get_node("title").queue_free()
 	add_child(lvl1)
 
 func gn(s):
@@ -95,6 +101,9 @@ func restart_from_mode_selection():
 	modes = Modes.instance()
 	add_child(modes)
 	get_node("BugTimer").start()
+	title_music = Title_music.instance()
+	title_music.name = "title";
+	add_child(title_music)
 
 func _on_BugTimer_timeout(): # because "queue_free" takes time, cannot initiate right after it
 	intro_tutorial_done = false
