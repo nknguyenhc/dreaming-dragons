@@ -10,7 +10,7 @@
 			"character": "",
 			"event_id": "dialogic_001",
 			"portrait": "",
-			"text": "One day, a dragon flown over upon the village. The dragon terrorised the village ..."
+			"text": "One day, a dragon flown over upon the village. The dragon terrorised the people ..."
 		},
 		{
 			"emit_signal": "dragon_appear",
