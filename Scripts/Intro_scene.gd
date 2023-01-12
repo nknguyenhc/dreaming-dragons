@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 
 var dialog
@@ -21,8 +21,24 @@ var idle = false
 var idle_state_activated = false
 const idletime = 0.5
 
+var state = 1
+var state1 = 1
+var state2 = 1
+var fires = []
+const fire_waittime = 1
+
+var disappearing = false
+const decrease = 0.05
+
 
 func _ready():
+	# hide all the fire animations
+	for child in get_children():
+		if child is AnimatedSprite and child.name != "Dragon":
+			fires.append(child)
+	for fire in fires:
+		fire.hide()
+	
 	dialog = Dialogic.start("intro")
 	add_child(dialog)
 	dialog.connect("dialogic_signal", self, "signal_handler")
@@ -34,9 +50,7 @@ func signal_handler(arg):
 	if arg == "dragon_appear":
 		dragon_fly = true
 	if arg == "start_game":
-		print("start game")
-		game.start_from_title_scene(mode)
-		queue_free()
+		disappearing = true
 
 
 func _physics_process(delta):
@@ -63,6 +77,14 @@ func _physics_process(delta):
 		if not fire_state_activated:
 			dragon.play("fire")
 			fire_state_activated = true
+	
+	if disappearing:
+		self.modulate.r -= decrease
+		self.modulate.g -= decrease
+		self.modulate.b -= decrease
+		if self.modulate.r < decrease:
+			game.start_from_title_scene(mode)
+			queue_free()
 
 
 func _on_FireTimer_timeout():
@@ -77,3 +99,23 @@ func _on_IdleTimer_timeout():
 	idle = false
 	idle_state_activated = false
 	get_node("FireTimer").start(firetime)
+	get_node("FireSpreading" + str(state)).start(fire_waittime)
+	state += 1
+
+
+func _on_FireSpreading1_timeout():
+	var key = "Fire1" + str(state1)
+	for fire in fires:
+		if key in fire.name:
+			fire.play()
+			fire.show()
+	state1 += 1
+
+
+func _on_FireSpreading2_timeout():
+	var key = "Fire2" + str(state2)
+	for fire in fires:
+		if key in fire.name:
+			fire.play()
+			fire.show()
+	state2 += 1

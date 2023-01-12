@@ -249,7 +249,6 @@ func _physics_process(delta):
 						off_platform_timer.stop()
 						can_jump = false
 				elif last_frame_on_floor:
-					print("raycast activated")
 					can_jump = true
 					off_platform_timer.start(OFF_PLATFORM_GRACE_PERIOD)
 					last_frame_on_floor = false
