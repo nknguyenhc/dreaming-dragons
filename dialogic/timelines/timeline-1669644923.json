@@ -22,7 +22,7 @@
 			"character": "",
 			"event_id": "dialogic_001",
 			"portrait": "",
-			"text": "Slain the dragon, to bring back everyone's good dreams!"
+			"text": "Slay the dragon, to bring back everyone's good dreams!"
 		},
 		{
 			"emit_signal": "start_game",
