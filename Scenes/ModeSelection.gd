@@ -38,7 +38,4 @@ func _on_Asian_pressed():
 
 
 func pressed(mode):
-	intro = Intro.instance()
-	intro.mode = mode
-	intro.game = game
-	game.add_child(intro)
+	game.start_from_title_scene(mode)

@@ -28,8 +28,8 @@ var is_climb_music_playing = false
 var is_walk_music_playing = false
 
 # collectibles
-var boomerang_collected = false
-var sword_collected = false
+var boomerang_collected = true
+var sword_collected = true
 var SwordTutorial = preload("res://Scenes/SwordTutorial.tscn")
 var sword_tutorial
 var BoomerangTutorial = preload("res://Scenes/BoomerangTutorial.tscn")
@@ -47,8 +47,8 @@ var kick
 var kick_enabled = true
 var kick_animation_playing = false
 const KICK_WAIT_TIME = 0.5
-const Boomerang = preload("res://Scenes/pointer.tscn")
 var pointer
+const Boomerang = preload("res://Scenes/boomerang.tscn")
 var boomerang
 var boomerang_enabled = true
 var boomerang_returned = false
@@ -129,11 +129,13 @@ func player_kick(right):
 
 func player_boomerang():
 	if boomerang_enabled:
-		pointer = Boomerang.instance()
-		pointer.key = "ui_skill3"
-		get_parent().add_child(pointer)
-		pointer.position = position
-		get_parent().get_tree().paused = true
+		var direction = Vector2.RIGHT * 8
+		boomerang = Boomerang.instance()
+		boomerang.direction = direction
+		boomerang.position = position
+		get_parent().add_child(boomerang)
+		get_node("boomerang_throw").play()
+		
 		boomerang_returned = false
 		boomerang_enabled = false
 	elif boomerang_returned and on_boomerang:

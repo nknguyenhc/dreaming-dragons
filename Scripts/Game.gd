@@ -3,9 +3,9 @@ const Level1 = preload("res://Scenes/Level1.tscn")
 var lvl1
 const Modes = preload("res://Scenes/ModeSelection.tscn")
 var modes
-var intro_tutorial_done = false
-var jump_kick_tutorial_done = false
-var climb_tutorial_done = false
+var intro_tutorial_done = true
+var jump_kick_tutorial_done = true
+var climb_tutorial_done = true
 const sword_respawn_pos = Vector2(-1450, -400)
 const second_respawn_pos = Vector2(2700, -200)
 const Title_music = preload("res://Scenes/title_music.tscn")
